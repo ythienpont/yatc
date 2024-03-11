@@ -1,9 +1,11 @@
 #include "TorrentParser.h"
 
-TorrentParser::TorrentParser() {
-    // Constructor implementation
-}
-
-TorrentParser::~TorrentParser() {
-    // Destructor implementation
+TorrentParser *TorrentParser::getInstance()
+{
+    std::lock_guard<std::mutex> lock(mutex);
+    if (pinstance == nullptr)
+    {
+        pinstance = new TorrentParser();
+    }
+    return pinstance;
 }

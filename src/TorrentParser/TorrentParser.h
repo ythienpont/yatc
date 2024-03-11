@@ -1,12 +1,25 @@
-#ifndef TorrentParser_H
-#define TorrentParser_H
+#ifndef TORRENTPARSER_H
+#define TORRENTPARSER_H
+
+#include <mutex>
 
 class TorrentParser {
+private:
+  static TorrentParser* pinstance;
+  static std::mutex mutex;
+protected:
+  TorrentParser() = default;
+  ~TorrentParser() = default;
 public:
-  TorrentParser();
-  ~TorrentParser();
+  TorrentParser(TorrentParser &other) = delete;
+  void operator=(const TorrentParser&) = delete;
 
-  void parse();
+  static TorrentParser* getInstance();
+
+  void parse() const;
 };
 
-#endif // TorrentParser_H
+TorrentParser* TorrentParser::pinstance{nullptr};
+std::mutex TorrentParser::mutex;
+
+#endif // TORRENTPARSER_H

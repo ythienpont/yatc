@@ -3,8 +3,12 @@
 
 class FileManager {
 public:
-    FileManager();
-    ~FileManager();
+  void write_piece();
+  void read_piece();
+
+
+  FileManager();
+  ~FileManager();
 };
 
 #endif // FileManager_H
