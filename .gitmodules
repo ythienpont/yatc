@@ -1,3 +1,0 @@
-[submodule "extern/bencode"]
-	path = extern/bencode
-	url = https://github.com/fbdtemme/bencode.git

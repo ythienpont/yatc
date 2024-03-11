@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS=-std=c++17 -Wall -Isrc -Iextern/bencode/include
+CXXFLAGS=-std=c++17 -Wall -Isrc
 LDFLAGS=-lcurl -lcrypto
 EXEC=yatc
 SOURCEDIR=src
