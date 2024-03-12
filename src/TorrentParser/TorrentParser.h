@@ -1,7 +1,13 @@
 #ifndef TORRENTPARSER_H
 #define TORRENTPARSER_H
 
+#include <iterator>
 #include <mutex>
+#include <openssl/sha.h> // For SHA-1 hashing
+#include <string>
+#include <stdexcept>
+#include "../Torrent/Torrent.h"
+#include "../../lib/bencode.hpp"
 
 class TorrentParser {
 private:
@@ -16,10 +22,7 @@ public:
 
   static TorrentParser* getInstance();
 
-  void parse() const;
+  Torrent parseTorrentFile(const std::string& filename) const;
 };
-
-TorrentParser* TorrentParser::pinstance{nullptr};
-std::mutex TorrentParser::mutex;
 
 #endif // TORRENTPARSER_H

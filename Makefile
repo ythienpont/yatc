@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS=-std=c++17 -Wall -Isrc
+CXXFLAGS=-std=c++17 -Wall -Isrc -I./lib
 LDFLAGS=-lcurl -lcrypto
 EXEC=yatc
 SOURCEDIR=src
