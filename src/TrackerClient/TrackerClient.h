@@ -1,6 +1,7 @@
 #ifndef TRACKERCLIENT_H
 #define TRACKERCLIENT_H
 
+#include "../Torrent/Torrent.h"
 #include <array>
 #include <cstdint>
 #include <curl/curl.h>
@@ -8,7 +9,6 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include "../Torrent/Torrent.h"
 
 std::array<char, 20> generatePeerId();
 
@@ -48,7 +48,7 @@ public:
   // torrent session.
   TrackerResponse announce(Event event = Event::Empty);
 
-  TrackerClient(const Torrent& torrent, const uint16_t port = 6881);
+  TrackerClient(const Torrent &torrent, const uint16_t port = 6881);
 
   ~TrackerClient() = default;
 
@@ -61,6 +61,15 @@ private:
 
   // The port number this peer is listening on
   uint16_t port;
+
+  // The total amount uploaded so far
+  uint64_t uploaded;
+
+  // The total amount downloaded so far
+  uint64_t downloaded;
+
+  // The number of bytes this peer still has to download
+  uint64_t left;
 
   // Utility method to build the query string for announce requests.
   std::string buildQueryString(Event event) const;

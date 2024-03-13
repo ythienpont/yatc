@@ -1,33 +1,46 @@
 #ifndef TORRENT_H
 #define TORRENT_H
 
-#include <string>
-#include <cstdint>
+#include "../../lib/bencode.hpp"
 #include <array>
+#include <cstdint>
+#include <string>
+#include <vector>
 
-class Torrent {
-public:
+struct FileInfo {
+  std::string path;
+  uint64_t length;
+};
+struct Torrent {
+  // Name of the torrent file
+  std::string name;
+
+  bencode::dict info;
+
   // The URL of the tracker server to which announce requests are sent.
-  const std::string trackerUrl;
+  std::string trackerUrl;
 
   // The 20 byte sha1 hash of the bencoded form of the info value from the
   // metainfo file.
-  const std::array<char, 20> infoHash;
+  std::array<char, 20> infoHash = {};
 
-  // The total amount uploaded so far, encoded in base ten ascii.
-  uint64_t uploaded;
+  // Number of bytes in each piece the file is split into
+  uint64_t pieceLength;
 
-  // The total amount downloaded so far, encoded in base ten ascii.
-  uint64_t downloaded;
+  std::vector<FileInfo> files;
 
-  // The number of bytes this peer still has to download, encoded in base ten
-  // ascii.
-  uint64_t left;
+  // The SHA1 hash of the piece at the corresponding index
+  std::vector<std::array<char, 20>> pieces;
 
-  Torrent(const std::string &trackerUrl,
-                const std::array<char, 20> &infoHash, const uint64_t left,
-                const uint64_t uploaded = 0,
-                const uint64_t downloaded = 0);
+  // The length of the file, in bytes.
+  uint64_t length;
+
+  // Return if the download represents a single file
+  inline bool isSingleFile() const;
+
+  Torrent();
+  Torrent(const std::string &name, const std::string &trackerUrl,
+          const std::array<char, 20> &infoHash);
 
   ~Torrent() = default;
 };
