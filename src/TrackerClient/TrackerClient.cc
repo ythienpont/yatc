@@ -1,5 +1,4 @@
 #include "TrackerClient.h"
-#include "../../lib/bencode.hpp"
 #include <iostream>
 #include <random>
 
@@ -8,9 +7,22 @@ size_t WriteCallback(char *contents, size_t size, size_t nmemb, void *userp) {
   return size * nmemb;
 }
 
+std::array<std::byte, 20> stringToByteArray(const std::string &str) {
+  if (str.size() != 20) {
+    throw std::invalid_argument("String must be exactly 20 bytes long.");
+  }
+
+  std::array<std::byte, 20> byteArray;
+  for (size_t i = 0; i < 20; ++i) {
+    byteArray[i] = static_cast<std::byte>(str[i]);
+  }
+
+  return byteArray;
+}
+
 const std::string TrackerClient::PREFIX = "-YATC-";
 
-std::array<std::byte, 20> generatePeerId() {
+Peer::Id generatePeerId() {
   std::array<std::byte, 20> peerId{};
 
   // Copy the prefix into the beginning of peerId
@@ -59,6 +71,16 @@ std::string arrayToHexString(const std::array<char, 20> &data) {
   }
 
   return hexStream.str();
+}
+
+std::string arrayToString(const std::array<std::byte, 20> &data) {
+  std::stringstream ss;
+
+  for (auto byte : data) {
+    ss << (char)byte;
+  }
+
+  return ss.str();
 }
 
 TrackerClient::TrackerClient(const Torrent &torrent, const uint16_t port)
@@ -125,12 +147,12 @@ TrackerResponse parseTrackerResponse(const std::string &readBuffer) {
           peer.port = static_cast<uint16_t>(
               std::get<bencode::integer>(peerDict["port"]));
         }
+        if (peerDict.find("peer id") != peerDict.end()) {
+          peer.id =
+              stringToByteArray(std::get<std::string>(peerDict["peer id"]));
+        }
 
-        // Assuming you have a way to generate or retrieve a unique PeerId for
-        // each peer
-        PeerId peerId = generatePeerId(); // Implement this function based on
-                                          // your requirements
-        response.peers[peerId] = peer;
+        response.peers.emplace_back(peer);
       }
     }
   } catch (const bencode::decode_error &e) {
@@ -167,10 +189,12 @@ TrackerResponse TrackerClient::announce(TrackerClient::Event event) {
 
 std::string TrackerResponse::toString() const {
   std::string response;
-  for (auto const &p : peers) {
-    response += p.second.ip;
+  for (auto const &peer : peers) {
+    response += arrayToString(peer.id);
     response += " listening at ";
-    response += std::to_string(p.second.port);
+    response += peer.ip;
+    response += " port ";
+    response += std::to_string(peer.port);
     response += "\n";
   }
 

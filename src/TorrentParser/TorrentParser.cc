@@ -1,4 +1,5 @@
 #include "TorrentParser.h"
+#include "Torrent/Torrent.h"
 #include "bencode.hpp"
 #include <fstream>
 #include <openssl/sha.h> // For SHA-1 hashing
@@ -52,8 +53,7 @@ bencode::dict TorrentParser::extractInfoDict(const bencode::dict &dict) const {
   return std::get<bencode::dict>(dict.at("info"));
 }
 
-std::array<std::byte, 20>
-TorrentParser::computeInfoHash(const bencode::dict &infoDict) const {
+InfoHash TorrentParser::computeInfoHash(const bencode::dict &infoDict) const {
   auto infoBencoded = bencode::encode(infoDict);
   return compute_sha1(
       infoBencoded); // Ensure this function is defined to compute SHA1 hash
@@ -94,7 +94,7 @@ void TorrentParser::extractPieces(Torrent &torrent,
 
   const auto &piecesString = std::get<std::string>(infoDict.at("pieces"));
   for (size_t i = 0; i < piecesString.size(); i += 20) {
-    std::array<std::byte, 20> pieceHash;
+    InfoHash pieceHash;
     // Use std::transform to explicitly cast each char to std::byte
     std::transform(piecesString.begin() + i, piecesString.begin() + i + 20,
                    pieceHash.begin(), [](char c) {

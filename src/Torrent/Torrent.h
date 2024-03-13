@@ -12,6 +12,8 @@ struct FileInfo {
   uint64_t length;
 };
 
+using InfoHash = std::array<std::byte, 20>;
+
 struct Torrent {
   // Name of the torrent file
   std::string name;
@@ -23,7 +25,7 @@ struct Torrent {
 
   // The 20 byte sha1 hash of the bencoded form of the info value from the
   // metainfo file.
-  std::array<std::byte, 20> infoHash = {};
+  InfoHash infoHash = {};
 
   // Number of bytes in each piece the file is split into
   uint64_t pieceLength;
@@ -31,7 +33,7 @@ struct Torrent {
   std::vector<FileInfo> files;
 
   // The SHA1 hash of the piece at the corresponding index
-  std::vector<std::array<std::byte, 20>> pieces;
+  std::vector<InfoHash> pieces;
 
   // The length of the file, in bytes.
   uint64_t length;
@@ -39,10 +41,7 @@ struct Torrent {
   // Return if the download represents a single file
   inline bool isSingleFile() const;
 
-  Torrent();
-  Torrent(const std::string &name, const std::string &trackerUrl,
-          const std::array<std::byte, 20> &infoHash);
-
+  Torrent() = default;
   ~Torrent() = default;
 };
 

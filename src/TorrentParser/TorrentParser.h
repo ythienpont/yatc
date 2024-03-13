@@ -18,8 +18,7 @@ private:
   bencode::dict decodeContent(const std::string &content) const;
   std::string extractTrackerUrl(const bencode::dict &dict) const;
   bencode::dict extractInfoDict(const bencode::dict &dict) const;
-  std::array<std::byte, 20>
-  computeInfoHash(const bencode::dict &infoDict) const;
+  InfoHash computeInfoHash(const bencode::dict &infoDict) const;
   void extractFileInfo(Torrent &torrent, const bencode::dict &infoDict) const;
   void extractPieces(Torrent &torrent, const bencode::dict &infoDict) const;
 

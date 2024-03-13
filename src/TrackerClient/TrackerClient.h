@@ -6,18 +6,17 @@
 #include <cstdint>
 #include <curl/curl.h>
 #include <iomanip>
-#include <map>
 #include <sstream>
 #include <string>
 
-std::array<std::byte, 20> generatePeerId();
-
-using PeerId = std::array<std::byte, 20>;
-
 struct Peer {
+  using Id = std::array<std::byte, 20>;
+  Id id;
   std::string ip;
   uint16_t port; // Port at which the torrent service is running
 };
+
+Peer::Id generatePeerId();
 
 struct TrackerResponse {
   // Empty if there's no failure
@@ -27,7 +26,7 @@ struct TrackerResponse {
   uint16_t interval;
 
   // List of all available peers
-  std::map<PeerId, Peer> peers;
+  std::vector<Peer> peers;
 
   std::string toString() const;
 };
@@ -57,7 +56,7 @@ private:
 
   // A string of length 20 which this downloader uses as its id. Each downloader
   // generates its own id at random at the start of a new download.
-  PeerId peerId_;
+  Peer::Id peerId_;
 
   // The port number this peer is listening on
   uint16_t port_;

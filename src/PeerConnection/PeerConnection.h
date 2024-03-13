@@ -1,6 +1,7 @@
 #ifndef PEERCONNECTION_H
 #define PEERCONNECTION_H
 
+#include "TrackerClient/TrackerClient.h"
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/io_context.hpp>
@@ -15,10 +16,11 @@ using boost::asio::ip::tcp;
 
 class PeerConnection {
 public:
-  PeerConnection(boost::asio::io_context &ioContext, const std::string &ip,
-                 uint16_t port, const std::string &peerId)
-      : ioContext_(ioContext), socket_(ioContext), ip_(ip), port_(port),
-        peerId_(peerId) {}
+  PeerConnection(boost::asio::io_context &ioContext, const Peer &peer,
+                 const std::array<std::byte, 20> &myPeerId,
+                 const std::array<std::byte, 20> &infoHash)
+      : ioContext_(ioContext), socket_(ioContext), peer_(peer),
+        myPeerId_(myPeerId), infoHash_(infoHash) {}
 
   // Establish connection and perform handshake
   void handshake();
@@ -38,12 +40,12 @@ public:
 private:
   boost::asio::io_context &ioContext_;
   tcp::socket socket_;
-  std::string ip_;
-  uint16_t port_;
-  std::string peerId_;
+  Peer peer_;
+  std::array<std::byte, 20> myPeerId_;
+  std::array<std::byte, 20> infoHash_;
   std::vector<bool> pieces_; // Tracking which pieces this peer has
-  std::vector<uint8_t> writeBuffer_;
-  boost::array<uint8_t, 68> readBuffer_;
+  std::vector<std::byte> writeBuffer_;
+  boost::array<std::byte, 68> readBuffer_;
 
   // Stub for updating the piece availability from this peer
   void updatePiecesAvailability();
@@ -51,6 +53,7 @@ private:
   // Check if the connection is active
   bool isConnected() const;
 
+  std::vector<std::byte> constructHandshakeMessage();
   void handle_connect(const boost::system::error_code &error);
   void handle_write(const boost::system::error_code &error);
   void handle_read(const boost::system::error_code &error,
