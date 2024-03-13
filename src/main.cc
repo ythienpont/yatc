@@ -1,6 +1,4 @@
-#include "Torrent/Torrent.h"
-#include "TorrentParser/TorrentParser.h"
-#include "TrackerClient/TrackerClient.h"
+#include "TorrentClient/TorrentClient.h"
 
 std::array<char, 20> hexStringToByteArray(const std::string &hex) {
   if (hex.length() != 40) {
@@ -17,15 +15,13 @@ std::array<char, 20> hexStringToByteArray(const std::string &hex) {
 }
 
 int main(int argc, char *argv[]) {
-  if (argc <= 1) {
+  if (argc != 2) {
+    std::cerr << "Usage: " << argv[0] << " <torrent file>\n";
     return 1;
   }
-  Torrent torrent = TorrentParser::getInstance()->parseTorrentFile(argv[1]);
 
-  TrackerClient tc(torrent);
-  TrackerResponse response = tc.announce(TrackerClient::Event::Started);
-
-  std::cout << response.toString() << std::endl;
+  TorrentClient client(argv[1]);
+  client.start();
 
   return 0;
 }

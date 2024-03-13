@@ -1,7 +1,7 @@
 #ifndef PEERCONNECTION_H
 #define PEERCONNECTION_H
 
-#include "TrackerClient/TrackerClient.h"
+#include "../TrackerClient/TrackerClient.h"
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/io_context.hpp>
@@ -12,7 +12,7 @@
 #include <vector>
 
 using namespace boost::placeholders;
-using boost::asio::ip::tcp;
+using tcp = boost::asio::ip::tcp;
 
 class PeerConnection {
 public:

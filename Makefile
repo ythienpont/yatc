@@ -12,7 +12,7 @@ OBJECTS=$(patsubst $(SOURCEDIR)/%.cc,$(BUILDDIR)/%.o,$(SOURCES))
 all: $(EXEC)
 
 $(EXEC): $(OBJECTS)
-	$(CXX) $(LDFLAGS) -o $@ $^
+	$(CXX) -o $@ $^ $(LDFLAGS)
 
 $(BUILDDIR)/lib/%.o: lib/%.cc
 	@mkdir -p $(@D)

@@ -29,6 +29,7 @@ std::vector<std::byte> PeerConnection::constructHandshakeMessage() {
 void PeerConnection::handshake() {
   tcp::resolver resolver(ioContext_);
   auto endpoints = resolver.resolve(peer_.ip, std::to_string(peer_.port));
+
   boost::asio::async_connect(socket_, endpoints,
                              boost::bind(&PeerConnection::handle_connect, this,
                                          boost::asio::placeholders::error));
@@ -47,7 +48,6 @@ void PeerConnection::handle_connect(const boost::system::error_code &error) {
 
 void PeerConnection::handle_write(const boost::system::error_code &error) {
   if (!error) {
-    // Handshake sent, now read response
     boost::asio::async_read(
         socket_, boost::asio::buffer(readBuffer_),
         boost::bind(&PeerConnection::handle_read, this,
@@ -61,10 +61,33 @@ void PeerConnection::handle_write(const boost::system::error_code &error) {
 void PeerConnection::handle_read(const boost::system::error_code &error,
                                  size_t bytes_transferred) {
   if (!error) {
-    // Response received, process it
-    // ...
+    std::string response;
+    response.reserve(
+        bytes_transferred); // Reserve space to avoid multiple allocations
+    for (size_t i = 0; i < bytes_transferred; ++i) {
+      response.push_back(static_cast<char>(readBuffer_[i]));
+    }
+
+    std::cout << "Response received: " << response << std::endl;
+
     std::cout << bytes_transferred << std::endl;
   } else {
     std::cerr << "Read error: " << error.message() << std::endl;
+  }
+}
+
+void PeerConnection::sendInterest() {
+  // Interested message format: <length prefix><message ID>
+  // Length prefix = 1 (message ID's size), Message ID = 2 (interested)
+  const std::vector<std::byte> msg{std::byte{0}, std::byte{0}, std::byte{0},
+                                   std::byte{1}, std::byte{2}};
+  boost::asio::async_write(
+      socket_, boost::asio::buffer(msg),
+      boost::bind(&PeerConnection::handle_write, this, _1));
+}
+
+void PeerConnection::disconnect() {
+  if (socket_.is_open()) {
+    socket_.close();
   }
 }

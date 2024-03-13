@@ -4,17 +4,6 @@
 #include <fstream>
 #include <openssl/sha.h> // For SHA-1 hashing
 
-TorrentParser *TorrentParser::pinstance_{nullptr};
-std::mutex TorrentParser::mutex_;
-
-TorrentParser *TorrentParser::getInstance() {
-  std::lock_guard<std::mutex> lock(mutex_);
-  if (pinstance_ == nullptr) {
-    pinstance_ = new TorrentParser();
-  }
-  return pinstance_;
-}
-
 std::array<std::byte, 20> compute_sha1(const std::string &data) {
   unsigned char hash[SHA_DIGEST_LENGTH]; // Ensure SHA_DIGEST_LENGTH is 20
   SHA1(reinterpret_cast<const unsigned char *>(data.c_str()), data.size(),

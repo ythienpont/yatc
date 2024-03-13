@@ -47,6 +47,9 @@ public:
   // torrent session.
   TrackerResponse announce(Event event = Event::Empty);
 
+  Peer::Id getPeerId() const { return peerId_; }
+  InfoHash getInfoHash() const { return torrent_.infoHash; }
+
   TrackerClient(const Torrent &torrent, const uint16_t port = 6881);
 
   ~TrackerClient() = default;
