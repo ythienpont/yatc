@@ -31,4 +31,8 @@
 *.out
 *.app
 yatc
+
+# Other generated files
 build/
+.cache
+compile_commands.json

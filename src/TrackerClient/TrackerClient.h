@@ -10,9 +10,9 @@
 #include <sstream>
 #include <string>
 
-std::array<char, 20> generatePeerId();
+std::array<std::byte, 20> generatePeerId();
 
-using PeerId = std::array<char, 20>;
+using PeerId = std::array<std::byte, 20>;
 
 struct Peer {
   std::string ip;
@@ -53,23 +53,23 @@ public:
   ~TrackerClient() = default;
 
 private:
-  Torrent torrent;
+  Torrent torrent_;
 
   // A string of length 20 which this downloader uses as its id. Each downloader
   // generates its own id at random at the start of a new download.
-  PeerId peerId;
+  PeerId peerId_;
 
   // The port number this peer is listening on
-  uint16_t port;
+  uint16_t port_;
 
   // The total amount uploaded so far
-  uint64_t uploaded;
+  uint64_t uploaded_;
 
   // The total amount downloaded so far
-  uint64_t downloaded;
+  uint64_t downloaded_;
 
   // The number of bytes this peer still has to download
-  uint64_t left;
+  uint64_t left_;
 
   // Utility method to build the query string for announce requests.
   std::string buildQueryString(Event event) const;

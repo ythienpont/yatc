@@ -1,8 +1,8 @@
 #ifndef TORRENT_H
 #define TORRENT_H
 
-#include "../../lib/bencode.hpp"
 #include <array>
+#include <bencode.hpp>
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -11,6 +11,7 @@ struct FileInfo {
   std::string path;
   uint64_t length;
 };
+
 struct Torrent {
   // Name of the torrent file
   std::string name;
@@ -22,7 +23,7 @@ struct Torrent {
 
   // The 20 byte sha1 hash of the bencoded form of the info value from the
   // metainfo file.
-  std::array<char, 20> infoHash = {};
+  std::array<std::byte, 20> infoHash = {};
 
   // Number of bytes in each piece the file is split into
   uint64_t pieceLength;
@@ -30,7 +31,7 @@ struct Torrent {
   std::vector<FileInfo> files;
 
   // The SHA1 hash of the piece at the corresponding index
-  std::vector<std::array<char, 20>> pieces;
+  std::vector<std::array<std::byte, 20>> pieces;
 
   // The length of the file, in bytes.
   uint64_t length;
@@ -40,7 +41,7 @@ struct Torrent {
 
   Torrent();
   Torrent(const std::string &name, const std::string &trackerUrl,
-          const std::array<char, 20> &infoHash);
+          const std::array<std::byte, 20> &infoHash);
 
   ~Torrent() = default;
 };

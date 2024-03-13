@@ -17,6 +17,9 @@ std::array<char, 20> hexStringToByteArray(const std::string &hex) {
 }
 
 int main(int argc, char *argv[]) {
+  if (argc <= 1) {
+    return 1;
+  }
   Torrent torrent = TorrentParser::getInstance()->parseTorrentFile(argv[1]);
 
   TrackerClient tc(torrent);

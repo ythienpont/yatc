@@ -1,17 +1,27 @@
 #ifndef PEERCONNECTION_H
 #define PEERCONNECTION_H
 
+#include <boost/array.hpp>
+#include <boost/asio.hpp>
+#include <boost/asio/io_context.hpp>
+#include <boost/bind/bind.hpp>
 #include <cstdint>
+#include <iostream>
 #include <string>
 #include <vector>
 
+using namespace boost::placeholders;
+using boost::asio::ip::tcp;
+
 class PeerConnection {
 public:
-  PeerConnection(const std::string& ip, uint16_t port, const std::string& peerId)
-      : ip(ip), port(port), peerId(peerId), downloaded(0), uploaded(0) {}
+  PeerConnection(boost::asio::io_context &ioContext, const std::string &ip,
+                 uint16_t port, const std::string &peerId)
+      : ioContext_(ioContext), socket_(ioContext), ip_(ip), port_(port),
+        peerId_(peerId) {}
 
   // Establish connection and perform handshake
-  bool handshake();
+  void handshake();
 
   // Express interest in downloading
   void sendInterest();
@@ -20,27 +30,31 @@ public:
   void sendRequest(int pieceIndex);
 
   // Handle receiving a piece of the file
-  void receivePiece(int pieceIndex, const std::vector<uint8_t>& pieceData);
+  void receivePiece(int pieceIndex, const std::vector<uint8_t> &pieceData);
 
   // Close the connection
   void disconnect();
 
-  // Getter for downloaded amount
-  uint64_t getDownloaded() const { return downloaded; }
-
-  // Getter for uploaded amount
-  uint64_t getUploaded() const { return uploaded; }
-
 private:
-  std::string ip;
-  uint16_t port;
-  std::string peerId;
-  std::vector<bool> pieces; // Tracking which pieces this peer has
-  uint64_t downloaded; // Total bytes downloaded from this peer
-  uint64_t uploaded;   // Total bytes uploaded to this peer
+  boost::asio::io_context &ioContext_;
+  tcp::socket socket_;
+  std::string ip_;
+  uint16_t port_;
+  std::string peerId_;
+  std::vector<bool> pieces_; // Tracking which pieces this peer has
+  std::vector<uint8_t> writeBuffer_;
+  boost::array<uint8_t, 68> readBuffer_;
 
-  void updatePiecesAvailability(); // Stub for updating the piece availability from this peer
-  bool isConnected(); // Check if the connection is active
+  // Stub for updating the piece availability from this peer
+  void updatePiecesAvailability();
+
+  // Check if the connection is active
+  bool isConnected() const;
+
+  void handle_connect(const boost::system::error_code &error);
+  void handle_write(const boost::system::error_code &error);
+  void handle_read(const boost::system::error_code &error,
+                   size_t bytes_transferred);
 };
 
 #endif // PEERCONNECTION_H

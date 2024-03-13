@@ -10,32 +10,35 @@ size_t WriteCallback(char *contents, size_t size, size_t nmemb, void *userp) {
 
 const std::string TrackerClient::PREFIX = "-YATC-";
 
-std::array<char, 20> generatePeerId() {
-  std::array<char, 20> peerId{};
+std::array<std::byte, 20> generatePeerId() {
+  std::array<std::byte, 20> peerId{};
 
-  std::copy(TrackerClient::PREFIX.begin(), TrackerClient::PREFIX.end(),
-            peerId.begin());
+  // Copy the prefix into the beginning of peerId
+  std::transform(TrackerClient::PREFIX.begin(), TrackerClient::PREFIX.end(),
+                 peerId.begin(), [](char c) {
+                   return std::byte{static_cast<unsigned char>(c)};
+                 });
 
-  // Random device and generator
+  // Random device and generator for the remaining bytes
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<> dis(0, 255);
 
   // Fill the rest of the array with random bytes
   for (size_t i = TrackerClient::PREFIX.size(); i < peerId.size(); ++i) {
-    peerId[i] = static_cast<char>(dis(gen));
+    peerId[i] = static_cast<std::byte>(dis(gen));
   }
 
   return peerId;
 }
 
-std::string urlEncode(const std::array<char, 20> &data) {
+std::string urlEncode(const std::array<std::byte, 20> &data) {
   std::ostringstream encodedStream;
   for (auto byte : data) {
-    unsigned char unsignedByte = static_cast<unsigned char>(byte);
+    unsigned char unsignedByte = std::to_integer<unsigned char>(byte);
     if (isalnum(unsignedByte) || unsignedByte == '-' || unsignedByte == '_' ||
         unsignedByte == '.' || unsignedByte == '~') {
-      encodedStream << byte;
+      encodedStream << static_cast<char>(unsignedByte);
     } else {
       encodedStream << '%' << std::uppercase << std::setw(2)
                     << std::setfill('0') << std::hex
@@ -59,16 +62,17 @@ std::string arrayToHexString(const std::array<char, 20> &data) {
 }
 
 TrackerClient::TrackerClient(const Torrent &torrent, const uint16_t port)
-    : torrent(torrent), port(port) {
-  peerId = generatePeerId();
+    : torrent_(torrent), port_(port) {
+  peerId_ = generatePeerId();
 }
 
 std::string TrackerClient::buildQueryString(TrackerClient::Event event) const {
   std::stringstream ss;
-  ss << torrent.trackerUrl << "?" << "info_hash=" << urlEncode(torrent.infoHash)
-     << "&peer_id=" << urlEncode(peerId) << "&port=" << port
-     << "&uploaded=" << uploaded << "&downloaded=" << downloaded
-     << "&left=" << left;
+  ss << torrent_.trackerUrl << "?"
+     << "info_hash=" << urlEncode(torrent_.infoHash)
+     << "&peer_id=" << urlEncode(peerId_) << "&port=" << port_
+     << "&uploaded=" << uploaded_ << "&downloaded=" << downloaded_
+     << "&left=" << left_;
 
   switch (event) {
   case Event::Started:
