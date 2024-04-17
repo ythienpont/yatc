@@ -10,6 +10,8 @@
 struct FileInfo {
   std::string path;
   uint64_t length;
+  size_t startOffset; // Index to first byte of the file
+  size_t endOffset;   // Index to last byte of the file
 };
 
 using InfoHash = std::array<std::byte, 20>;
@@ -35,11 +37,14 @@ struct Torrent {
   // The SHA1 hash of the piece at the corresponding index
   std::vector<InfoHash> pieces;
 
-  // The length of the file, in bytes.
-  uint64_t length;
-
   // Return if the download represents a single file
   inline bool isSingleFile() const;
+
+  // Return the total file size of the torrent
+  size_t totalFileSize() const;
+
+  // Return the total amount of pieces
+  size_t totalPieces() const;
 
   Torrent() = default;
   ~Torrent() = default;

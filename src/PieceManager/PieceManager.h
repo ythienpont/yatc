@@ -1,31 +1,29 @@
 #ifndef PIECEMANAGER_H
 #define PIECEMANAGER_H
 
-#include <vector>
-#include <string>
-#include <fstream>
-#include <filesystem>
-#include <iostream>
 #include <unordered_set>
+#include <vector>
 
+/*
+ * Manages the status of pieces in a torrent download, tracking which pieces
+ * have been successfully downloaded and which are still missing.
+ */
 class PieceManager {
 public:
-    PieceManager(const std::vector<std::string>& filePaths, size_t pieceSize);
+  PieceManager(const size_t totalPieces);
 
-    bool hasPiece(size_t pieceIndex) const;
-    std::unordered_set<size_t> missingPieces() const;
-    bool savePiece(size_t pieceIndex, const std::vector<char>& data);
-    bool checkIntegrity(size_t pieceIndex, const std::string& expectedHash);
+  // Checks if a piece has already been downloaded.
+  bool hasPiece(const size_t pieceIndex) const;
+
+  // Marks the piece as downloaded
+  void savePiece(const size_t pieceIndex);
+
+  // Retrieves a set of indices representing all pieces that are still missing.
+  std::unordered_set<size_t> missingPieces() const;
 
 private:
-    std::vector<std::string> filePaths;
-    size_t pieceSize;
-    std::vector<bool> downloadedPieces;
-    size_t totalPieces;
-
-    size_t calculateTotalPieces() const;
-    std::string calculatePieceHash(const std::vector<char>& data) const;
+  // Tracks the download status of each piece.
+  std::vector<bool> downloadedPieces_;
 };
 
 #endif // PIECEMANAGER_H
-

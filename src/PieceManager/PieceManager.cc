@@ -1,57 +1,42 @@
 #include "PieceManager.h"
-#include <iomanip>       // For std::setw and std::setfill
-#include <openssl/sha.h> // For SHA1 hash calculation
-#include <sstream>       // For std::stringstream
+#include <openssl/sha.h>
+#include <stdexcept>
 
-PieceManager::PieceManager(const std::vector<std::string> &filePaths,
-                           size_t pieceSize)
-    : filePaths(filePaths), pieceSize(pieceSize),
-      totalPieces(calculateTotalPieces()) {
-  downloadedPieces.resize(totalPieces, false);
+PieceManager::PieceManager(const size_t totalPieces) {
+  downloadedPieces_.resize(totalPieces, false);
 }
 
 bool PieceManager::hasPiece(size_t pieceIndex) const {
-  return pieceIndex < downloadedPieces.size() && downloadedPieces[pieceIndex];
+  return pieceIndex < downloadedPieces_.size() && downloadedPieces_[pieceIndex];
 }
 
 std::unordered_set<size_t> PieceManager::missingPieces() const {
   std::unordered_set<size_t> missing;
-  for (size_t i = 0; i < downloadedPieces.size(); ++i) {
-    if (!downloadedPieces[i]) {
+  for (size_t i = 0; i < downloadedPieces_.size(); ++i) {
+    if (!downloadedPieces_[i]) {
       missing.insert(i);
     }
   }
   return missing;
 }
 
-bool PieceManager::savePiece(size_t pieceIndex, const std::vector<char> &data) {
-  if (pieceIndex >= totalPieces)
-    return false;
-  // Assuming single file for simplicity
-  std::ofstream file(filePaths.front(),
-                     std::ios::binary | std::ios::out | std::ios::in);
-  if (!file)
-    return false;
+void PieceManager::savePiece(size_t pieceIndex) {
+  if (pieceIndex >= downloadedPieces_.size()) {
+    throw std::out_of_range("Attempted to access an invalid piece index");
+  }
 
-  file.seekp(pieceIndex * pieceSize);
-  file.write(data.data(), data.size());
-  if (file.fail())
-    return false;
-
-  downloadedPieces[pieceIndex] = true;
-  return true;
+  if (!downloadedPieces_[pieceIndex]) {
+    downloadedPieces_[pieceIndex] = true;
+  }
 }
 
+/*
 bool PieceManager::checkIntegrity(size_t pieceIndex,
                                   const std::string &expectedHash) {
   // This is a simplified placeholder for actual hash checking logic
   return calculatePieceHash(std::vector<char>()) == expectedHash;
 }
 
-size_t PieceManager::calculateTotalPieces() const {
-  // Simplified calculation; should be based on actual file size
-  return 0;
-}
 
 std::string
 PieceManager::calculatePieceHash(const std::vector<char> &data) const {
@@ -64,3 +49,4 @@ PieceManager::calculatePieceHash(const std::vector<char> &data) const {
   }
   return ss.str();
 }
+*/

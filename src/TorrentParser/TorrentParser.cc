@@ -1,8 +1,6 @@
 #include "TorrentParser.h"
-#include "Torrent/Torrent.h"
-#include "bencode.hpp"
 #include <fstream>
-#include <openssl/sha.h> // For SHA-1 hashing
+#include <stdexcept>
 
 std::array<std::byte, 20> compute_sha1(const std::string &data) {
   unsigned char hash[SHA_DIGEST_LENGTH]; // Ensure SHA_DIGEST_LENGTH is 20
@@ -44,29 +42,42 @@ bencode::dict TorrentParser::extractInfoDict(const bencode::dict &dict) const {
 
 InfoHash TorrentParser::computeInfoHash(const bencode::dict &infoDict) const {
   auto infoBencoded = bencode::encode(infoDict);
-  return compute_sha1(
-      infoBencoded); // Ensure this function is defined to compute SHA1 hash
+  return compute_sha1(infoBencoded);
 }
 
 void TorrentParser::extractFileInfo(Torrent &torrent,
                                     const bencode::dict &infoDict) const {
   if (infoDict.find("files") != infoDict.end()) { // Multi-file torrent
     const auto &files = std::get<bencode::list>(infoDict.at("files"));
+
+    // Starting offset for file start
+    size_t currentOffset = 0;
+
     for (const auto &fileEntry : files) {
       const auto &fileDict = std::get<bencode::dict>(fileEntry);
       FileInfo fileInfo;
       fileInfo.length =
           (uint64_t)std::get<bencode::integer>(fileDict.at("length"));
 
+      // Construct the path from the path list
       const auto &pathList = std::get<bencode::list>(fileDict.at("path"));
       for (const auto &pathPart : pathList) {
-        if (!fileInfo.path.empty())
+        if (!fileInfo.path.empty()) {
           fileInfo.path += "/";
+        }
         fileInfo.path += std::get<std::string>(pathPart);
       }
 
+      // Calculate start and end offsets based on the current cumulative offset
+      fileInfo.startOffset = currentOffset;
+      fileInfo.endOffset = currentOffset + fileInfo.length - 1;
+
+      // Update the current offset for the next file
+      currentOffset += fileInfo.length;
+
       torrent.files.push_back(std::move(fileInfo));
     }
+
   } else { // Single-file torrent
     torrent.files.emplace_back(FileInfo{
         std::get<std::string>(infoDict.at("name")), // File name
@@ -84,11 +95,12 @@ void TorrentParser::extractPieces(Torrent &torrent,
   const auto &piecesString = std::get<std::string>(infoDict.at("pieces"));
   for (size_t i = 0; i < piecesString.size(); i += 20) {
     InfoHash pieceHash;
-    // Use std::transform to explicitly cast each char to std::byte
+
     std::transform(piecesString.begin() + i, piecesString.begin() + i + 20,
                    pieceHash.begin(), [](char c) {
                      return std::byte{static_cast<unsigned char>(c)};
                    });
+
     torrent.pieces.push_back(pieceHash);
   }
 }

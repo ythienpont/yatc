@@ -1,14 +1,18 @@
-#ifndef FileManager_H
-#define FileManager_H
+#ifndef FILEMANAGER_H
+#define FILEMANAGER_H
+
+#include "Torrent/Torrent.h"
 
 class FileManager {
 public:
-  void write_piece();
-  void read_piece();
+  bool writePiece(const size_t pieceIndex, const std::vector<char> &data);
+  void readPiece(const size_t pieceIndex) const;
 
+  FileManager(const Torrent &torrent);
+  ~FileManager() = default;
 
-  FileManager();
-  ~FileManager();
+private:
+  Torrent torrent_;
 };
 
-#endif // FileManager_H
+#endif // FILEMANAGER_H

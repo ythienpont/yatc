@@ -10,37 +10,53 @@ void TorrentClient::start() {
   handleDownload();
 }
 
-void TorrentClient::stop() { io_context.stop(); }
+void TorrentClient::stop() { io_context_.stop(); }
 
 void TorrentClient::setupTorrent(const std::string &torrentFile) {
-  torrentParser = std::make_unique<TorrentParser>();
-  torrent = torrentParser->parseTorrentFile(torrentFile);
-  // fileManager = std::make_unique<FileManager>();
-  //  pieceManager = std::make_unique<PieceManager>(filepaths, piece_size);
+  torrentParser_ = std::make_unique<TorrentParser>();
+  torrent_ = torrentParser_->parseTorrentFile(torrentFile);
+  fileManager_ = std::make_unique<FileManager>(torrent_);
+  pieceManager_ = std::make_unique<PieceManager>(torrent_.totalPieces());
 }
 
 void TorrentClient::initiateTrackerSession() {
-  trackerClient = std::make_unique<TrackerClient>(torrent);
-  TrackerResponse response =
-      trackerClient->announce(TrackerClient::Event::Started);
-  // TODO: Check for failure reason
-  peers_ = response.peers;
+  int retryCount = 0;
+  const int maxRetries = 3; // Maximum number of retry attempts
+  while (retryCount < maxRetries) {
+    try {
+      trackerClient_ = std::make_unique<TrackerClient>(torrent_);
+
+      TrackerResponse response =
+          trackerClient_->announce(TrackerClient::Event::Started);
+
+      peers_ = response.peers;
+      // Successfully connected and received response
+      break;
+    } catch (const std::exception &e) {
+      retryCount++;
+
+      std::cerr << "Tracker connection failed: " << e.what() << ". Retrying ("
+                << retryCount << "/" << maxRetries << ")" << std::endl;
+      if (retryCount == maxRetries) {
+        throw; // Rethrow the exception
+      }
+    }
+  }
   // TODO: Update peers with interval
 }
 
 void TorrentClient::connectToPeers() {
   for (const auto &peer : peers_) {
     auto peerConn = std::make_shared<PeerConnection>(
-        io_context, peer, trackerClient->getPeerId(), torrent.infoHash);
-    peerConnections.push_back(peerConn);
+        io_context_, peer, trackerClient_->getPeerId(), torrent_.infoHash);
+    peerConnections_.push_back(peerConn);
     peerConn->handshake();
-    // TODO: Actually download
   }
 }
 
 void TorrentClient::handleDownload() {
   // Start the asio context in a separate thread or run it directly if the
   // client is single-threaded.
-  io_context.run();
+  io_context_.run();
   // TODO: Post-download handling (e.g., verifying download, re-seeding)
 }
