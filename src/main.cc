@@ -22,6 +22,7 @@ int main(int argc, char *argv[]) {
 
   TorrentClient client(argv[1]);
   client.start();
+  client.stop();
 
   return 0;
 }

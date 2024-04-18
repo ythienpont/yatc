@@ -1,4 +1,7 @@
 #include "PeerConnection.h"
+#include <boost/date_time/gregorian/greg_year.hpp>
+#include <iostream>
+#include <string>
 
 bool isCompleteMessage(const std::vector<std::byte> &data) {
   const size_t lengthFieldSize =
@@ -82,7 +85,7 @@ void PeerConnection::handleHandshakeWrite(
 
 void PeerConnection::handleHandshakeRead(const boost::system::error_code &error,
                                          size_t bytes_transferred) {
-  if (!error) {
+  if (!error && bytes_transferred == 68) {
     std::string response(reinterpret_cast<char *>(handshakeReadBuffer_.data()),
                          bytes_transferred);
 
@@ -90,7 +93,7 @@ void PeerConnection::handleHandshakeRead(const boost::system::error_code &error,
 
     if (!isConnected()) {
       std::cerr << "Handshake failed, disconnecting." << std::endl;
-      disconnect();
+      // disconnect();
     } else {
       std::cout << "Handshake successful: " << response << std::endl;
     }

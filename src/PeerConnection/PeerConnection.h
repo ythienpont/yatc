@@ -1,7 +1,6 @@
 #ifndef PEERCONNECTION_H
 #define PEERCONNECTION_H
 
-#include "../TrackerClient/TrackerClient.h"
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/io_context.hpp>
@@ -12,11 +11,18 @@
 using namespace boost::placeholders;
 using tcp = boost::asio::ip::tcp;
 
+struct Peer {
+  using Id = std::array<std::byte, 20>;
+  Id id;
+  std::string ip;
+  uint16_t port; // Port at which the torrent service is running
+};
+
 class PeerConnection {
 public:
-  PeerConnection(boost::asio::io_context &ioContext, const Peer &peer,
-                 const std::array<std::byte, 20> &myPeerId,
-                 const std::array<std::byte, 20> &infoHash)
+  PeerConnection(boost::asio::io_context &ioContext, const Peer peer,
+                 const std::array<std::byte, 20> myPeerId,
+                 const std::array<std::byte, 20> infoHash)
       : ioContext_(ioContext), socket_(ioContext), peer_(peer),
         myPeerId_(myPeerId), infoHash_(infoHash) {}
 

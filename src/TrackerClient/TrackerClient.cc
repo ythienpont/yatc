@@ -1,4 +1,5 @@
 #include "TrackerClient.h"
+#include <iomanip>
 #include <iostream>
 #include <random>
 
@@ -156,8 +157,8 @@ TrackerResponse parseTrackerResponse(const std::string &readBuffer) {
       }
     }
   } catch (const bencode::decode_error &e) {
-    std::cerr << "Failed to parse tracker response: " << e.what() << std::endl;
-    // Handle error, potentially setting a failure reason or re-throwing
+    std::cerr << readBuffer << std::endl;
+    throw std::runtime_error("Failed to parse tracker response");
   }
 
   return response;

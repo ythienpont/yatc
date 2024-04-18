@@ -1,20 +1,11 @@
 #ifndef TRACKERCLIENT_H
 #define TRACKERCLIENT_H
 
-#include "../Torrent/Torrent.h"
-#include <array>
+#include "PeerConnection/PeerConnection.h"
+#include "Torrent/Torrent.h"
 #include <cstdint>
 #include <curl/curl.h>
-#include <iomanip>
-#include <sstream>
 #include <string>
-
-struct Peer {
-  using Id = std::array<std::byte, 20>;
-  Id id;
-  std::string ip;
-  uint16_t port; // Port at which the torrent service is running
-};
 
 Peer::Id generatePeerId();
 
@@ -28,6 +19,7 @@ struct TrackerResponse {
   // List of all available peers
   std::vector<Peer> peers;
 
+  // TODO: Delete stupid method
   std::string toString() const;
 };
 

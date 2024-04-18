@@ -38,4 +38,4 @@ build/
 compile_commands.json
 
 # Torrent files I use for testing
-.torrent
+*.torrent

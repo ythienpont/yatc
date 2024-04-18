@@ -4,6 +4,7 @@
 #include <array>
 #include <bencode.hpp>
 #include <cstdint>
+#include <stddef.h>
 #include <string>
 #include <vector>
 
@@ -38,10 +39,7 @@ struct Torrent {
   std::vector<InfoHash> pieces;
 
   // Return if the download represents a single file
-  inline bool isSingleFile() const;
-
-  // Return the total file size of the torrent
-  size_t totalFileSize() const;
+  bool isSingleFile() const;
 
   // Return the total amount of pieces
   size_t totalPieces() const;

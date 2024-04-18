@@ -19,18 +19,19 @@ public:
 
 private:
   boost::asio::io_context io_context_;
-  std::vector<std::shared_ptr<PeerConnection>> peerConnections_;
   std::unique_ptr<TrackerClient> trackerClient_;
   std::unique_ptr<FileManager> fileManager_;
   std::unique_ptr<PieceManager> pieceManager_;
   std::unique_ptr<TorrentParser> torrentParser_;
   Torrent torrent_;
-  std::vector<Peer> peers_;
+  std::vector<std::pair<Peer, std::unique_ptr<PeerConnection>>>
+      peerConnections_;
 
   void setupTorrent(const std::string &torrentFile);
   void connectToPeers();
   void initiateTrackerSession();
   void handleDownload();
+  void pruneDeadConnections();
 };
 
 #endif // TORRENTCLIENT_H
