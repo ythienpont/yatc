@@ -28,9 +28,9 @@ TEST_F(LinuxFileManagerTest, WriteBlockWithinBounds) {
 TEST_F(LinuxFileManagerTest, WriteBlockOutOfBounds) {
   BlockInfo block{0, pieceLength * 2}; // Attempt to write double the piece size
   std::vector<char> data(pieceLength * 2, 'B');
-  EXPECT_THROW(manager->writeBlock(0, block, data), std::out_of_range);
+  ASSERT_FALSE(manager->writeBlock(0, block, data));
 }
-/*
+
 // Test that the piece is marked complete when all blocks have been written
 TEST_F(LinuxFileManagerTest, WriteCompletePiece) {
   size_t blockSize = pieceLength / 4; // This divides the piece into 4 blocks
@@ -42,4 +42,3 @@ TEST_F(LinuxFileManagerTest, WriteCompletePiece) {
     ASSERT_TRUE(manager->writeBlock(0, block, data));
   }
 }
-*/

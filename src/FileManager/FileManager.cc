@@ -53,7 +53,8 @@ bool LinuxFileManager::writeBlock(const size_t pieceIndex,
   if (pieceBuffers_[pieceIndex] == nullptr) {
     pieceBuffers_[pieceIndex] = std::make_unique<PieceBuffer>(pieceLength_);
   }
-  if (pieceBuffers_[pieceIndex]->addBlock(block, data))
+
+  if (!pieceBuffers_[pieceIndex]->addBlock(block, data))
     return false;
 
   if (pieceBuffers_[pieceIndex]->isComplete() && writePiece(pieceIndex)) {
