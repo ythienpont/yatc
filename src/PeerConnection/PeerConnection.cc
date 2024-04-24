@@ -104,15 +104,38 @@ void PeerConnection::handleHandshakeRead(const boost::system::error_code &error,
 }
 
 void PeerConnection::sendInterest() {
-  // Interested message format: <length prefix><message ID>
-  // Length prefix = 1 (message ID's size), Message ID = 2 (interested)
-  /*
-  const std::vector<std::byte> msg{std::byte{0}, std::byte{0}, std::byte{0},
-                                   std::byte{1}, std::byte{2}};
+  // The interested message format in the BitTorrent protocol is:
+  // length prefix (4 bytes, big-endian) + message ID (1 byte)
+  // For the interested message, the length is 1 (only the message ID) and the
+  // message ID is 2.
+
+  // Clear previous data in the buffer
+  writeBuffer_.clear();
+
+  // Prepare the message
+  // Length prefix: 1 byte (the size of the message ID)
+  writeBuffer_.push_back(static_cast<std::byte>(0));
+  writeBuffer_.push_back(static_cast<std::byte>(0));
+  writeBuffer_.push_back(static_cast<std::byte>(0));
+  writeBuffer_.push_back(static_cast<std::byte>(1));
+
+  // Message ID: 2 (interested)
+  writeBuffer_.push_back(static_cast<std::byte>(2));
+
+  // Asynchronously send the interested message
   boost::asio::async_write(
-      socket_, boost::asio::buffer(msg),
-      boost::bind(&PeerConnection::handle_write, this, _1));
-  */
+      socket_, boost::asio::buffer(writeBuffer_),
+      [this](const boost::system::error_code &ec, std::size_t /*length*/) {
+        if (!ec) {
+          // Successfully sent interested message
+          std::cout << "Interest message sent to peer." << std::endl;
+        } else {
+          // Handle the error appropriately
+          std::cerr << "Failed to send interest message: " << ec.message()
+                    << std::endl;
+          disconnect();
+        }
+      });
 }
 
 void PeerConnection::disconnect() {

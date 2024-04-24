@@ -57,6 +57,8 @@ private:
   std::vector<std::byte> writeBuffer_;
   boost::array<std::byte, 68> handshakeReadBuffer_;
   std::atomic<bool> isActive_{false};
+  std::atomic<bool> interested_{false};
+  std::atomic<bool> choked_{true};
 
   // Stub for updating the piece availability from this peer
   void updatePiecesAvailability();
@@ -67,6 +69,9 @@ private:
   void handleHandshakeWrite(const boost::system::error_code &error);
   void handleHandshakeRead(const boost::system::error_code &error,
                            size_t bytes_transferred);
+  void handleInterestWrite(const boost::system::error_code &error);
+  void handleUnchoke(const boost::system::error_code &error,
+                     size_t bytes_transferred);
 };
 
 #endif // PEERCONNECTION_H

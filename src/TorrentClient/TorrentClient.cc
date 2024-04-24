@@ -30,7 +30,8 @@ void TorrentClient::setupTorrent(const std::string &torrentFile) {
   torrentParser_ = std::make_unique<TorrentParser>();
   torrent_ = torrentParser_->parseTorrentFile(torrentFile);
   fileManager_ = std::make_unique<LinuxFileManager>(
-      torrent_.files, torrent_.pieceLength); // Currently only support linux
+      torrent_.files,
+      torrent_.pieceLength); // TODO: Currently only support linux
   pieceManager_ = std::make_unique<PieceManager>(torrent_.totalPieces());
 }
 
