@@ -1,7 +1,7 @@
 digraph BittorrentClient {
     node [shape=box, fontname="Helvetica", fontsize=10];
     edge [fontname="Helvetica", fontsize=10];
-    ratio="1.0"
+    ratio="1.0";
 
     TorrentFile [shape=ellipse, label="Torrent File"];
     TorrentParser [label="Torrent Parser\nParse bencoded values"];
@@ -16,21 +16,25 @@ digraph BittorrentClient {
     PieceManager [label="Piece Manager\nTrack needed pieces"];
     FileManager [label="File Manager\nWrite to Piece Buffer"];
     PieceBuffer [shape=diamond, label="Piece Buffer\nBuffer full?"];
+    CheckHash [shape=diamond, label="Check SHA-1 Piece Hash"];
     MemoryWrite [label="Write to Secondary Memory"];
+    DiscardBuffer [label="Discard Buffer"];
 
     // Torrent processing flow
     TorrentFile -> TorrentParser -> TorrentClass -> TrackerClient -> Announce -> ListOfPeers;
-    ListOfPeers -> Peer -> PeerConnection -> SendInterest -> SendRequestPieces;
+    ListOfPeers -> Peer -> PeerConnection -> SendInterest -> SendRequestPieces -> FileManager;
     
     // Piece management
-    SendRequestPieces -> PieceManager;
-    //FileManager -> PieceManager [label="Update after write", style="dashed"];
-    PieceManager -> FileManager [label="Request write"];
-    FileManager -> PieceBuffer -> MemoryWrite;
+    PieceManager -> SendRequestPieces;
+    FileManager -> PieceBuffer -> CheckHash;
+
+    // Hash check and actions
+    CheckHash -> MemoryWrite [label="Valid"];
+    CheckHash -> DiscardBuffer [label="Invalid", style="dashed", color=red];
 
     // Conditions on buffer and memory write
     PieceBuffer -> FileManager [label="Not full", style="dashed"];
-    MemoryWrite -> PieceManager [label="Update after write", style="dashed", color=orange];
+    MemoryWrite -> PieceManager [label="Update after write", style="dashed"];
 
     // Subgraph for tracker communication
     subgraph cluster_tracker {
@@ -56,7 +60,9 @@ digraph BittorrentClient {
         label = "File Management";
         FileManager;
         PieceBuffer;
+        CheckHash;
         MemoryWrite;
+        DiscardBuffer;
     }
 
     // Subgraph for initialization
