@@ -52,7 +52,7 @@ public:
    *
    * @param pieceLength Length of the piece in bytes.
    */
-  PieceBuffer(size_t pieceLength);
+  explicit PieceBuffer(size_t pieceLength);
 
   /**
    * @brief Adds a block of data to the piece at the specified offset.

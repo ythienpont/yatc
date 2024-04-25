@@ -2,6 +2,9 @@
 #include <algorithm>
 #include <stdexcept>
 
+PieceBuffer::PieceBuffer(const size_t pieceLength)
+    : pieceLength_(pieceLength) {}
+
 bool PieceBuffer::addBlock(const BlockInfo &block,
                            const std::vector<char> &data) {
   if (block.offset + block.length > pieceLength_) {
