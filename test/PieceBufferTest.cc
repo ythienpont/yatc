@@ -7,7 +7,7 @@ protected:
 
   void SetUp() override {
     // Assume pieceLength of 100 for simplicity in tests
-    buffer = new PieceBuffer(100);
+    buffer = new PieceBuffer((size_t)100);
   }
 
   void TearDown() override { delete buffer; }
