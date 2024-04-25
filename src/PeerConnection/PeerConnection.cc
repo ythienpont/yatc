@@ -122,6 +122,8 @@ void PeerConnection::sendInterest() {
   // Message ID: 2 (interested)
   writeBuffer_.push_back(static_cast<std::byte>(2));
 
+  std::cout << "Sending interest message\n";
+
   // Asynchronously send the interested message
   boost::asio::async_write(
       socket_, boost::asio::buffer(writeBuffer_),

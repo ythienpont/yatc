@@ -15,12 +15,25 @@ void TorrentClient::pruneDeadConnections() {
       peerConnections_.end());
 }
 
+void TorrentClient::sendInterest() {
+  for (auto &pair : peerConnections_) {
+    // Check if the unique_ptr actually points to an object
+    if (pair.second) {
+      std::cout << "sending interest" << std::endl;
+      // Call the sendInterest function on the PeerConnection object
+      pair.second->sendInterest();
+    }
+  }
+}
+
 void TorrentClient::start() {
   initiateTrackerSession();
   connectToPeers();
   io_context_.run();
 
   pruneDeadConnections();
+  sendInterest();
+  io_context_.run();
   handleDownload();
 }
 

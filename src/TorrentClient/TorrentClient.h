@@ -90,6 +90,11 @@ private:
   void handleDownload();
 
   /**
+   * @brief Sends interest request to unchoke all connections
+   */
+  void sendInterest();
+
+  /**
    * @brief Removes non-active peer connections.
    *
    * Periodically checks and removes peer connections that are no longer active
