@@ -1,0 +1,28 @@
+\doxysection{Piece\+Manager.\+h}
+\hypertarget{PieceManager_8h_source}{}\label{PieceManager_8h_source}\index{/home/yonah/School/PRO/yatc/src/PieceManager/PieceManager.h@{/home/yonah/School/PRO/yatc/src/PieceManager/PieceManager.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PIECEMANAGER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PIECEMANAGER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <Torrent/Torrent.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPieceManager}{PieceManager}}\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00021\ \ \ \mbox{\hyperlink{classPieceManager_ac05f7a04b088b5e879d93e7d5ebfb17f}{PieceManager}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ totalPieces);}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00030\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classPieceManager_a8f0af3c1d66310b93223cbdf70067f00}{hasPiece}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ pieceIndex)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00037\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classPieceManager_a771cafd418df95a9503a45d5e3e94dd9}{savePiece}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ pieceIndex);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00045\ \ \ std::unordered\_set<size\_t>\ \mbox{\hyperlink{classPieceManager_af37fbec495d7c9d288b3be205f282d68}{missingPieces}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00049\ \ \ std::vector<bool>\ downloadedPieces\_;}
+\DoxyCodeLine{00050\ \};}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PIECEMANAGER\_H}}
+
+\end{DoxyCode}

@@ -1,0 +1,23 @@
+PROJECT_NAME = yatc
+INPUT = ../src
+RECURSIVE = YES
+
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+GENERATE_TREEVIEW      = YES
+HTML_DYNAMIC_SECTIONS  = YES
+HTML_DYNAMIC_MENUS     = YES
+
+# Main stylesheet
+HTML_EXTRA_STYLESHEET  = ./doxygen-awesome-css/doxygen-awesome.css
+
+# JavaScript enhancements
+HTML_EXTRA_FILES       = ./doxygen-awesome-css/doxygen-awesome-darkmode-toggle.js
+HTML_EXTRA_FILES       += ./doxygen-awesome-css/doxygen-awesome-paragraph-link.js
+HTML_EXTRA_FILES       += ./doxygen-awesome-css/doxygen-awesome-fragment-copy-button.js
+HTML_EXTRA_FILES       += ./doxygen-awesome-css/doxygen-awesome-interactive-toc.js
+HTML_EXTRA_FILES       += ./doxygen-awesome-css/doxygen-awesome-tabs.js
+
+# Optional: include custom elements if you have customized parts
+# HTML_HEADER            = ./path/to/custom/header.html
+# HTML_FOOTER            = ./path/to/custom/footer.html

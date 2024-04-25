@@ -1,0 +1,65 @@
+\doxysection{Tracker\+Client.\+h}
+\hypertarget{TrackerClient_8h_source}{}\label{TrackerClient_8h_source}\index{/home/yonah/School/PRO/yatc/src/TrackerClient/TrackerClient.h@{/home/yonah/School/PRO/yatc/src/TrackerClient/TrackerClient.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ TRACKERCLIENT\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ TRACKERCLIENT\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}PeerConnection/PeerConnection.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Torrent/Torrent.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <curl/curl.h>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00015\ Peer::Id\ generatePeerId();}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structTrackerResponse}{TrackerResponse}}\ \{}
+\DoxyCodeLine{00026\ \ \ std::string\ \mbox{\hyperlink{structTrackerResponse_ac9ee67a43b670c559d40d3c9a52175f8}{failureReason}};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00030\ \ \ uint16\_t\ \mbox{\hyperlink{structTrackerResponse_a0f1c512927deabe62ec8149619e0ed03}{interval}};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00033\ \ \ std::vector<Peer>\ \mbox{\hyperlink{structTrackerResponse_a753f64eee38f4e9bc6e11583b5810707}{peers}};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00040\ \ \ std::string\ \mbox{\hyperlink{structTrackerResponse_a470577760716a5096df7bba4c3287b9e}{toString}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00041\ \};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classTrackerClient}{TrackerClient}}\ \{}
+\DoxyCodeLine{00051\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00053\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ std::string\ \mbox{\hyperlink{classTrackerClient_af4458ac82dc3f61619bbc8049182c685}{PREFIX}};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00058\ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339}{Event}}\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339a8428552d86c0d262a542a528af490afa}{Started}},\ \ \ }
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339a07ca5050e697392c9ed47e6453f1453f}{Completed}},\ }
+\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339ac23e2b09ebe6bf4cb5e2a9abe85c0be2}{Stopped}},\ \ \ }
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07}{Empty}}\ \ \ \ \ \ }
+\DoxyCodeLine{00063\ \ \ \};}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00074\ \ \ \mbox{\hyperlink{structTrackerResponse}{TrackerResponse}}\ \mbox{\hyperlink{classTrackerClient_aeb3e6dfa5c20ed79e7ae76f7518cd678}{announce}}(\mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339}{Event}}\ event\ =\ \mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07}{Event::Empty}});}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00081\ \ \ Peer::Id\ \mbox{\hyperlink{classTrackerClient_a4fb2e21164a4302313de9a99ffcc6b72}{getPeerId}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ peerId\_;\ \}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00088\ \ \ InfoHash\ \mbox{\hyperlink{classTrackerClient_aa52a55a5b7bea7c04753120cc92d1ea2}{getInfoHash}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ torrent\_.\mbox{\hyperlink{structTorrent_a5c1396654ee528eb538f0a3f1619dc9d}{infoHash}};\ \}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00096\ \ \ \mbox{\hyperlink{classTrackerClient_a41e1eadd9e5c579d2f6f26d48651cadf}{TrackerClient}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structTorrent}{Torrent}}\ \&torrent,\ \textcolor{keyword}{const}\ uint16\_t\ port\ =\ 6881);}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00099\ \ \ \mbox{\hyperlink{classTrackerClient_a81899d50e48eec127b32b957fb295589}{\string~TrackerClient}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00103\ \ \ \mbox{\hyperlink{structTorrent}{Torrent}}\ torrent\_;}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00107\ \ \ Peer::Id\ peerId\_;}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00110\ \ \ uint16\_t\ port\_;}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00113\ \ \ uint64\_t\ uploaded\_;}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00116\ \ \ uint64\_t\ downloaded\_;}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00119\ \ \ uint64\_t\ left\_;}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00128\ \ \ std::string\ buildQueryString(\mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339}{Event}}\ event)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00129\ \};}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TRACKERCLIENT\_H}}
+
+\end{DoxyCode}

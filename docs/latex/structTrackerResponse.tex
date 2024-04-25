@@ -1,0 +1,57 @@
+\doxysection{Tracker\+Response Struct Reference}
+\hypertarget{structTrackerResponse}{}\label{structTrackerResponse}\index{TrackerResponse@{TrackerResponse}}
+
+
+Represents a response from the tracker.  
+
+
+
+
+{\ttfamily \#include $<$Tracker\+Client.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{structTrackerResponse_a470577760716a5096df7bba4c3287b9e}{to\+String}} () const
+\begin{DoxyCompactList}\small\item\em Converts tracker response details to a string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structTrackerResponse_ac9ee67a43b670c559d40d3c9a52175f8}\label{structTrackerResponse_ac9ee67a43b670c559d40d3c9a52175f8} 
+std\+::string {\bfseries failure\+Reason}
+\begin{DoxyCompactList}\small\item\em Description of failure if the request failed; empty otherwise. \end{DoxyCompactList}\item 
+\Hypertarget{structTrackerResponse_a0f1c512927deabe62ec8149619e0ed03}\label{structTrackerResponse_a0f1c512927deabe62ec8149619e0ed03} 
+uint16\+\_\+t {\bfseries interval}
+\begin{DoxyCompactList}\small\item\em The number of seconds the client should wait before making a rerequest. \end{DoxyCompactList}\item 
+\Hypertarget{structTrackerResponse_a753f64eee38f4e9bc6e11583b5810707}\label{structTrackerResponse_a753f64eee38f4e9bc6e11583b5810707} 
+std\+::vector$<$ \mbox{\hyperlink{structPeer}{Peer}} $>$ {\bfseries peers}
+\begin{DoxyCompactList}\small\item\em List of peers returned by the tracker. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents a response from the tracker. 
+
+This structure holds the details of the tracker\textquotesingle{}s response including any failure reasons, the advised wait interval between requests, and the list of peers. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structTrackerResponse_a470577760716a5096df7bba4c3287b9e}\label{structTrackerResponse_a470577760716a5096df7bba4c3287b9e} 
+\index{TrackerResponse@{TrackerResponse}!toString@{toString}}
+\index{toString@{toString}!TrackerResponse@{TrackerResponse}}
+\doxysubsubsection{\texorpdfstring{toString()}{toString()}}
+{\footnotesize\ttfamily std\+::string Tracker\+Response\+::to\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Converts tracker response details to a string. 
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000001}{Todo}}]This method is marked for deletion. \end{DoxyRefDesc}
+\begin{DoxyReturn}{Returns}
+std\+::string A string representation of the tracker response. 
+\end{DoxyReturn}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+Tracker\+Client/Tracker\+Client.\+h\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+Tracker\+Client/Tracker\+Client.\+cc\end{DoxyCompactItemize}

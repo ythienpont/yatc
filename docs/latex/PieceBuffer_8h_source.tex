@@ -1,0 +1,46 @@
+\doxysection{Piece\+Buffer.\+h}
+\hypertarget{PieceBuffer_8h_source}{}\label{PieceBuffer_8h_source}\index{/home/yonah/School/PRO/yatc/src/PieceBuffer/PieceBuffer.h@{/home/yonah/School/PRO/yatc/src/PieceBuffer/PieceBuffer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PIECEBUFFER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PIECEBUFFER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structBlockInfo}{BlockInfo}}\ \{}
+\DoxyCodeLine{00015\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structBlockInfo_a0e03c6fcfe2b4dd65fc4115f1faf517b}{offset}};\ }
+\DoxyCodeLine{00016\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structBlockInfo_a8c9af4f16a3f02a1027ed3cc6af374dd}{length}};\ }
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00024\ \ \ \mbox{\hyperlink{structBlockInfo_a91a055d42051670a6a9a239f46a3aa15}{BlockInfo}}(\textcolor{keywordtype}{size\_t}\ \_offset,\ \textcolor{keywordtype}{size\_t}\ \_length)}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ :\ \mbox{\hyperlink{structBlockInfo_a0e03c6fcfe2b4dd65fc4115f1faf517b}{offset}}(\_offset),\ \mbox{\hyperlink{structBlockInfo_a8c9af4f16a3f02a1027ed3cc6af374dd}{length}}(\_length)\ \{\}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00035\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structBlockInfo_a593fd35fa895fed0cf2144bd4ffa8162}{operator<}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structBlockInfo}{BlockInfo}}\ \&other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>offset\ <\ other.\mbox{\hyperlink{structBlockInfo_a0e03c6fcfe2b4dd65fc4115f1faf517b}{offset}};}
+\DoxyCodeLine{00037\ \ \ \}}
+\DoxyCodeLine{00038\ \};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPieceBuffer}{PieceBuffer}}\ \{}
+\DoxyCodeLine{00049\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00055\ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classPieceBuffer_a0b8f298e010b47529ab9059514876969}{PieceBuffer}}(\textcolor{keywordtype}{size\_t}\ pieceLength);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00064\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classPieceBuffer_a22262fb2ac574c673d88a456f783b08a}{addBlock}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structBlockInfo}{BlockInfo}}\ \&block,\ \textcolor{keyword}{const}\ std::vector<char>\ \&data);}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00072\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classPieceBuffer_a3c1faec478cc01428b5ba5a27ab67ccf}{isComplete}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00084\ \ \ \textcolor{keyword}{const}\ std::vector<char>\ \&\mbox{\hyperlink{classPieceBuffer_a03838e0b377fe93c7a59b5a6ba951db0}{getData}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00087\ \ \ \textcolor{keywordtype}{size\_t}\ pieceLength\_;\ \ \ \ \ }
+\DoxyCodeLine{00088\ \ \ std::vector<char>\ data\_;\ }
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00092\ \ \ std::vector<std::pair<size\_t,\ size\_t>>\ receivedBlocks\_;}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00099\ \ \ \textcolor{keywordtype}{void}\ updateReceivedBlocks(\textcolor{keyword}{const}\ \mbox{\hyperlink{structBlockInfo}{BlockInfo}}\ \&block);}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00108\ \ \ \textcolor{keywordtype}{void}\ mergeBlocks();}
+\DoxyCodeLine{00109\ \};}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PIECEBUFFER\_H}}
+
+\end{DoxyCode}
