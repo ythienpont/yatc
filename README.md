@@ -41,6 +41,9 @@ To start using YATC, simply run the compiled binary from the terminal:
 
 Replace [options] with your preferred command-line options and `<torrent-file>` with the path to a .torrent file.
 
+## Documentation
+For a detailed overview of each function, you can open the Doxygen documentation at `docs/html/index.html` in your browser.
+
 ## Contributing
 
 Contributions are what make the open-source community such a fantastic place to learn, inspire, and create. Any contributions you make are greatly appreciated.
