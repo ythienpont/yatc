@@ -1,0 +1,106 @@
+\doxysection{Torrent Struct Reference}
+\hypertarget{structTorrent}{}\label{structTorrent}\index{Torrent@{Torrent}}
+
+
+Represents the essential information of a torrent.  
+
+
+
+
+{\ttfamily \#include $<$Torrent.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{structTorrent_aca3f4598dd5da5976461f22241e40bc5}{is\+Single\+File}} () const
+\begin{DoxyCompactList}\small\item\em Checks if the torrent represents a single file. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{structTorrent_a6e777a11bc507654a50f59cd8c20e1d0}{total\+Pieces}} () const
+\begin{DoxyCompactList}\small\item\em Returns the total number of pieces in the torrent. \end{DoxyCompactList}\item 
+\Hypertarget{structTorrent_aa5e628f1594f03b7e8781e18659b0953}\label{structTorrent_aa5e628f1594f03b7e8781e18659b0953} 
+{\bfseries Torrent} ()=default
+\begin{DoxyCompactList}\small\item\em Default constructor for \doxylink{structTorrent}{Torrent}. \end{DoxyCompactList}\item 
+\Hypertarget{structTorrent_a7440a89067567ee1fe220d3193b76c78}\label{structTorrent_a7440a89067567ee1fe220d3193b76c78} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Torrent} ()=default
+\begin{DoxyCompactList}\small\item\em Default destructor for \doxylink{structTorrent}{Torrent}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structTorrent_af0f3f1ae144a53edfd6f526abe35911a}\label{structTorrent_af0f3f1ae144a53edfd6f526abe35911a} 
+std\+::string {\bfseries name}
+\begin{DoxyCompactList}\small\item\em Name of the torrent. \end{DoxyCompactList}\item 
+\Hypertarget{structTorrent_a8e08c67d6e798a512b2f5b7957db6ced}\label{structTorrent_a8e08c67d6e798a512b2f5b7957db6ced} 
+bencode\+::dict {\bfseries info}
+\begin{DoxyCompactList}\small\item\em Decoded bencode dictionary containing the torrent\textquotesingle{}s metadata. \end{DoxyCompactList}\item 
+\Hypertarget{structTorrent_abdb6ca07580fe7ae185a942632505a38}\label{structTorrent_abdb6ca07580fe7ae185a942632505a38} 
+std\+::string {\bfseries tracker\+Url}
+\begin{DoxyCompactList}\small\item\em URL of the tracker server for announcements. \end{DoxyCompactList}\item 
+Info\+Hash \mbox{\hyperlink{structTorrent_a5c1396654ee528eb538f0a3f1619dc9d}{info\+Hash}}
+\begin{DoxyCompactList}\small\item\em The 20-\/byte SHA-\/1 hash of the bencoded \textquotesingle{}info\textquotesingle{} value. \end{DoxyCompactList}\item 
+\Hypertarget{structTorrent_a418b0dd3446bae75469036f850571d06}\label{structTorrent_a418b0dd3446bae75469036f850571d06} 
+uint64\+\_\+t {\bfseries piece\+Length}
+\begin{DoxyCompactList}\small\item\em Number of bytes each piece contains. \end{DoxyCompactList}\item 
+\Hypertarget{structTorrent_a5694512ed188fac85e49abff70863b98}\label{structTorrent_a5694512ed188fac85e49abff70863b98} 
+std\+::vector$<$ \mbox{\hyperlink{structFileInfo}{File\+Info}} $>$ {\bfseries files}
+\begin{DoxyCompactList}\small\item\em List of files included in the torrent. \end{DoxyCompactList}\item 
+\Hypertarget{structTorrent_a26f5e90be8d81de0eae1881fcb7a80a0}\label{structTorrent_a26f5e90be8d81de0eae1881fcb7a80a0} 
+std\+::vector$<$ Info\+Hash $>$ {\bfseries pieces}
+\begin{DoxyCompactList}\small\item\em List of SHA-\/1 hashes for each piece of the torrent. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents the essential information of a torrent. 
+
+Includes the torrent\textquotesingle{}s metadata such as the name, info dictionary from the bencoded file, tracker URL, piece length, file information, and hashes for each piece of the torrent. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structTorrent_aca3f4598dd5da5976461f22241e40bc5}\label{structTorrent_aca3f4598dd5da5976461f22241e40bc5} 
+\index{Torrent@{Torrent}!isSingleFile@{isSingleFile}}
+\index{isSingleFile@{isSingleFile}!Torrent@{Torrent}}
+\doxysubsubsection{\texorpdfstring{isSingleFile()}{isSingleFile()}}
+{\footnotesize\ttfamily bool Torrent\+::is\+Single\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Checks if the torrent represents a single file. 
+
+\begin{DoxyReturn}{Returns}
+true if the torrent represents a single file, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{structTorrent_a6e777a11bc507654a50f59cd8c20e1d0}\label{structTorrent_a6e777a11bc507654a50f59cd8c20e1d0} 
+\index{Torrent@{Torrent}!totalPieces@{totalPieces}}
+\index{totalPieces@{totalPieces}!Torrent@{Torrent}}
+\doxysubsubsection{\texorpdfstring{totalPieces()}{totalPieces()}}
+{\footnotesize\ttfamily size\+\_\+t Torrent\+::total\+Pieces (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Returns the total number of pieces in the torrent. 
+
+\begin{DoxyReturn}{Returns}
+size\+\_\+t The total number of pieces. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structTorrent_a5c1396654ee528eb538f0a3f1619dc9d}\label{structTorrent_a5c1396654ee528eb538f0a3f1619dc9d} 
+\index{Torrent@{Torrent}!infoHash@{infoHash}}
+\index{infoHash@{infoHash}!Torrent@{Torrent}}
+\doxysubsubsection{\texorpdfstring{infoHash}{infoHash}}
+{\footnotesize\ttfamily Info\+Hash Torrent\+::info\+Hash}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{\ \ \ \ \ \ \{\}}
+
+\end{DoxyCode}
+
+
+The 20-\/byte SHA-\/1 hash of the bencoded \textquotesingle{}info\textquotesingle{} value. 
+
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+Torrent/Torrent.\+h\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+Torrent/Torrent.\+cc\end{DoxyCompactItemize}

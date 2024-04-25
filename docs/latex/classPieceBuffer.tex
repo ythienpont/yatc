@@ -1,0 +1,107 @@
+\doxysection{Piece\+Buffer Class Reference}
+\hypertarget{classPieceBuffer}{}\label{classPieceBuffer}\index{PieceBuffer@{PieceBuffer}}
+
+
+Manages the data of a single piece of a torrent, handling block addition and completeness checking.  
+
+
+
+
+{\ttfamily \#include $<$Piece\+Buffer.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classPieceBuffer_a0b8f298e010b47529ab9059514876969}{Piece\+Buffer}} (size\+\_\+t piece\+Length)
+\begin{DoxyCompactList}\small\item\em Constructs a \doxylink{classPieceBuffer}{Piece\+Buffer} object with a specified piece length. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPieceBuffer_a22262fb2ac574c673d88a456f783b08a}{add\+Block}} (const \mbox{\hyperlink{structBlockInfo}{Block\+Info}} \&block, const std\+::vector$<$ char $>$ \&data)
+\begin{DoxyCompactList}\small\item\em Adds a block of data to the piece at the specified offset. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPieceBuffer_a3c1faec478cc01428b5ba5a27ab67ccf}{is\+Complete}} () const
+\begin{DoxyCompactList}\small\item\em Checks if the entire piece has been received. \end{DoxyCompactList}\item 
+const std\+::vector$<$ char $>$ \& \mbox{\hyperlink{classPieceBuffer_a03838e0b377fe93c7a59b5a6ba951db0}{get\+Data}} () const
+\begin{DoxyCompactList}\small\item\em Retrieves the data of the piece. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Manages the data of a single piece of a torrent, handling block addition and completeness checking. 
+
+This class is responsible for storing block data in the correct sequence within a piece and determining when all blocks of a piece have been received. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classPieceBuffer_a0b8f298e010b47529ab9059514876969}\label{classPieceBuffer_a0b8f298e010b47529ab9059514876969} 
+\index{PieceBuffer@{PieceBuffer}!PieceBuffer@{PieceBuffer}}
+\index{PieceBuffer@{PieceBuffer}!PieceBuffer@{PieceBuffer}}
+\doxysubsubsection{\texorpdfstring{PieceBuffer()}{PieceBuffer()}}
+{\footnotesize\ttfamily Piece\+Buffer\+::\+Piece\+Buffer (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{piece\+Length }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a \doxylink{classPieceBuffer}{Piece\+Buffer} object with a specified piece length. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em piece\+Length} & Length of the piece in bytes. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classPieceBuffer_a22262fb2ac574c673d88a456f783b08a}\label{classPieceBuffer_a22262fb2ac574c673d88a456f783b08a} 
+\index{PieceBuffer@{PieceBuffer}!addBlock@{addBlock}}
+\index{addBlock@{addBlock}!PieceBuffer@{PieceBuffer}}
+\doxysubsubsection{\texorpdfstring{addBlock()}{addBlock()}}
+{\footnotesize\ttfamily bool Piece\+Buffer\+::add\+Block (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structBlockInfo}{Block\+Info}} \&}]{block,  }\item[{const std\+::vector$<$ char $>$ \&}]{data }\end{DoxyParamCaption})}
+
+
+
+Adds a block of data to the piece at the specified offset. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em block} & Information about the block including its offset and length. \\
+\hline
+{\em data} & The actual data of the block. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the block was successfully added, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{classPieceBuffer_a03838e0b377fe93c7a59b5a6ba951db0}\label{classPieceBuffer_a03838e0b377fe93c7a59b5a6ba951db0} 
+\index{PieceBuffer@{PieceBuffer}!getData@{getData}}
+\index{getData@{getData}!PieceBuffer@{PieceBuffer}}
+\doxysubsubsection{\texorpdfstring{getData()}{getData()}}
+{\footnotesize\ttfamily const std\+::vector$<$ char $>$ \& Piece\+Buffer\+::get\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Retrieves the data of the piece. 
+
+This method returns a reference to the internal data buffer. It should only be called if the piece is complete. If called on an incomplete piece, it throws a runtime\+\_\+error.
+
+\begin{DoxyReturn}{Returns}
+const reference to the vector containing the piece\textquotesingle{}s data. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em runtime\+\_\+error} & if the piece is not complete. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classPieceBuffer_a3c1faec478cc01428b5ba5a27ab67ccf}\label{classPieceBuffer_a3c1faec478cc01428b5ba5a27ab67ccf} 
+\index{PieceBuffer@{PieceBuffer}!isComplete@{isComplete}}
+\index{isComplete@{isComplete}!PieceBuffer@{PieceBuffer}}
+\doxysubsubsection{\texorpdfstring{isComplete()}{isComplete()}}
+{\footnotesize\ttfamily bool Piece\+Buffer\+::is\+Complete (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Checks if the entire piece has been received. 
+
+\begin{DoxyReturn}{Returns}
+true if all blocks have been received and the piece is complete, false otherwise. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+Piece\+Buffer/Piece\+Buffer.\+h\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+Piece\+Buffer/Piece\+Buffer.\+cc\end{DoxyCompactItemize}

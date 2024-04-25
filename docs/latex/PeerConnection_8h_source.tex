@@ -1,0 +1,83 @@
+\doxysection{Peer\+Connection.\+h}
+\hypertarget{PeerConnection_8h_source}{}\label{PeerConnection_8h_source}\index{/home/yonah/School/PRO/yatc/src/PeerConnection/PeerConnection.h@{/home/yonah/School/PRO/yatc/src/PeerConnection/PeerConnection.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PEERCONNECTION\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PEERCONNECTION\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <boost/array.hpp>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <boost/asio.hpp>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <boost/asio/io\_context.hpp>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <boost/bind/bind.hpp>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{using\ namespace\ }boost::placeholders;}
+\DoxyCodeLine{00012\ \textcolor{keyword}{using\ }tcp\ =\ boost::asio::ip::tcp;}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structPeer}{Peer}}\ \{}
+\DoxyCodeLine{00015\ \ \ \textcolor{keyword}{using\ }Id\ =\ std::array<std::byte,\ 20>;}
+\DoxyCodeLine{00016\ \ \ Id\ id;}
+\DoxyCodeLine{00017\ \ \ std::string\ ip;}
+\DoxyCodeLine{00018\ \ \ uint16\_t\ port;\ \textcolor{comment}{//\ Port\ at\ which\ the\ torrent\ service\ is\ running}}
+\DoxyCodeLine{00019\ \};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPeerConnection}{PeerConnection}}\ \{}
+\DoxyCodeLine{00022\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00023\ \ \ \mbox{\hyperlink{classPeerConnection}{PeerConnection}}(boost::asio::io\_context\ \&ioContext,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structPeer}{Peer}}\ peer,}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::array<std::byte,\ 20>\ myPeerId,}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::array<std::byte,\ 20>\ infoHash)}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ :\ ioContext\_(ioContext),\ socket\_(ioContext),\ peer\_(peer),}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ myPeerId\_(myPeerId),\ infoHash\_(infoHash)\ \{\}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \textcolor{comment}{//\ Establish\ connection\ and\ perform\ handshake}}
+\DoxyCodeLine{00030\ \ \ \textcolor{keywordtype}{void}\ handshake();}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \textcolor{comment}{//\ Express\ interest\ in\ downloading}}
+\DoxyCodeLine{00033\ \ \ \textcolor{keywordtype}{void}\ sendInterest();}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \textcolor{comment}{//\ Request\ a\ piece\ of\ the\ file}}
+\DoxyCodeLine{00036\ \ \ \textcolor{keywordtype}{void}\ sendRequest(\textcolor{keywordtype}{int}\ pieceIndex);}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \textcolor{comment}{//\ Handle\ receiving\ a\ piece\ of\ the\ file}}
+\DoxyCodeLine{00039\ \ \ \textcolor{keywordtype}{void}\ receivePiece(\textcolor{keywordtype}{int}\ pieceIndex,\ \textcolor{keyword}{const}\ std::vector<uint8\_t>\ \&pieceData);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \textcolor{comment}{//\ Close\ the\ connection}}
+\DoxyCodeLine{00042\ \ \ \textcolor{keywordtype}{void}\ disconnect();}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \textcolor{comment}{//\ Check\ if\ the\ connection\ is\ active}}
+\DoxyCodeLine{00045\ \ \ \textcolor{keywordtype}{bool}\ isConnected()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \textcolor{comment}{//\ Set\ the\ active\ status\ of\ the\ connection}}
+\DoxyCodeLine{00048\ \ \ \textcolor{keywordtype}{void}\ setActive(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ active);}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00051\ \ \ boost::asio::io\_context\ \&ioContext\_;}
+\DoxyCodeLine{00052\ \ \ tcp::socket\ socket\_;}
+\DoxyCodeLine{00053\ \ \ \mbox{\hyperlink{structPeer}{Peer}}\ peer\_;}
+\DoxyCodeLine{00054\ \ \ std::array<std::byte,\ 20>\ myPeerId\_;}
+\DoxyCodeLine{00055\ \ \ std::array<std::byte,\ 20>\ infoHash\_;}
+\DoxyCodeLine{00056\ \ \ std::vector<bool>\ pieces\_;\ \textcolor{comment}{//\ Tracking\ which\ pieces\ this\ peer\ has}}
+\DoxyCodeLine{00057\ \ \ std::vector<std::byte>\ writeBuffer\_;}
+\DoxyCodeLine{00058\ \ \ boost::array<std::byte,\ 68>\ handshakeReadBuffer\_;}
+\DoxyCodeLine{00059\ \ \ std::atomic<bool>\ isActive\_\{\textcolor{keyword}{false}\};}
+\DoxyCodeLine{00060\ \ \ std::atomic<bool>\ interested\_\{\textcolor{keyword}{false}\};}
+\DoxyCodeLine{00061\ \ \ std::atomic<bool>\ choked\_\{\textcolor{keyword}{true}\};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \textcolor{comment}{//\ Stub\ for\ updating\ the\ piece\ availability\ from\ this\ peer}}
+\DoxyCodeLine{00064\ \ \ \textcolor{keywordtype}{void}\ updatePiecesAvailability();}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ std::vector<std::byte>\ constructHandshakeMessage();}
+\DoxyCodeLine{00067\ \ \ \textcolor{keywordtype}{bool}\ verifyHandshake()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00068\ \ \ \textcolor{keywordtype}{void}\ handleConnect(\textcolor{keyword}{const}\ boost::system::error\_code\ \&error);}
+\DoxyCodeLine{00069\ \ \ \textcolor{keywordtype}{void}\ handleHandshakeWrite(\textcolor{keyword}{const}\ boost::system::error\_code\ \&error);}
+\DoxyCodeLine{00070\ \ \ \textcolor{keywordtype}{void}\ handleHandshakeRead(\textcolor{keyword}{const}\ boost::system::error\_code\ \&error,}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ bytes\_transferred);}
+\DoxyCodeLine{00072\ \ \ \textcolor{keywordtype}{void}\ handleInterestWrite(\textcolor{keyword}{const}\ boost::system::error\_code\ \&error);}
+\DoxyCodeLine{00073\ \ \ \textcolor{keywordtype}{void}\ handleUnchoke(\textcolor{keyword}{const}\ boost::system::error\_code\ \&error,}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ bytes\_transferred);}
+\DoxyCodeLine{00075\ \};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PEERCONNECTION\_H}}
+
+\end{DoxyCode}

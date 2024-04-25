@@ -1,0 +1,72 @@
+\doxysection{Torrent\+Client Class Reference}
+\hypertarget{classTorrentClient}{}\label{classTorrentClient}\index{TorrentClient@{TorrentClient}}
+
+
+Manages torrent downloading and uploading, coordinating between different components.  
+
+
+
+
+{\ttfamily \#include $<$Torrent\+Client.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classTorrentClient_acde94afbe225e1d7182aaceba9b452b3}{Torrent\+Client}} (const std\+::string \&torrent\+File)
+\begin{DoxyCompactList}\small\item\em Constructs a \doxylink{classTorrentClient}{Torrent\+Client} with a specified torrent file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classTorrentClient_a53b2ae5c1d4db7c0f05f0995628d6974}{start}} ()
+\begin{DoxyCompactList}\small\item\em Starts the torrent downloading process. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classTorrentClient_a2fcaf6bf0a1977053ed39097f91a9f63}{stop}} ()
+\begin{DoxyCompactList}\small\item\em Stops all torrent downloading and uploading activities. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Manages torrent downloading and uploading, coordinating between different components. 
+
+This class integrates the \doxylink{classFileManager}{File\+Manager}, \doxylink{classPieceManager}{Piece\+Manager}, \doxylink{classTorrentParser}{Torrent\+Parser}, \doxylink{classTrackerClient}{Tracker\+Client}, and Peer\+Connections to manage the overall process of handling a torrent, from parsing the file to managing downloads and uploads. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classTorrentClient_acde94afbe225e1d7182aaceba9b452b3}\label{classTorrentClient_acde94afbe225e1d7182aaceba9b452b3} 
+\index{TorrentClient@{TorrentClient}!TorrentClient@{TorrentClient}}
+\index{TorrentClient@{TorrentClient}!TorrentClient@{TorrentClient}}
+\doxysubsubsection{\texorpdfstring{TorrentClient()}{TorrentClient()}}
+{\footnotesize\ttfamily Torrent\+Client\+::\+Torrent\+Client (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{torrent\+File }\end{DoxyParamCaption})}
+
+
+
+Constructs a \doxylink{classTorrentClient}{Torrent\+Client} with a specified torrent file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em torrent\+File} & The path to the torrent file to be managed. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classTorrentClient_a53b2ae5c1d4db7c0f05f0995628d6974}\label{classTorrentClient_a53b2ae5c1d4db7c0f05f0995628d6974} 
+\index{TorrentClient@{TorrentClient}!start@{start}}
+\index{start@{start}!TorrentClient@{TorrentClient}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void Torrent\+Client\+::start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Starts the torrent downloading process. 
+
+Sets up torrent parsing, initializes file and piece management, connects to peers, and starts the asynchronous I/O context. \Hypertarget{classTorrentClient_a2fcaf6bf0a1977053ed39097f91a9f63}\label{classTorrentClient_a2fcaf6bf0a1977053ed39097f91a9f63} 
+\index{TorrentClient@{TorrentClient}!stop@{stop}}
+\index{stop@{stop}!TorrentClient@{TorrentClient}}
+\doxysubsubsection{\texorpdfstring{stop()}{stop()}}
+{\footnotesize\ttfamily void Torrent\+Client\+::stop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Stops all torrent downloading and uploading activities. 
+
+Cleans up and gracefully shuts down all peer connections and tracker sessions. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+Torrent\+Client/Torrent\+Client.\+h\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+Torrent\+Client/Torrent\+Client.\+cc\end{DoxyCompactItemize}

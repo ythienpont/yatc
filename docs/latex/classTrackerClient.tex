@@ -1,0 +1,149 @@
+\doxysection{Tracker\+Client Class Reference}
+\hypertarget{classTrackerClient}{}\label{classTrackerClient}\index{TrackerClient@{TrackerClient}}
+
+
+Handles communication with the tracker for a torrent session.  
+
+
+
+
+{\ttfamily \#include $<$Tracker\+Client.\+h$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339}{Event}} \{ \mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339a8428552d86c0d262a542a528af490afa}{Started}}
+, \mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339a07ca5050e697392c9ed47e6453f1453f}{Completed}}
+, \mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339ac23e2b09ebe6bf4cb5e2a9abe85c0be2}{Stopped}}
+, \mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07}{Empty}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration of possible events to send to the tracker. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structTrackerResponse}{Tracker\+Response}} \mbox{\hyperlink{classTrackerClient_aeb3e6dfa5c20ed79e7ae76f7518cd678}{announce}} (\mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339}{Event}} event=\mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07}{Event\+::\+Empty}})
+\begin{DoxyCompactList}\small\item\em Sends an announce request to the tracker to update the current status of the torrent session. \end{DoxyCompactList}\item 
+Peer\+::\+Id \mbox{\hyperlink{classTrackerClient_a4fb2e21164a4302313de9a99ffcc6b72}{get\+Peer\+Id}} () const
+\begin{DoxyCompactList}\small\item\em Retrieves the peer ID used by this client. \end{DoxyCompactList}\item 
+Info\+Hash \mbox{\hyperlink{classTrackerClient_aa52a55a5b7bea7c04753120cc92d1ea2}{get\+Info\+Hash}} () const
+\begin{DoxyCompactList}\small\item\em Retrieves the info hash of the torrent. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classTrackerClient_a41e1eadd9e5c579d2f6f26d48651cadf}{Tracker\+Client}} (const \mbox{\hyperlink{structTorrent}{Torrent}} \&torrent, const uint16\+\_\+t port=6881)
+\begin{DoxyCompactList}\small\item\em Constructs a new Tracker Client object. \end{DoxyCompactList}\item 
+\Hypertarget{classTrackerClient_a81899d50e48eec127b32b957fb295589}\label{classTrackerClient_a81899d50e48eec127b32b957fb295589} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Tracker\+Client} ()=default
+\begin{DoxyCompactList}\small\item\em Default destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classTrackerClient_af4458ac82dc3f61619bbc8049182c685}\label{classTrackerClient_af4458ac82dc3f61619bbc8049182c685} 
+static const std\+::string {\bfseries PREFIX} = "{}-\/YATC-\/"{}
+\begin{DoxyCompactList}\small\item\em \doxylink{structPeer}{Peer} ID prefix used when creating a new peer ID. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Handles communication with the tracker for a torrent session. 
+
+This class provides functionality to send announce requests to the tracker and handle the responses. It manages the state of the torrent session, including tracking downloaded and uploaded amounts. 
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339}\label{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339} 
+\index{TrackerClient@{TrackerClient}!Event@{Event}}
+\index{Event@{Event}!TrackerClient@{TrackerClient}}
+\doxysubsubsection{\texorpdfstring{Event}{Event}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339}{Tracker\+Client\+::\+Event}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Enumeration of possible events to send to the tracker. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Started@{Started}!TrackerClient@{TrackerClient}}\index{TrackerClient@{TrackerClient}!Started@{Started}}}\Hypertarget{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339a8428552d86c0d262a542a528af490afa}\label{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339a8428552d86c0d262a542a528af490afa} 
+Started&Event when a download first begins. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Completed@{Completed}!TrackerClient@{TrackerClient}}\index{TrackerClient@{TrackerClient}!Completed@{Completed}}}\Hypertarget{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339a07ca5050e697392c9ed47e6453f1453f}\label{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339a07ca5050e697392c9ed47e6453f1453f} 
+Completed&Event when the download is complete. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Stopped@{Stopped}!TrackerClient@{TrackerClient}}\index{TrackerClient@{TrackerClient}!Stopped@{Stopped}}}\Hypertarget{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339ac23e2b09ebe6bf4cb5e2a9abe85c0be2}\label{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339ac23e2b09ebe6bf4cb5e2a9abe85c0be2} 
+Stopped&Event when the downloader ceases downloading. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Empty@{Empty}!TrackerClient@{TrackerClient}}\index{TrackerClient@{TrackerClient}!Empty@{Empty}}}\Hypertarget{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07}\label{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07} 
+Empty&Used for regular interval updates without specific events. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classTrackerClient_a41e1eadd9e5c579d2f6f26d48651cadf}\label{classTrackerClient_a41e1eadd9e5c579d2f6f26d48651cadf} 
+\index{TrackerClient@{TrackerClient}!TrackerClient@{TrackerClient}}
+\index{TrackerClient@{TrackerClient}!TrackerClient@{TrackerClient}}
+\doxysubsubsection{\texorpdfstring{TrackerClient()}{TrackerClient()}}
+{\footnotesize\ttfamily Tracker\+Client\+::\+Tracker\+Client (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structTorrent}{Torrent}} \&}]{torrent,  }\item[{const uint16\+\_\+t}]{port = {\ttfamily 6881} }\end{DoxyParamCaption})}
+
+
+
+Constructs a new Tracker Client object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em torrent} & The torrent associated with this client. \\
+\hline
+{\em port} & The port number this peer listens on; defaults to 6881. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classTrackerClient_aeb3e6dfa5c20ed79e7ae76f7518cd678}\label{classTrackerClient_aeb3e6dfa5c20ed79e7ae76f7518cd678} 
+\index{TrackerClient@{TrackerClient}!announce@{announce}}
+\index{announce@{announce}!TrackerClient@{TrackerClient}}
+\doxysubsubsection{\texorpdfstring{announce()}{announce()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structTrackerResponse}{Tracker\+Response}} Tracker\+Client\+::announce (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339}{Tracker\+Client\+::\+Event}}}]{event = {\ttfamily \mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07}{Event\+::\+Empty}}} }\end{DoxyParamCaption})}
+
+
+
+Sends an announce request to the tracker to update the current status of the torrent session. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em event} & The type of event to report to the tracker; defaults to \doxylink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07}{Event\+::\+Empty}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{structTrackerResponse}{Tracker\+Response} The response from the tracker. 
+\end{DoxyReturn}
+\Hypertarget{classTrackerClient_aa52a55a5b7bea7c04753120cc92d1ea2}\label{classTrackerClient_aa52a55a5b7bea7c04753120cc92d1ea2} 
+\index{TrackerClient@{TrackerClient}!getInfoHash@{getInfoHash}}
+\index{getInfoHash@{getInfoHash}!TrackerClient@{TrackerClient}}
+\doxysubsubsection{\texorpdfstring{getInfoHash()}{getInfoHash()}}
+{\footnotesize\ttfamily Info\+Hash Tracker\+Client\+::get\+Info\+Hash (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Retrieves the info hash of the torrent. 
+
+\begin{DoxyReturn}{Returns}
+Info\+Hash The info hash of the torrent. 
+\end{DoxyReturn}
+\Hypertarget{classTrackerClient_a4fb2e21164a4302313de9a99ffcc6b72}\label{classTrackerClient_a4fb2e21164a4302313de9a99ffcc6b72} 
+\index{TrackerClient@{TrackerClient}!getPeerId@{getPeerId}}
+\index{getPeerId@{getPeerId}!TrackerClient@{TrackerClient}}
+\doxysubsubsection{\texorpdfstring{getPeerId()}{getPeerId()}}
+{\footnotesize\ttfamily Peer\+::\+Id Tracker\+Client\+::get\+Peer\+Id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Retrieves the peer ID used by this client. 
+
+\begin{DoxyReturn}{Returns}
+Peer\+::\+Id The peer ID. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+Tracker\+Client/Tracker\+Client.\+h\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+Tracker\+Client/Tracker\+Client.\+cc\end{DoxyCompactItemize}

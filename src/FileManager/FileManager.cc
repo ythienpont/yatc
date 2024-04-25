@@ -148,6 +148,10 @@ std::vector<char> LinuxFileManager::readBlock(const size_t pieceIndex,
   return data;
 }
 
+std::vector<char> LinuxFileManager::readPiece(const size_t pieceIndex) const {
+  return readBlock(pieceIndex, {0, pieceLength_});
+}
+
 void LinuxFileManager::preAllocateSpace() {
   for (const auto &file : files_) {
     int fd = open(file.path.c_str(), O_WRONLY | O_CREAT, 0644);

@@ -1,0 +1,78 @@
+\doxysection{Block\+Info Struct Reference}
+\hypertarget{structBlockInfo}{}\label{structBlockInfo}\index{BlockInfo@{BlockInfo}}
+
+
+Stores information about a block within a torrent piece.  
+
+
+
+
+{\ttfamily \#include $<$Piece\+Buffer.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structBlockInfo_a91a055d42051670a6a9a239f46a3aa15}{Block\+Info}} (size\+\_\+t \+\_\+offset, size\+\_\+t \+\_\+length)
+\begin{DoxyCompactList}\small\item\em Construct a new Block Info object. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structBlockInfo_a593fd35fa895fed0cf2144bd4ffa8162}{operator$<$}} (const \mbox{\hyperlink{structBlockInfo}{Block\+Info}} \&other) const
+\begin{DoxyCompactList}\small\item\em Compares this block\textquotesingle{}s offset with another block\textquotesingle{}s offset for ordering. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structBlockInfo_a0e03c6fcfe2b4dd65fc4115f1faf517b}\label{structBlockInfo_a0e03c6fcfe2b4dd65fc4115f1faf517b} 
+size\+\_\+t {\bfseries offset}
+\begin{DoxyCompactList}\small\item\em Offset of the block within the piece. \end{DoxyCompactList}\item 
+\Hypertarget{structBlockInfo_a8c9af4f16a3f02a1027ed3cc6af374dd}\label{structBlockInfo_a8c9af4f16a3f02a1027ed3cc6af374dd} 
+size\+\_\+t {\bfseries length}
+\begin{DoxyCompactList}\small\item\em Length of the block. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Stores information about a block within a torrent piece. 
+
+Contains the offset within the piece and the length of the block. This structure also provides comparison operators for sorting based on the offset. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structBlockInfo_a91a055d42051670a6a9a239f46a3aa15}\label{structBlockInfo_a91a055d42051670a6a9a239f46a3aa15} 
+\index{BlockInfo@{BlockInfo}!BlockInfo@{BlockInfo}}
+\index{BlockInfo@{BlockInfo}!BlockInfo@{BlockInfo}}
+\doxysubsubsection{\texorpdfstring{BlockInfo()}{BlockInfo()}}
+{\footnotesize\ttfamily Block\+Info\+::\+Block\+Info (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{\+\_\+offset,  }\item[{size\+\_\+t}]{\+\_\+length }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new Block Info object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+offset} & Offset of the block within the piece. \\
+\hline
+{\em \+\_\+length} & Length of the block. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structBlockInfo_a593fd35fa895fed0cf2144bd4ffa8162}\label{structBlockInfo_a593fd35fa895fed0cf2144bd4ffa8162} 
+\index{BlockInfo@{BlockInfo}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!BlockInfo@{BlockInfo}}
+\doxysubsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily bool Block\+Info\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structBlockInfo}{Block\+Info}} \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Compares this block\textquotesingle{}s offset with another block\textquotesingle{}s offset for ordering. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & The other \doxylink{structBlockInfo}{Block\+Info} to compare against. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if this block\textquotesingle{}s offset is less than the other\textquotesingle{}s, false otherwise. 
+\end{DoxyReturn}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+Piece\+Buffer/Piece\+Buffer.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,70 @@
+digraph BittorrentClient {
+    node [shape=box, fontname="Helvetica", fontsize=10];
+    edge [fontname="Helvetica", fontsize=10];
+    ratio="1.0"
+
+    TorrentFile [shape=ellipse, label="Torrent File"];
+    TorrentParser [label="Torrent Parser\nParse bencoded values"];
+    TorrentClass [shape=ellipse, label="Torrent Class"];
+    TrackerClient [label="Tracker Client\nEstablish connection"];
+    Announce [label="Send Announce"];
+    ListOfPeers [shape=ellipse, label="List of Peers"];
+    Peer [shape=ellipse, label="Peer"];
+    PeerConnection [label="Peer Connection\nEstablish handshake"];
+    SendInterest [label="Send Interest"];
+    SendRequestPieces [label="Send/Request Pieces"];
+    PieceManager [label="Piece Manager\nTrack needed pieces"];
+    FileManager [label="File Manager\nWrite to Piece Buffer"];
+    PieceBuffer [shape=diamond, label="Piece Buffer\nBuffer full?"];
+    MemoryWrite [label="Write to Secondary Memory"];
+
+    // Torrent processing flow
+    TorrentFile -> TorrentParser -> TorrentClass -> TrackerClient -> Announce -> ListOfPeers;
+    ListOfPeers -> Peer -> PeerConnection -> SendInterest -> SendRequestPieces;
+    
+    // Piece management
+    SendRequestPieces -> PieceManager;
+    //FileManager -> PieceManager [label="Update after write", style="dashed"];
+    PieceManager -> FileManager [label="Request write"];
+    FileManager -> PieceBuffer -> MemoryWrite;
+
+    // Conditions on buffer and memory write
+    PieceBuffer -> FileManager [label="Not full", style="dashed"];
+    MemoryWrite -> PieceManager [label="Update after write", style="dashed", color=orange];
+
+    // Subgraph for tracker communication
+    subgraph cluster_tracker {
+        color=blue;
+        label = "Tracker Communication";
+        TrackerClient;
+        Announce;
+    }
+
+    // Subgraph for peer communication
+    subgraph cluster_peer_comm {
+        color=green;
+        label = "Peer Communication";
+        Peer;
+        PeerConnection;
+        SendInterest;
+        SendRequestPieces;
+    }
+
+    // Subgraph for file management
+    subgraph cluster_file_management {
+        color=purple;
+        label = "File Management";
+        FileManager;
+        PieceBuffer;
+        MemoryWrite;
+    }
+
+    // Subgraph for initialization
+    subgraph cluster_initialization {
+        color=lightgrey;
+        label = "Initialization";
+        TorrentFile;
+        TorrentParser;
+        TorrentClass;
+    }
+}

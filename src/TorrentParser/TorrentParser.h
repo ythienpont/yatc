@@ -1,46 +1,101 @@
 #ifndef TORRENTPARSER_H
 #define TORRENTPARSER_H
 
-#include "../Torrent/Torrent.h"
+#include "Torrent/Torrent.h"
 #include <bencode.hpp>
 #include <openssl/sha.h>
 #include <string>
 
+/**
+ * @brief Provides functionality to parse torrent files.
+ *
+ * The TorrentParser class reads torrent files, decodes their contents, and
+ * extracts key information such as tracker URLs, file details, and piece hashes
+ * necessary for torrent downloading.
+ */
 class TorrentParser {
 private:
-  // Reads the entire content of a torrent file into a string.
+  /**
+   * @brief Reads the entire content of a torrent file into a string.
+   *
+   * @param filename Path to the torrent file.
+   * @return std::string The content of the torrent file as a string.
+   */
   std::string readTorrentFile(const std::string &filename) const;
 
-  // Decodes a bencoded string into a dictionary.
+  /**
+   * @brief Decodes a bencoded string into a dictionary.
+   *
+   * @param content The bencoded string to decode.
+   * @return bencode::dict A dictionary representing the decoded content.
+   */
   bencode::dict decodeContent(const std::string &content) const;
 
-  // Extracts the tracker URL from the torrent's metainfo dictionary.
+  /**
+   * @brief Extracts the tracker URL from the torrent's metainfo dictionary.
+   *
+   * @param dict The metainfo dictionary.
+   * @return std::string The extracted tracker URL.
+   */
   std::string extractTrackerUrl(const bencode::dict &dict) const;
 
-  // Extracts the 'info' dictionary from the torrent's metainfo dictionary,
-  // which contains details about the files and pieces.
+  /**
+   * @brief Extracts the 'info' dictionary from the torrent's metainfo
+   * dictionary.
+   *
+   * This dictionary contains details about the files and pieces in the torrent.
+   * @param dict The metainfo dictionary.
+   * @return bencode::dict The 'info' dictionary.
+   */
   bencode::dict extractInfoDict(const bencode::dict &dict) const;
 
-  // Computes the SHA-1 hash of the bencoded 'info' dictionary. This hash is
-  // used as the torrent's InfoHash to verify the integrity and identity of the
-  // torrent.
+  /**
+   * @brief Computes the SHA-1 hash of the bencoded 'info' dictionary.
+   *
+   * This hash is used as the torrent's InfoHash to verify the integrity and
+   * identity of the torrent.
+   * @param infoDict The 'info' dictionary.
+   * @return InfoHash The computed SHA-1 hash.
+   */
   InfoHash computeInfoHash(const bencode::dict &infoDict) const;
 
-  // Extracts file information from the 'info' dictionary and populates the
-  // given Torrent object with it. This includes setting file paths, lengths,
-  // and other relevant data.
+  /**
+   * @brief Extracts file information from the 'info' dictionary and populates
+   * the given Torrent object with it.
+   *
+   * This includes setting file paths, lengths, and other relevant data.
+   * @param torrent Reference to the Torrent object to populate.
+   * @param infoDict The 'info' dictionary containing file details.
+   */
   void extractFileInfo(Torrent &torrent, const bencode::dict &infoDict) const;
 
-  // Extracts the piece hashes from the 'info' dictionary and stores them in the
-  // Torrent object.
+  /**
+   * @brief Extracts the piece hashes from the 'info' dictionary and stores them
+   * in the Torrent object.
+   *
+   * @param torrent Reference to the Torrent object to populate.
+   * @param infoDict The 'info' dictionary containing piece hashes.
+   */
   void extractPieces(Torrent &torrent, const bencode::dict &infoDict) const;
 
 public:
+  /**
+   * @brief Default constructor for TorrentParser.
+   */
   TorrentParser() = default;
+
+  /**
+   * @brief Default destructor for TorrentParser.
+   */
   ~TorrentParser() = default;
 
-  // Parses a torrent file and returns a Torrent object containing all the
-  // relevant data.
+  /**
+   * @brief Parses a torrent file and returns a Torrent object containing all
+   * relevant data.
+   *
+   * @param filename Path to the torrent file to parse.
+   * @return Torrent A Torrent object populated with data from the torrent file.
+   */
   Torrent parseTorrentFile(const std::string &filename) const;
 };
 

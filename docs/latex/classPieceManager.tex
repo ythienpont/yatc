@@ -1,0 +1,102 @@
+\doxysection{Piece\+Manager Class Reference}
+\hypertarget{classPieceManager}{}\label{classPieceManager}\index{PieceManager@{PieceManager}}
+
+
+Manages the status of pieces in a torrent download.  
+
+
+
+
+{\ttfamily \#include $<$Piece\+Manager.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classPieceManager_ac05f7a04b088b5e879d93e7d5ebfb17f}{Piece\+Manager}} (const size\+\_\+t total\+Pieces)
+\begin{DoxyCompactList}\small\item\em Constructs a new Piece Manager object. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPieceManager_a8f0af3c1d66310b93223cbdf70067f00}{has\+Piece}} (const size\+\_\+t piece\+Index) const
+\begin{DoxyCompactList}\small\item\em Checks if a piece has already been downloaded. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPieceManager_a771cafd418df95a9503a45d5e3e94dd9}{save\+Piece}} (const size\+\_\+t piece\+Index)
+\begin{DoxyCompactList}\small\item\em Marks a piece as downloaded. \end{DoxyCompactList}\item 
+std\+::unordered\+\_\+set$<$ size\+\_\+t $>$ \mbox{\hyperlink{classPieceManager_af37fbec495d7c9d288b3be205f282d68}{missing\+Pieces}} () const
+\begin{DoxyCompactList}\small\item\em Retrieves a set of indices representing all pieces that are still missing. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Manages the status of pieces in a torrent download. 
+
+Tracks which pieces have been successfully downloaded and which are still missing. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classPieceManager_ac05f7a04b088b5e879d93e7d5ebfb17f}\label{classPieceManager_ac05f7a04b088b5e879d93e7d5ebfb17f} 
+\index{PieceManager@{PieceManager}!PieceManager@{PieceManager}}
+\index{PieceManager@{PieceManager}!PieceManager@{PieceManager}}
+\doxysubsubsection{\texorpdfstring{PieceManager()}{PieceManager()}}
+{\footnotesize\ttfamily Piece\+Manager\+::\+Piece\+Manager (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{total\+Pieces }\end{DoxyParamCaption})}
+
+
+
+Constructs a new Piece Manager object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em total\+Pieces} & Total number of pieces in the torrent. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classPieceManager_a8f0af3c1d66310b93223cbdf70067f00}\label{classPieceManager_a8f0af3c1d66310b93223cbdf70067f00} 
+\index{PieceManager@{PieceManager}!hasPiece@{hasPiece}}
+\index{hasPiece@{hasPiece}!PieceManager@{PieceManager}}
+\doxysubsubsection{\texorpdfstring{hasPiece()}{hasPiece()}}
+{\footnotesize\ttfamily bool Piece\+Manager\+::has\+Piece (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{piece\+Index }\end{DoxyParamCaption}) const}
+
+
+
+Checks if a piece has already been downloaded. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em piece\+Index} & Index of the piece to check. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true If the piece is downloaded. 
+
+false If the piece is not downloaded. 
+\end{DoxyReturn}
+\Hypertarget{classPieceManager_af37fbec495d7c9d288b3be205f282d68}\label{classPieceManager_af37fbec495d7c9d288b3be205f282d68} 
+\index{PieceManager@{PieceManager}!missingPieces@{missingPieces}}
+\index{missingPieces@{missingPieces}!PieceManager@{PieceManager}}
+\doxysubsubsection{\texorpdfstring{missingPieces()}{missingPieces()}}
+{\footnotesize\ttfamily std\+::unordered\+\_\+set$<$ size\+\_\+t $>$ Piece\+Manager\+::missing\+Pieces (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Retrieves a set of indices representing all pieces that are still missing. 
+
+\begin{DoxyReturn}{Returns}
+std\+::unordered\+\_\+set$<$size\+\_\+t$>$ Set of missing piece indices. 
+\end{DoxyReturn}
+\Hypertarget{classPieceManager_a771cafd418df95a9503a45d5e3e94dd9}\label{classPieceManager_a771cafd418df95a9503a45d5e3e94dd9} 
+\index{PieceManager@{PieceManager}!savePiece@{savePiece}}
+\index{savePiece@{savePiece}!PieceManager@{PieceManager}}
+\doxysubsubsection{\texorpdfstring{savePiece()}{savePiece()}}
+{\footnotesize\ttfamily void Piece\+Manager\+::save\+Piece (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{piece\+Index }\end{DoxyParamCaption})}
+
+
+
+Marks a piece as downloaded. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em piece\+Index} & Index of the piece to mark as downloaded. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+Piece\+Manager/Piece\+Manager.\+h\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+Piece\+Manager/Piece\+Manager.\+cc\end{DoxyCompactItemize}

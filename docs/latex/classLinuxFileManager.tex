@@ -1,0 +1,161 @@
+\doxysection{Linux\+File\+Manager Class Reference}
+\hypertarget{classLinuxFileManager}{}\label{classLinuxFileManager}\index{LinuxFileManager@{LinuxFileManager}}
+
+
+\doxylink{classFileManager}{File\+Manager} implementation for Linux systems.  
+
+
+
+
+{\ttfamily \#include $<$File\+Manager.\+h$>$}
+
+Inheritance diagram for Linux\+File\+Manager\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classLinuxFileManager}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classLinuxFileManager_adfa75d417474432db8742fb038bd8c11}{Linux\+File\+Manager}} (const std\+::vector$<$ \mbox{\hyperlink{structFileInfo}{File\+Info}} $>$ \&files, const size\+\_\+t \mbox{\hyperlink{classFileManager_a06208c627b46cb9e0b45d67c4f95f675}{piece\+Length\+\_\+}})
+\begin{DoxyCompactList}\small\item\em Constructs a \doxylink{classLinuxFileManager}{Linux\+File\+Manager} with specified files and piece length. \end{DoxyCompactList}\item 
+\Hypertarget{classLinuxFileManager_ad07772880c6fc1abbfec28fa97dd5b94}\label{classLinuxFileManager_ad07772880c6fc1abbfec28fa97dd5b94} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Linux\+File\+Manager} () override=default
+\begin{DoxyCompactList}\small\item\em Default destructor. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classLinuxFileManager_a3bc01a8aa5c29d1af1fe17ba7b0f047d}{write\+Block}} (const size\+\_\+t piece\+Index, const \mbox{\hyperlink{structBlockInfo}{Block\+Info}} \&block, const std\+::vector$<$ char $>$ \&data) override
+\begin{DoxyCompactList}\small\item\em Writes a block of data to the appropriate file and position. \end{DoxyCompactList}\item 
+std\+::vector$<$ char $>$ \mbox{\hyperlink{classLinuxFileManager_a8ba3b593fa8ff198c9e1d14f44e279e5}{read\+Block}} (const size\+\_\+t piece\+Index, const \mbox{\hyperlink{structBlockInfo}{Block\+Info}} \&block) const override
+\begin{DoxyCompactList}\small\item\em Reads a block of data from the appropriate file and position. \end{DoxyCompactList}\item 
+std\+::vector$<$ char $>$ \mbox{\hyperlink{classLinuxFileManager_a250dbb4e640b6e678859f18047758202}{read\+Piece}} (const size\+\_\+t piece\+Index) const
+\begin{DoxyCompactList}\small\item\em Reads a full piece from the file system. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classFileManager}{File\+Manager}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+File\+Manager} ()=default
+\begin{DoxyCompactList}\small\item\em Virtual destructor to allow for cleanup in derived classes. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classFileManager_ac855664d52f17fde6840328bfeaf68a0}{total\+File\+Size}} () const
+\begin{DoxyCompactList}\small\item\em Calculates the total size of all files managed by the \doxylink{classFileManager}{File\+Manager}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classFileManager}{File\+Manager}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classFileManager_ac49c84adbe233ef45846762ea394a45b}{File\+Manager}} (const std\+::vector$<$ \mbox{\hyperlink{structFileInfo}{File\+Info}} $>$ \&files, const size\+\_\+t piece\+Length)
+\begin{DoxyCompactList}\small\item\em Constructor initializing the \doxylink{classFileManager}{File\+Manager} with a list of files and piece length. \end{DoxyCompactList}\item 
+std\+::pair$<$ size\+\_\+t, size\+\_\+t $>$ \mbox{\hyperlink{classFileManager_a6f31891bedaef9d327354c36e50b4d50}{get\+Block\+Bounds}} (const size\+\_\+t piece\+Index, const \mbox{\hyperlink{structBlockInfo}{Block\+Info}} \&block) const
+\begin{DoxyCompactList}\small\item\em Calculates the global start and end offsets for a given block within a piece. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classFileManager_a2ff924902b0ae7cf3901303da5f4def7}{calculate\+Data\+Offset}} (const \mbox{\hyperlink{structBlockInfo}{Block\+Info}} \&block) const
+\begin{DoxyCompactList}\small\item\em Calculates the offset of data within a block. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classFileManager_a5aa6108095072645631617bba133947a}{total\+Pieces}} () const
+\begin{DoxyCompactList}\small\item\em Returns the total number of pieces based on the file sizes and piece length. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classFileManager}{File\+Manager}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{structFileInfo}{File\+Info}} $>$ {\bfseries files\+\_\+}
+\begin{DoxyCompactList}\small\item\em List of files associated with the torrent. \end{DoxyCompactList}\item 
+size\+\_\+t {\bfseries piece\+Length\+\_\+}
+\begin{DoxyCompactList}\small\item\em Length of each piece in bytes. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classPieceBuffer}{Piece\+Buffer}} $>$ $>$ {\bfseries piece\+Buffers\+\_\+}
+\begin{DoxyCompactList}\small\item\em Buffers for managing piece data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{classFileManager}{File\+Manager} implementation for Linux systems. 
+
+Handles file operations specifically optimized for Linux environments, utilizing system calls for efficient file reading and writing. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classLinuxFileManager_adfa75d417474432db8742fb038bd8c11}\label{classLinuxFileManager_adfa75d417474432db8742fb038bd8c11} 
+\index{LinuxFileManager@{LinuxFileManager}!LinuxFileManager@{LinuxFileManager}}
+\index{LinuxFileManager@{LinuxFileManager}!LinuxFileManager@{LinuxFileManager}}
+\doxysubsubsection{\texorpdfstring{LinuxFileManager()}{LinuxFileManager()}}
+{\footnotesize\ttfamily Linux\+File\+Manager\+::\+Linux\+File\+Manager (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{structFileInfo}{File\+Info}} $>$ \&}]{files,  }\item[{const size\+\_\+t}]{piece\+Length\+\_\+ }\end{DoxyParamCaption})}
+
+
+
+Constructs a \doxylink{classLinuxFileManager}{Linux\+File\+Manager} with specified files and piece length. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em files} & Vector of \doxylink{structFileInfo}{File\+Info} structures detailing the files. \\
+\hline
+{\em piece\+Length} & Length of each piece in bytes. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classLinuxFileManager_a8ba3b593fa8ff198c9e1d14f44e279e5}\label{classLinuxFileManager_a8ba3b593fa8ff198c9e1d14f44e279e5} 
+\index{LinuxFileManager@{LinuxFileManager}!readBlock@{readBlock}}
+\index{readBlock@{readBlock}!LinuxFileManager@{LinuxFileManager}}
+\doxysubsubsection{\texorpdfstring{readBlock()}{readBlock()}}
+{\footnotesize\ttfamily std\+::vector$<$ char $>$ Linux\+File\+Manager\+::read\+Block (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{piece\+Index,  }\item[{const \mbox{\hyperlink{structBlockInfo}{Block\+Info}} \&}]{block }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reads a block of data from the appropriate file and position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em piece\+Index} & Index of the piece from which to read. \\
+\hline
+{\em block} & Details about the block to read (offset and size). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vector containing the read data. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classFileManager_a32d557fbe0cdb278e54009110035729e}{File\+Manager}}.
+
+\Hypertarget{classLinuxFileManager_a250dbb4e640b6e678859f18047758202}\label{classLinuxFileManager_a250dbb4e640b6e678859f18047758202} 
+\index{LinuxFileManager@{LinuxFileManager}!readPiece@{readPiece}}
+\index{readPiece@{readPiece}!LinuxFileManager@{LinuxFileManager}}
+\doxysubsubsection{\texorpdfstring{readPiece()}{readPiece()}}
+{\footnotesize\ttfamily std\+::vector$<$ char $>$ Linux\+File\+Manager\+::read\+Piece (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{piece\+Index }\end{DoxyParamCaption}) const}
+
+
+
+Reads a full piece from the file system. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em piece\+Index} & Index of the piece to read. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vector containing the piece data. 
+\end{DoxyReturn}
+\Hypertarget{classLinuxFileManager_a3bc01a8aa5c29d1af1fe17ba7b0f047d}\label{classLinuxFileManager_a3bc01a8aa5c29d1af1fe17ba7b0f047d} 
+\index{LinuxFileManager@{LinuxFileManager}!writeBlock@{writeBlock}}
+\index{writeBlock@{writeBlock}!LinuxFileManager@{LinuxFileManager}}
+\doxysubsubsection{\texorpdfstring{writeBlock()}{writeBlock()}}
+{\footnotesize\ttfamily bool Linux\+File\+Manager\+::write\+Block (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{piece\+Index,  }\item[{const \mbox{\hyperlink{structBlockInfo}{Block\+Info}} \&}]{block,  }\item[{const std\+::vector$<$ char $>$ \&}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Writes a block of data to the appropriate file and position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em piece\+Index} & Index of the piece to which the block belongs. \\
+\hline
+{\em block} & Details about the block (offset and size). \\
+\hline
+{\em data} & Data to be written. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the write operation was successful, false otherwise. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classFileManager_a07e533081a76aaee9c8f7478799419d9}{File\+Manager}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+File\+Manager/File\+Manager.\+h\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+File\+Manager/File\+Manager.\+cc\end{DoxyCompactItemize}

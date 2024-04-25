@@ -1,0 +1,35 @@
+\doxysection{Peer\+Connection Class Reference}
+\hypertarget{classPeerConnection}{}\label{classPeerConnection}\index{PeerConnection@{PeerConnection}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classPeerConnection_a63811d72dc6ed9bbbfd4e3b98db2febc}\label{classPeerConnection_a63811d72dc6ed9bbbfd4e3b98db2febc} 
+{\bfseries Peer\+Connection} (boost\+::asio\+::io\+\_\+context \&io\+Context, const \mbox{\hyperlink{structPeer}{Peer}} peer, const std\+::array$<$ std\+::byte, 20 $>$ my\+Peer\+Id, const std\+::array$<$ std\+::byte, 20 $>$ info\+Hash)
+\item 
+\Hypertarget{classPeerConnection_a3d0b633a291d817f17f1ccfecf2a034d}\label{classPeerConnection_a3d0b633a291d817f17f1ccfecf2a034d} 
+void {\bfseries handshake} ()
+\item 
+\Hypertarget{classPeerConnection_a8c8290f68931d61eb26777009a96749c}\label{classPeerConnection_a8c8290f68931d61eb26777009a96749c} 
+void {\bfseries send\+Interest} ()
+\item 
+\Hypertarget{classPeerConnection_afc8e61bc5088e9853818567a2661f6c0}\label{classPeerConnection_afc8e61bc5088e9853818567a2661f6c0} 
+void {\bfseries send\+Request} (int piece\+Index)
+\item 
+\Hypertarget{classPeerConnection_ac4d43b782fbb1d2f2642e9c70132f478}\label{classPeerConnection_ac4d43b782fbb1d2f2642e9c70132f478} 
+void {\bfseries receive\+Piece} (int piece\+Index, const std\+::vector$<$ uint8\+\_\+t $>$ \&piece\+Data)
+\item 
+\Hypertarget{classPeerConnection_a3dbb21ee8ca6749cbf2fe89e5c9b211a}\label{classPeerConnection_a3dbb21ee8ca6749cbf2fe89e5c9b211a} 
+void {\bfseries disconnect} ()
+\item 
+\Hypertarget{classPeerConnection_a2acc15e295f4759d5f7dc7e1655bcb36}\label{classPeerConnection_a2acc15e295f4759d5f7dc7e1655bcb36} 
+bool {\bfseries is\+Connected} () const
+\item 
+\Hypertarget{classPeerConnection_a42e2b753472edef8198c186f21b6089e}\label{classPeerConnection_a42e2b753472edef8198c186f21b6089e} 
+void {\bfseries set\+Active} (const bool active)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+Peer\+Connection/Peer\+Connection.\+h\item 
+/home/yonah/\+School/\+PRO/yatc/src/\+Peer\+Connection/Peer\+Connection.\+cc\end{DoxyCompactItemize}
