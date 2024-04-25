@@ -1,7 +1,6 @@
 #include "PieceBuffer.h"
 #include <algorithm>
 #include <stdexcept>
-#include <iostream>
 
 bool PieceBuffer::addBlock(const BlockInfo &block,
                            const std::vector<char> &data) {
