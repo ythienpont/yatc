@@ -1,4 +1,5 @@
 #include "TorrentClient.h"
+#include "Logger/Logger.h"
 #include <algorithm>
 
 TorrentClient::TorrentClient(const std::string &torrentFile) {
@@ -15,37 +16,55 @@ void TorrentClient::pruneDeadConnections() {
       peerConnections_.end());
 }
 
-void TorrentClient::sendInterest() {
-  for (auto &pair : peerConnections_) {
-    // Check if the unique_ptr actually points to an object
-    if (pair.second) {
-      std::cout << "sending interest" << std::endl;
-      // Call the sendInterest function on the PeerConnection object
-      pair.second->sendInterest();
-    }
-  }
-}
-
 void TorrentClient::start() {
+  Logger::getInstance()->log("Initiating tracker session...");
   initiateTrackerSession();
   connectToPeers();
   io_context_.run();
-
-  pruneDeadConnections();
-  sendInterest();
-  io_context_.run();
-  handleDownload();
 }
 
 void TorrentClient::stop() { io_context_.stop(); }
 
 void TorrentClient::setupTorrent(const std::string &torrentFile) {
-  torrentParser_ = std::make_unique<TorrentParser>();
-  torrent_ = torrentParser_->parseTorrentFile(torrentFile);
-  fileManager_ = std::make_unique<LinuxFileManager>(
-      torrent_.files,
-      torrent_.pieceLength); // TODO: Currently only support linux
-  pieceManager_ = std::make_unique<PieceManager>(torrent_.totalPieces());
+  Logger *logger = Logger::getInstance();
+  logger->log("Initializing torrent setup...");
+
+  try {
+    torrentParser_ = std::make_unique<TorrentParser>();
+    logger->log("Torrent parser initialized.");
+  } catch (const std::exception &e) {
+    logger->log("Error initializing torrent parser: " + std::string(e.what()));
+    return;
+  }
+
+  try {
+    torrent_ = torrentParser_->parseTorrentFile(torrentFile);
+    logger->log("Torrent file parsed: " + torrentFile);
+  } catch (const std::exception &e) {
+    logger->log("Error parsing torrent file: " + std::string(e.what()));
+    return;
+  }
+
+  try {
+    fileManager_ = std::make_unique<LinuxFileManager>(torrent_.files,
+                                                      torrent_.pieceLength);
+    logger->log("File manager created for " +
+                std::to_string(torrent_.files.size()) + " file(s).");
+  } catch (const std::exception &e) {
+    logger->log("Error creating file manager: " + std::string(e.what()));
+    return;
+  }
+
+  try {
+    pieceManager_ = std::make_unique<PieceManager>(torrent_.totalPieces());
+    logger->log("Piece manager set up for " +
+                std::to_string(torrent_.totalPieces()) + " pieces.");
+  } catch (const std::exception &e) {
+    logger->log("Error setting up piece manager: " + std::string(e.what()));
+    return;
+  }
+
+  logger->log("Torrent setup complete.");
 }
 
 void TorrentClient::initiateTrackerSession() {

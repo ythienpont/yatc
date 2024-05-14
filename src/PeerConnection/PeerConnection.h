@@ -6,6 +6,7 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/bind/bind.hpp>
 #include <cstdint>
+#include <mutex>
 #include <vector>
 
 using namespace boost::placeholders;
@@ -29,9 +30,6 @@ public:
   // Establish connection and perform handshake
   void handshake();
 
-  // Express interest in downloading
-  void sendInterest();
-
   // Request a piece of the file
   void sendRequest(int pieceIndex);
 
@@ -39,13 +37,10 @@ public:
   void receivePiece(int pieceIndex, const std::vector<uint8_t> &pieceData);
 
   // Close the connection
-  void disconnect();
+  void closeConnection();
 
   // Check if the connection is active
   bool isConnected() const;
-
-  // Set the active status of the connection
-  void setActive(const bool active);
 
 private:
   boost::asio::io_context &ioContext_;
@@ -59,19 +54,30 @@ private:
   std::atomic<bool> isActive_{false};
   std::atomic<bool> interested_{false};
   std::atomic<bool> choked_{true};
+  std::mutex socket_mutex_;
 
   // Stub for updating the piece availability from this peer
   void updatePiecesAvailability();
 
-  std::vector<std::byte> constructHandshakeMessage();
-  bool verifyHandshake() const;
+  std::vector<std::byte> createHandshakeMessage() const;
+  std::vector<std::byte> createInterestedMessage() const;
+  bool isValidHandshake() const;
+  bool isUnchokeMessage(const std::vector<std::byte> &data,
+                        size_t length) const;
   void handleConnect(const boost::system::error_code &error);
   void handleHandshakeWrite(const boost::system::error_code &error);
   void handleHandshakeRead(const boost::system::error_code &error,
                            size_t bytes_transferred);
+  void processHandshake(const std::vector<std::byte> &response);
   void handleInterestWrite(const boost::system::error_code &error);
+  void waitForUnchoke();
   void handleUnchoke(const boost::system::error_code &error,
                      size_t bytes_transferred);
+  // Express interest in downloading
+  void sendInterest();
+  // Set the active status of the connection
+  void setActive(const bool active);
+  void setInterested(const bool interested);
 };
 
 #endif // PEERCONNECTION_H

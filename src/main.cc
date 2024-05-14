@@ -1,3 +1,4 @@
+#include "Logger/Logger.h"
 #include "TorrentClient/TorrentClient.h"
 
 std::array<char, 20> hexStringToByteArray(const std::string &hex) {
@@ -20,7 +21,12 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+  Logger *log = Logger::getInstance();
+  log->setOutput(&std::cerr);
+  log->setLevel(Logger::DEBUG);
+
   TorrentClient client(argv[1]);
+
   client.start();
   client.stop();
 
