@@ -118,6 +118,8 @@ private:
   /// @brief Number of bytes this peer still needs to download.
   uint64_t left_;
 
+  Logger *logger_;
+
   /**
    * @brief Builds the query string for announce requests based on the event
    * type.

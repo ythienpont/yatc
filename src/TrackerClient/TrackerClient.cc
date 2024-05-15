@@ -85,8 +85,12 @@ std::string arrayToString(const std::array<std::byte, 20> &data) {
 }
 
 TrackerClient::TrackerClient(const Torrent &torrent, const uint16_t port)
-    : torrent_(torrent), port_(port) {
+    : torrent_(torrent), port_(port), uploaded_(0), downloaded_(0) {
   peerId_ = generatePeerId();
+  left_ = torrent_.size();
+  logger_ = Logger::getInstance();
+  logger_->log("TrackerClient constructed with generated peer ID",
+               Logger::DEBUG);
 }
 
 std::string TrackerClient::buildQueryString(TrackerClient::Event event) const {
@@ -100,15 +104,20 @@ std::string TrackerClient::buildQueryString(TrackerClient::Event event) const {
   switch (event) {
   case Event::Started:
     ss << "&event=started";
+    logger_->log("Building query string for event: started", Logger::INFO);
     break;
   case Event::Completed:
     ss << "&event=completed";
+    logger_->log("Building query string for event: completed", Logger::INFO);
     break;
   case Event::Stopped:
     ss << "&event=stopped";
+    logger_->log("Building query string for event: stopped", Logger::INFO);
     break;
   case Event::Empty:
   default:
+    logger_->log("Building query string with no specific event",
+                 Logger::WARNING);
     break;
   }
 
@@ -160,7 +169,7 @@ TrackerResponse parseTrackerResponse(const std::string &readBuffer) {
     std::cerr << readBuffer << std::endl;
     throw std::runtime_error("Failed to parse tracker response");
   }
-
+  std::cout << "Tracker response parsed\n";
   return response;
 }
 
@@ -172,19 +181,22 @@ TrackerResponse TrackerClient::announce(TrackerClient::Event event) {
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+    logger_->log("Making HTTP request to tracker URL: " + url, Logger::DEBUG);
 
     // Handle SSL if necessary
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
     CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
-      fprintf(stderr, "curl_easy_perform() failed: %s\n",
-              curl_easy_strerror(res));
+      logger_->log("curl_easy_perform() failed: " +
+                       std::string(curl_easy_strerror(res)),
+                   Logger::ERROR);
     }
     curl_easy_cleanup(curl);
   } else {
-    fprintf(stderr, "Failed to initialize libcurl.\n");
+    logger_->log("Failed to initialize libcurl.", Logger::ERROR);
   }
+
   return parseTrackerResponse(readBuffer);
 }
 

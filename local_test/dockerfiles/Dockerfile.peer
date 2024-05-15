@@ -1,0 +1,9 @@
+# Dockerfile.peer
+FROM ubuntu:bionic
+
+RUN apt-get update && apt-get install -y transmission-cli && rm -rf /var/lib/apt/lists/*
+
+COPY torrents/sample.torrent /torrents/
+VOLUME ["/downloads"]
+
+CMD ["transmission-cli", "-w", "/downloads", "/torrents/sample.torrent"]

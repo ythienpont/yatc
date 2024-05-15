@@ -1,6 +1,8 @@
 #ifndef PEERCONNECTION_H
 #define PEERCONNECTION_H
 
+#include "Logger/Logger.h"
+#include "Message/Message.h"
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/io_context.hpp>
@@ -19,13 +21,27 @@ struct Peer {
   uint16_t port; // Port at which the torrent service is running
 };
 
+struct ConnectionState {
+  // Local state
+  bool localInterested{false};
+  bool localChoked{true};
+
+  // Remote state
+  bool remoteInterested{false};
+  bool remoteChoked{true};
+
+  ConnectionState() = default;
+};
+
 class PeerConnection {
 public:
   PeerConnection(boost::asio::io_context &ioContext, const Peer peer,
                  const std::array<std::byte, 20> myPeerId,
                  const std::array<std::byte, 20> infoHash)
       : ioContext_(ioContext), socket_(ioContext), peer_(peer),
-        myPeerId_(myPeerId), infoHash_(infoHash) {}
+        myPeerId_(myPeerId), infoHash_(infoHash), readBuffer_(1024), state_() {
+    logger = Logger::getInstance();
+  }
 
   // Establish connection and perform handshake
   void handshake();
@@ -50,34 +66,37 @@ private:
   std::array<std::byte, 20> infoHash_;
   std::vector<bool> pieces_; // Tracking which pieces this peer has
   std::vector<std::byte> writeBuffer_;
-  boost::array<std::byte, 68> handshakeReadBuffer_;
+  std::vector<std::byte> readBuffer_;
+  std::vector<std::byte> messageBuffer_;
   std::atomic<bool> isActive_{false};
-  std::atomic<bool> interested_{false};
-  std::atomic<bool> choked_{true};
+  ConnectionState state_;
   std::mutex socket_mutex_;
+
+  Logger *logger;
 
   // Stub for updating the piece availability from this peer
   void updatePiecesAvailability();
 
   std::vector<std::byte> createHandshakeMessage() const;
   std::vector<std::byte> createInterestedMessage() const;
-  bool isValidHandshake() const;
-  bool isUnchokeMessage(const std::vector<std::byte> &data,
-                        size_t length) const;
+  bool isValidHandshake(
+      const std::shared_ptr<boost::array<std::byte, 68>> &buffer) const;
   void handleConnect(const boost::system::error_code &error);
   void handleHandshakeWrite(const boost::system::error_code &error);
   void handleHandshakeRead(const boost::system::error_code &error,
-                           size_t bytes_transferred);
+                           size_t bytes_transferred,
+                           std::shared_ptr<boost::array<std::byte, 68>> buffer);
   void processHandshake(const std::vector<std::byte> &response);
   void handleInterestWrite(const boost::system::error_code &error);
-  void waitForUnchoke();
-  void handleUnchoke(const boost::system::error_code &error,
-                     size_t bytes_transferred);
   // Express interest in downloading
   void sendInterest();
   // Set the active status of the connection
   void setActive(const bool active);
-  void setInterested(const bool interested);
+  void processMessage(const Message message);
+  void handleRead(const boost::system::error_code &error,
+                  std::size_t bytes_transferred);
+
+  void readMessage();
 };
 
 #endif // PEERCONNECTION_H

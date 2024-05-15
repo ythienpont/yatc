@@ -62,6 +62,8 @@ struct Torrent {
    */
   size_t totalPieces() const;
 
+  uint64_t size() const;
+
   /**
    * @brief Default constructor for Torrent.
    */

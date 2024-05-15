@@ -1,0 +1,46 @@
+services:
+  opentracker:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile.opentracker
+    networks:
+      - bittorrent-net
+    ports:
+      - "6969:6969"
+    healthcheck:
+      test: ["CMD", "netstat", "-an", "|", "grep", "6969", "|", "grep", "LISTEN"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  peer1:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile.peer
+    volumes:
+      - ./torrents:/downloads
+    networks:
+      - bittorrent-net
+    healthcheck:
+      test: ["CMD-SHELL", "transmission-remote -l | grep '100%'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  peer2:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile.peer
+    volumes:
+      - ./torrents:/downloads
+    networks:
+      - bittorrent-net
+    healthcheck:
+      test: ["CMD-SHELL", "transmission-remote -l | grep '100%'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  bittorrent-net:
+    driver: bridge
