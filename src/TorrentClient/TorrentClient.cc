@@ -17,7 +17,7 @@ void TorrentClient::pruneDeadConnections() {
 }
 
 void TorrentClient::start() {
-  Logger::getInstance()->log("Initiating tracker session...");
+  Logger::instance()->log("Initiating tracker session...");
   initiateTrackerSession();
   connectToPeers();
   io_context_.run();
@@ -26,7 +26,7 @@ void TorrentClient::start() {
 void TorrentClient::stop() { io_context_.stop(); }
 
 void TorrentClient::setupTorrent(const std::string &torrentFile) {
-  Logger *logger = Logger::getInstance();
+  Logger *logger = Logger::instance();
   logger->log("Initializing torrent setup...");
 
   try {

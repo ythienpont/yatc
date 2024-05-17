@@ -14,5 +14,5 @@ COPY torrents/test.torrent /torrents/
 # Command to run aria2 as a seeder, ensure paths and options are correct
 #CMD ["aria2c", "-V", "--seed-ratio=0.0", "--dht-listen-port=6881", "--bt-tracker=http://opentracker:6969/announce", "-d", "/files", "/torrents/test.torrent"]
 
-CMD ["aria2c", "-V", "--seed-ratio=0.0", "--bt-tracker=http://opentracker:6969/announce", "-d", "/files", "/torrents/test.torrent"]
-#CMD sleep 10 && aria2c -V --seed-ratio=0.0 --dht-listen-port=6881 --enable-dht --bt-tracker=http://opentracker:6969/announce -d /files /torrents/test.torrent
+#CMD ["aria2c", "-V", "--seed-ratio=0.0", "--bt-tracker=http://opentracker:6969/announce", "-d", "/files", "/torrents/test.torrent"]
+CMD sleep 10 && aria2c -V --seed-ratio=0.0 --bt-tracker=http://opentracker:6969/announce -d /files /torrents/test.torrent

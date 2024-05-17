@@ -32,7 +32,7 @@ public:
    * @brief Retrieves the singleton instance of Logger.
    * @return Returns the singleton instance of Logger.
    */
-  static Logger *getInstance() {
+  static Logger *instance() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (!instance_) {
       instance_ = new Logger();

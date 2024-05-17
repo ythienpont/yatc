@@ -31,13 +31,6 @@ struct TrackerResponse {
 
   /// @brief List of peers returned by the tracker.
   std::vector<Peer> peers;
-
-  /**
-   * @brief Converts tracker response details to a string.
-   * @todo This method is marked for deletion.
-   * @return std::string A string representation of the tracker response.
-   */
-  std::string toString() const;
 };
 
 /**

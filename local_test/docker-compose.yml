@@ -5,8 +5,6 @@ services:
     ports:
       - "6969:6969/udp"
       - "6969:6969"
-    networks:
-      - torrent_net
     restart: unless-stopped
 
   seeder:
@@ -19,11 +17,5 @@ services:
     volumes:
       - ./files:/files
       - ./torrents:/torrents
-    networks:
-      - torrent_net
     depends_on:
       - opentracker
-
-networks:
-  torrent_net:
-    driver: bridge

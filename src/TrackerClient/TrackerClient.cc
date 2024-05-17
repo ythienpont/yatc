@@ -88,7 +88,7 @@ TrackerClient::TrackerClient(const Torrent &torrent, const uint16_t port)
     : torrent_(torrent), port_(port), uploaded_(0), downloaded_(0) {
   peerId_ = generatePeerId();
   left_ = torrent_.size();
-  logger_ = Logger::getInstance();
+  logger_ = Logger::instance();
   logger_->log("TrackerClient constructed with generated peer ID",
                Logger::DEBUG);
 }
@@ -125,7 +125,6 @@ std::string TrackerClient::buildQueryString(TrackerClient::Event event) const {
 }
 
 TrackerResponse parseTrackerResponse(const std::string &readBuffer) {
-  std::cout << readBuffer << std::endl;
   TrackerResponse response;
   try {
     auto data = bencode::decode(readBuffer);
@@ -153,7 +152,6 @@ TrackerResponse parseTrackerResponse(const std::string &readBuffer) {
         std::cout << peersString << std::endl;
         for (size_t i = 0; i < peersString.size(); i += 6) {
           Peer peer;
-          std::cout << "Has a peer" << std::endl;
           struct in_addr ip_addr;
           std::memcpy(&ip_addr, peersString.data() + i, 4);
           peer.ip = inet_ntoa(ip_addr);
@@ -218,18 +216,4 @@ TrackerResponse TrackerClient::announce(TrackerClient::Event event) {
   }
 
   return parseTrackerResponse(readBuffer);
-}
-
-std::string TrackerResponse::toString() const {
-  std::string response;
-  for (auto const &peer : peers) {
-    response += arrayToString(peer.id);
-    response += " listening at ";
-    response += peer.ip;
-    response += " port ";
-    response += std::to_string(peer.port);
-    response += "\n";
-  }
-
-  return response;
 }

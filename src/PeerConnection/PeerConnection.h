@@ -9,6 +9,7 @@
 #include <boost/bind/bind.hpp>
 #include <cstdint>
 #include <mutex>
+#include <optional>
 #include <vector>
 
 using namespace boost::placeholders;
@@ -16,9 +17,10 @@ using tcp = boost::asio::ip::tcp;
 
 struct Peer {
   using Id = std::array<std::byte, 20>;
-  Id id;
+  std::optional<Id> id;
   std::string ip;
   uint16_t port; // Port at which the torrent service is running
+  bool isIdSet() const { return id.has_value(); }
 };
 
 struct ConnectionState {
@@ -40,7 +42,7 @@ public:
                  const std::array<std::byte, 20> infoHash)
       : ioContext_(ioContext), socket_(ioContext), peer_(peer),
         myPeerId_(myPeerId), infoHash_(infoHash), readBuffer_(1024), state_() {
-    logger = Logger::getInstance();
+    logger = Logger::instance();
   }
 
   // Establish connection and perform handshake
@@ -79,8 +81,8 @@ private:
 
   std::vector<std::byte> createHandshakeMessage() const;
   std::vector<std::byte> createInterestedMessage() const;
-  bool isValidHandshake(
-      const std::shared_ptr<boost::array<std::byte, 68>> &buffer) const;
+  bool
+  isValidHandshake(const std::shared_ptr<boost::array<std::byte, 68>> &buffer);
   void handleConnect(const boost::system::error_code &error);
   void handleHandshakeWrite(const boost::system::error_code &error);
   void handleHandshakeRead(const boost::system::error_code &error,
