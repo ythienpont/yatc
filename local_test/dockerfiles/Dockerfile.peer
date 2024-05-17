@@ -1,9 +1,18 @@
-# Dockerfile.peer
-FROM ubuntu:bionic
+# Use the official Alpine image as a base
+FROM alpine:latest
 
-RUN apt-get update && apt-get install -y transmission-cli && rm -rf /var/lib/apt/lists/*
+# Install aria2
+RUN apk add --no-cache aria2
 
-COPY torrents/sample.torrent /torrents/
-VOLUME ["/downloads"]
+# Create directories for files and torrents
+RUN mkdir -p /files /torrents
 
-CMD ["transmission-cli", "-w", "/downloads", "/torrents/sample.torrent"]
+# Copy the test file and torrent file into the container
+COPY files/test.txt /files/
+COPY torrents/test.torrent /torrents/
+
+# Command to run aria2 as a seeder, ensure paths and options are correct
+#CMD ["aria2c", "-V", "--seed-ratio=0.0", "--dht-listen-port=6881", "--bt-tracker=http://opentracker:6969/announce", "-d", "/files", "/torrents/test.torrent"]
+
+CMD ["aria2c", "-V", "--seed-ratio=0.0", "--bt-tracker=http://opentracker:6969/announce", "-d", "/files", "/torrents/test.torrent"]
+#CMD sleep 10 && aria2c -V --seed-ratio=0.0 --dht-listen-port=6881 --enable-dht --bt-tracker=http://opentracker:6969/announce -d /files /torrents/test.torrent

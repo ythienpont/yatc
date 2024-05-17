@@ -125,6 +125,7 @@ std::string TrackerClient::buildQueryString(TrackerClient::Event event) const {
 }
 
 TrackerResponse parseTrackerResponse(const std::string &readBuffer) {
+  std::cout << readBuffer << std::endl;
   TrackerResponse response;
   try {
     auto data = bencode::decode(readBuffer);
@@ -145,24 +146,43 @@ TrackerResponse parseTrackerResponse(const std::string &readBuffer) {
 
     // Parse peers
     if (dict.find("peers") != dict.end()) {
-      auto peersList = std::get<bencode::list>(dict["peers"]);
-      for (auto &peerDictVariant : peersList) {
-        auto peerDict = std::get<bencode::dict>(peerDictVariant);
+      auto peersVariant = dict["peers"];
+      if (peersVariant.index() ==
+          1) { // Check if it is a string (compact format)
+        auto peersString = std::get<std::string>(peersVariant);
+        std::cout << peersString << std::endl;
+        for (size_t i = 0; i < peersString.size(); i += 6) {
+          Peer peer;
+          std::cout << "Has a peer" << std::endl;
+          struct in_addr ip_addr;
+          std::memcpy(&ip_addr, peersString.data() + i, 4);
+          peer.ip = inet_ntoa(ip_addr);
+          peer.port = ntohs(
+              *reinterpret_cast<const uint16_t *>(peersString.data() + i + 4));
+          std::cout << "Peer IP: " << peer.ip << ", Port: " << peer.port
+                    << std::endl;
+          response.peers.emplace_back(peer);
+        }
+      } else if (peersVariant.index() == 2) { // List of dictionaries format
+        auto peersList = std::get<bencode::list>(peersVariant);
+        for (auto &peerDictVariant : peersList) {
+          auto peerDict = std::get<bencode::dict>(peerDictVariant);
 
-        Peer peer;
-        if (peerDict.find("ip") != peerDict.end()) {
-          peer.ip = std::get<std::string>(peerDict["ip"]);
-        }
-        if (peerDict.find("port") != peerDict.end()) {
-          peer.port = static_cast<uint16_t>(
-              std::get<bencode::integer>(peerDict["port"]));
-        }
-        if (peerDict.find("peer id") != peerDict.end()) {
-          peer.id =
-              stringToByteArray(std::get<std::string>(peerDict["peer id"]));
-        }
+          Peer peer;
+          if (peerDict.find("ip") != peerDict.end()) {
+            peer.ip = std::get<std::string>(peerDict["ip"]);
+          }
+          if (peerDict.find("port") != peerDict.end()) {
+            peer.port = static_cast<uint16_t>(
+                std::get<bencode::integer>(peerDict["port"]));
+          }
+          if (peerDict.find("peer id") != peerDict.end()) {
+            peer.id =
+                stringToByteArray(std::get<std::string>(peerDict["peer id"]));
+          }
 
-        response.peers.emplace_back(peer);
+          response.peers.emplace_back(peer);
+        }
       }
     }
   } catch (const bencode::decode_error &e) {

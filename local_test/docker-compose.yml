@@ -1,46 +1,29 @@
 services:
   opentracker:
-    build:
-      context: .
-      dockerfile: dockerfiles/Dockerfile.opentracker
-    networks:
-      - bittorrent-net
+    image: lednerb/opentracker-docker
+    container_name: opentracker
     ports:
+      - "6969:6969/udp"
       - "6969:6969"
-    healthcheck:
-      test: ["CMD", "netstat", "-an", "|", "grep", "6969", "|", "grep", "LISTEN"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+    networks:
+      - torrent_net
+    restart: unless-stopped
 
-  peer1:
+  seeder:
     build:
       context: .
       dockerfile: dockerfiles/Dockerfile.peer
+    container_name: seeder
+    ports:
+      - "6881:6881"
     volumes:
-      - ./torrents:/downloads
+      - ./files:/files
+      - ./torrents:/torrents
     networks:
-      - bittorrent-net
-    healthcheck:
-      test: ["CMD-SHELL", "transmission-remote -l | grep '100%'"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  peer2:
-    build:
-      context: .
-      dockerfile: dockerfiles/Dockerfile.peer
-    volumes:
-      - ./torrents:/downloads
-    networks:
-      - bittorrent-net
-    healthcheck:
-      test: ["CMD-SHELL", "transmission-remote -l | grep '100%'"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      - torrent_net
+    depends_on:
+      - opentracker
 
 networks:
-  bittorrent-net:
+  torrent_net:
     driver: bridge
