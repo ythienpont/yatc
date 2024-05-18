@@ -234,8 +234,8 @@ void PeerConnection::processMessage(const Message message) {
               Logger::instance()->log("Have message: peer has piece index " +
                                           std::to_string(index),
                                       Logger::INFO);
-              // You could update a bitfield here indicating the peer has
-              // this piece
+              uint32_t pieceIndex = std::get<uint32_t>(message.payload);
+              updateBitfield(pieceIndex);
             }
           },
           [&](const std::vector<std::byte> &data) {
@@ -364,5 +364,18 @@ void PeerConnection::handleRead(const boost::system::error_code &error,
     readMessage();
   } else {
     Logger::instance()->log("Read error: " + error.message(), Logger::ERROR);
+  }
+}
+
+void PeerConnection::updateBitfield(uint32_t pieceIndex) {
+  if (pieceIndex < pieces_.size()) {
+    pieces_[pieceIndex] = true;
+    logger->log("Updated bitfield: peer has piece " +
+                    std::to_string(pieceIndex),
+                Logger::DEBUG);
+  } else {
+    logger->log("Invalid piece index received in HAVE message: " +
+                    std::to_string(pieceIndex),
+                Logger::ERROR);
   }
 }

@@ -98,7 +98,8 @@ void TorrentClient::connectToPeers() {
   for (auto &[peer, connection] : peerConnections_) {
     if (connection == nullptr) { // Check if the unique_ptr is empty
       connection = std::make_unique<PeerConnection>(
-          io_context_, peer, trackerClient_->getPeerId(), torrent_.infoHash);
+          io_context_, peer, trackerClient_->getPeerId(), torrent_.infoHash,
+          torrent_.totalPieces());
     }
     connection->handshake();
   }

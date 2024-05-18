@@ -39,9 +39,11 @@ class PeerConnection {
 public:
   PeerConnection(boost::asio::io_context &ioContext, const Peer peer,
                  const std::array<std::byte, 20> myPeerId,
-                 const std::array<std::byte, 20> infoHash)
+                 const std::array<std::byte, 20> infoHash,
+                 const size_t totalPieces)
       : ioContext_(ioContext), socket_(ioContext), peer_(peer),
-        myPeerId_(myPeerId), infoHash_(infoHash), readBuffer_(1024), state_() {
+        myPeerId_(myPeerId), infoHash_(infoHash), pieces_(totalPieces, false),
+        readBuffer_(1024), state_() {
     logger = Logger::instance();
   }
 
@@ -76,8 +78,7 @@ private:
 
   Logger *logger;
 
-  // Stub for updating the piece availability from this peer
-  void updatePiecesAvailability();
+  void updateBitfield(const uint32_t pieceIndex);
 
   std::vector<std::byte> createHandshakeMessage() const;
   std::vector<std::byte> createInterestedMessage() const;

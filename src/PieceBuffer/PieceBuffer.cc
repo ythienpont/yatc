@@ -1,55 +1,60 @@
 #include "PieceBuffer.h"
 #include <algorithm>
-#include <stdexcept>
 
-PieceBuffer::PieceBuffer(const size_t pieceLength)
-    : pieceLength_(pieceLength) {}
+PieceBufferInfo::PieceBufferInfo(uint32_t pieceLength, uint32_t blockSize)
+    : pieceLength_(pieceLength), blockSize_(blockSize),
+      lastBlockSize_((pieceLength % blockSize) ? (pieceLength % blockSize)
+                                               : blockSize) {}
 
-bool PieceBuffer::addBlock(const BlockInfo &block,
-                           const std::vector<char> &data) {
-  if (block.offset + block.length > pieceLength_) {
-    return false; // Ensure we do not exceed the piece length limit
-  }
-
-  if (data_.size() < block.offset + block.length) {
-    data_.resize(block.offset + block.length); // Resize to accommodate new data
-  }
-
-  std::copy(data.begin(), data.end(), data_.begin() + block.offset);
-  updateReceivedBlocks(block);
-  return true;
-}
-
-bool PieceBuffer::isComplete() const {
-  if (receivedBlocks_.empty())
+bool PieceBufferInfo::addBlock(uint32_t offset, uint32_t length) {
+  uint32_t newEnd = offset + length;
+  if (newEnd > pieceLength_) {
     return false;
-  return receivedBlocks_.front().first == 0 &&
-         receivedBlocks_.back().second == pieceLength_;
-}
+  }
 
-void PieceBuffer::updateReceivedBlocks(const BlockInfo &block) {
-  auto newEnd = block.offset + block.length;
   bool merged = false;
-  for (auto &existingBlock : receivedBlocks_) {
-    if (block.offset <= existingBlock.second && newEnd >= existingBlock.first) {
-      existingBlock.first = std::min(existingBlock.first, block.offset);
-      existingBlock.second = std::max(existingBlock.second, newEnd);
+  for (auto &block : receivedBlocks_) {
+    if (offset <= block.second && newEnd >= block.first) {
+      block.first = std::min(block.first, offset);
+      block.second = std::max(block.second, newEnd);
       merged = true;
       break;
     }
   }
   if (!merged) {
-    receivedBlocks_.emplace_back(block.offset, newEnd);
+    receivedBlocks_.emplace_back(offset, newEnd);
   }
   mergeBlocks();
+  return true;
 }
 
-void PieceBuffer::mergeBlocks() {
-  if (receivedBlocks_.size() < 2)
-    return;
+bool PieceBufferInfo::isComplete() const {
+  return (!receivedBlocks_.empty() && receivedBlocks_.front().first == 0 &&
+          receivedBlocks_.back().second == pieceLength_);
+}
 
+std::vector<uint32_t> PieceBufferInfo::getMissingBlockIndices() const {
+  std::vector<uint32_t> missingIndices;
+  uint32_t current = 0;
+  for (const auto &block : receivedBlocks_) {
+    uint32_t blockStartIndex = block.first / blockSize_;
+    uint32_t blockEndIndex = (block.second - 1) / blockSize_;
+    for (uint32_t idx = current; idx < blockStartIndex; ++idx) {
+      missingIndices.push_back(idx);
+    }
+    current = blockEndIndex + 1;
+  }
+
+  uint32_t totalBlocks = (pieceLength_ + blockSize_ - 1) / blockSize_;
+  for (uint32_t idx = current; idx < totalBlocks; ++idx) {
+    missingIndices.push_back(idx);
+  }
+
+  return missingIndices;
+}
+
+void PieceBufferInfo::mergeBlocks() {
   std::sort(receivedBlocks_.begin(), receivedBlocks_.end());
-
   size_t i = 0;
   for (size_t j = 1; j < receivedBlocks_.size(); j++) {
     if (receivedBlocks_[i].second >= receivedBlocks_[j].first) {
@@ -61,10 +66,4 @@ void PieceBuffer::mergeBlocks() {
     }
   }
   receivedBlocks_.resize(i + 1);
-}
-
-const std::vector<char> &PieceBuffer::getData() const {
-  if (!isComplete())
-    throw std::runtime_error("Attempt to access incomplete data.");
-  return data_;
 }
