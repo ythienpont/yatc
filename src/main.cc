@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  Logger *log = Logger::getInstance();
+  Logger *log = Logger::instance();
   log->setOutput(&std::cerr);
   log->setLevel(Logger::DEBUG);
 

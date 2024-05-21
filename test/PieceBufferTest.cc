@@ -1,77 +1,59 @@
 #include "PieceBuffer/PieceBuffer.h"
 #include <gtest/gtest.h>
 
-class PieceBufferTest : public ::testing::Test {
+class PieceBufferInfoTest : public ::testing::Test {
 protected:
-  PieceBuffer *buffer;
+  PieceBufferInfo *bufferInfo;
 
   void SetUp() override {
-    // Assume pieceLength of 100 for simplicity in tests
-    buffer = new PieceBuffer((size_t)100);
+    bufferInfo = new PieceBufferInfo(
+        1024, {}); // Assuming InfoHash can be default constructed
   }
 
-  void TearDown() override { delete buffer; }
+  void TearDown() override { delete bufferInfo; }
 };
 
-TEST_F(PieceBufferTest, AddBlockWithinBounds) {
-  BlockInfo block(0, 20);
-  std::vector<char> data(20, 'A');
-  EXPECT_TRUE(buffer->addBlock(block, data));
+TEST_F(PieceBufferInfoTest, InitializesCorrectly) {
+  EXPECT_EQ(bufferInfo->isComplete(), false);
+  EXPECT_EQ(bufferInfo->isActive(), false);
 }
 
-TEST_F(PieceBufferTest, AddBlockOutOfBoundFails) {
-  BlockInfo block(90, 20);
-  std::vector<char> data(20, 'A');
-  EXPECT_FALSE(buffer->addBlock(block, data));
+TEST_F(PieceBufferInfoTest, AddsBlocksCorrectly) {
+  ASSERT_TRUE(bufferInfo->addBlock(0, 256)); // First block
+  EXPECT_EQ(bufferInfo->isActive(), true);
+
+  ASSERT_NO_THROW(bufferInfo->addBlock(256, 256)); // Second block
+  ASSERT_THROW(bufferInfo->addBlock(2048, 256),
+               std::runtime_error); // Out of range block
+  ASSERT_THROW(bufferInfo->addBlock(128, 256),
+               std::runtime_error); // Misaligned block
 }
 
-TEST_F(PieceBufferTest, OverlappingBlocks) {
-  BlockInfo block1(10, 20);
-  BlockInfo block2(25, 30);
-  std::vector<char> data1(20, 'A');
-  std::vector<char> data2(30, 'B');
-  buffer->addBlock(block1, data1);
-  buffer->addBlock(block2, data2);
-  EXPECT_FALSE(buffer->isComplete());
+TEST_F(PieceBufferInfoTest, HandlesCompleteAndActiveStatus) {
+  bufferInfo->addBlock(0, 256);
+  bufferInfo->addBlock(256, 256);
+  bufferInfo->addBlock(512, 256);
+  bufferInfo->addBlock(768, 256);
+  EXPECT_EQ(bufferInfo->isComplete(), true);
+  EXPECT_EQ(bufferInfo->isActive(), true);
 }
 
-TEST_F(PieceBufferTest, NonContiguousBlocksNotComplete) {
-  BlockInfo block1(0, 10);
-  BlockInfo block2(20, 10);
-  std::vector<char> data1(10, 'A');
-  std::vector<char> data2(10, 'B');
-  buffer->addBlock(block1, data1);
-  buffer->addBlock(block2, data2);
-  EXPECT_FALSE(buffer->isComplete());
+TEST_F(PieceBufferInfoTest, ClearsCorrectly) {
+  bufferInfo->addBlock(0, 256);
+  bufferInfo->clear();
+  EXPECT_EQ(bufferInfo->isActive(), false);
+  EXPECT_EQ(bufferInfo->isComplete(), false);
 }
 
-TEST_F(PieceBufferTest, ContiguousBlocksComplete) {
-  BlockInfo block1(0, 50);
-  BlockInfo block2(50, 50);
-  std::vector<char> data1(50, 'A');
-  std::vector<char> data2(50, 'B');
-  buffer->addBlock(block1, data1);
-  buffer->addBlock(block2, data2);
-  EXPECT_TRUE(buffer->isComplete());
-}
+TEST(PieceBuffer, HandlesDataCorrectly) {
+  PieceBuffer buffer(1024);
+  std::vector<char> data = {'a', 'b', 'c', 'd'};
 
-TEST_F(PieceBufferTest, GetDataThrowsOnIncomplete) {
-  BlockInfo block(0, 50);
-  std::vector<char> data(50, 'A');
-  buffer->addBlock(block, data);
-  EXPECT_THROW(buffer->getData(), std::runtime_error);
-}
+  ASSERT_NO_THROW(buffer.addData(0, data));
+  ASSERT_THROW(buffer.addData(1022, data),
+               std::runtime_error); // Should throw due to overflow
 
-TEST_F(PieceBufferTest, GetDataSuccessOnComplete) {
-  BlockInfo block1(0, 50);
-  BlockInfo block2(50, 50);
-  std::vector<char> data1(50, 'A');
-  std::vector<char> data2(50, 'B');
-  buffer->addBlock(block1, data1);
-  buffer->addBlock(block2, data2);
-  EXPECT_NO_THROW({
-    const auto &data = buffer->getData();
-    ASSERT_EQ(data.size(), 100);
-    // Optionally check content of data for further verification.
-  });
+  const std::vector<char> &retData = buffer.getData();
+  EXPECT_EQ(retData[0], 'a');
+  EXPECT_EQ(retData[1], 'b');
 }

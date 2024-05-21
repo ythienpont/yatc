@@ -1,69 +1,50 @@
 #include "PieceBuffer.h"
-#include <algorithm>
 
-PieceBufferInfo::PieceBufferInfo(uint32_t pieceLength, uint32_t blockSize)
-    : pieceLength_(pieceLength), blockSize_(blockSize),
-      lastBlockSize_((pieceLength % blockSize) ? (pieceLength % blockSize)
-                                               : blockSize) {}
+PieceBufferInfo::PieceBufferInfo(uint32_t pieceLength, InfoHash infoHash)
+    : pieceLength_(pieceLength), infoHash_(infoHash) {}
 
 bool PieceBufferInfo::addBlock(uint32_t offset, uint32_t length) {
-  uint32_t newEnd = offset + length;
-  if (newEnd > pieceLength_) {
-    return false;
+  if (blockSize_ == 0) {
+    blockSize_ =
+        length; // Initialize block size with the length of the first block
+    // Calculate the number of blocks required for the whole piece
+    uint32_t totalBlocks = (pieceLength_ + blockSize_ - 1) / blockSize_;
+    receivedBlocks_.resize(totalBlocks, false);
   }
 
-  bool merged = false;
-  for (auto &block : receivedBlocks_) {
-    if (offset <= block.second && newEnd >= block.first) {
-      block.first = std::min(block.first, offset);
-      block.second = std::max(block.second, newEnd);
-      merged = true;
-      break;
-    }
+  uint32_t blockIndex = offset / blockSize_;
+  if (blockIndex >= receivedBlocks_.size()) {
+    throw std::runtime_error("Block index out of range");
   }
-  if (!merged) {
-    receivedBlocks_.emplace_back(offset, newEnd);
+
+  if (offset % blockSize_ != 0) {
+    throw std::runtime_error("Offset does not align with block size");
   }
-  mergeBlocks();
+
+  receivedBlocks_[blockIndex] = true; // Mark this block as received
   return true;
 }
 
+bool PieceBufferInfo::isActive() const {
+  for (bool received : receivedBlocks_) {
+    if (received)
+      return true;
+  }
+  return false;
+}
+
+void PieceBufferInfo::clear() {
+  blockSize_ = 0;
+  receivedBlocks_.clear();
+}
+
 bool PieceBufferInfo::isComplete() const {
-  return (!receivedBlocks_.empty() && receivedBlocks_.front().first == 0 &&
-          receivedBlocks_.back().second == pieceLength_);
-}
+  if (receivedBlocks_.empty())
+    return false;
 
-std::vector<uint32_t> PieceBufferInfo::getMissingBlockIndices() const {
-  std::vector<uint32_t> missingIndices;
-  uint32_t current = 0;
-  for (const auto &block : receivedBlocks_) {
-    uint32_t blockStartIndex = block.first / blockSize_;
-    uint32_t blockEndIndex = (block.second - 1) / blockSize_;
-    for (uint32_t idx = current; idx < blockStartIndex; ++idx) {
-      missingIndices.push_back(idx);
-    }
-    current = blockEndIndex + 1;
+  for (bool received : receivedBlocks_) {
+    if (!received)
+      return false;
   }
-
-  uint32_t totalBlocks = (pieceLength_ + blockSize_ - 1) / blockSize_;
-  for (uint32_t idx = current; idx < totalBlocks; ++idx) {
-    missingIndices.push_back(idx);
-  }
-
-  return missingIndices;
-}
-
-void PieceBufferInfo::mergeBlocks() {
-  std::sort(receivedBlocks_.begin(), receivedBlocks_.end());
-  size_t i = 0;
-  for (size_t j = 1; j < receivedBlocks_.size(); j++) {
-    if (receivedBlocks_[i].second >= receivedBlocks_[j].first) {
-      receivedBlocks_[i].second =
-          std::max(receivedBlocks_[i].second, receivedBlocks_[j].second);
-    } else {
-      i++;
-      receivedBlocks_[i] = receivedBlocks_[j];
-    }
-  }
-  receivedBlocks_.resize(i + 1);
+  return true;
 }

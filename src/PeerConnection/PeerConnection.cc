@@ -2,7 +2,10 @@
 #include "Logger/Logger.h"
 #include "Message/Message.h"
 #include <cstddef>
+#include <cstdint>
 #include <string>
+
+PeerConnection::~PeerConnection() { closeConnection(); }
 
 bool isCompleteMessage(const std::vector<std::byte> &data) {
   const size_t lengthFieldSize =
@@ -115,7 +118,9 @@ void PeerConnection::handleHandshakeRead(
 
 void PeerConnection::closeConnection() {
   std::lock_guard<std::mutex> lock(socket_mutex_);
+  std::cout << "Closing connection." << std::endl;
   if (socket_.is_open()) {
+    std::cout << "Closing socket." << std::endl;
     socket_.close();
   }
 
@@ -235,7 +240,7 @@ void PeerConnection::processMessage(const Message message) {
                                           std::to_string(index),
                                       Logger::INFO);
               uint32_t pieceIndex = std::get<uint32_t>(message.payload);
-              updateBitfield(pieceIndex);
+              updateHave(pieceIndex);
             }
           },
           [&](const std::vector<std::byte> &data) {
@@ -243,7 +248,8 @@ void PeerConnection::processMessage(const Message message) {
             if (message.type == MessageType::Bitfield) {
               Logger::instance()->log("Bitfield message received.",
                                       Logger::INFO);
-              // Process bitfield data
+              updateBitfield(data);
+              requestBlock(0, 0, 43);
             } else if (message.type == MessageType::Piece) {
               Logger::instance()->log("Piece message received.", Logger::INFO);
               // Process piece data
@@ -267,6 +273,12 @@ void PeerConnection::processMessage(const Message message) {
                                           std::to_string(length),
                                       Logger::INFO);
               // Process cancellation of a request
+            }
+          },
+
+          [&](const PieceData &pieceData) {
+            if (message.type == MessageType::Piece) {
+              Logger::instance()->log("Piece message received.", Logger::INFO);
             }
           }},
       message.payload);
@@ -315,6 +327,8 @@ void PeerConnection::handleRead(const boost::system::error_code &error,
         Logger::instance()->log("Keep-alive message received.", Logger::INFO);
         messageBuffer_.erase(messageBuffer_.begin(),
                              messageBuffer_.begin() + sizeof(uint32_t));
+        Logger::instance()->log("Message processed and erased from buffer.",
+                                Logger::DEBUG);
         continue; // Continue to check for more messages in the buffer
       }
 
@@ -338,11 +352,11 @@ void PeerConnection::handleRead(const boost::system::error_code &error,
 
         try {
           Message msg = Message::parseMessage(completeMessage);
-          processMessage(msg);
-
           // Erase processed message from buffer
           messageBuffer_.erase(messageBuffer_.begin(),
                                messageBuffer_.begin() + totalMessageLength);
+          processMessage(msg);
+
           Logger::instance()->log("Message processed and erased from buffer.",
                                   Logger::DEBUG);
         } catch (const std::runtime_error &e) {
@@ -359,15 +373,43 @@ void PeerConnection::handleRead(const boost::system::error_code &error,
         break;
       }
     }
-
     // Continue reading
     readMessage();
   } else {
     Logger::instance()->log("Read error: " + error.message(), Logger::ERROR);
   }
 }
+void PeerConnection::updateBitfield(const std::vector<std::byte> &data) {
+  // Clear current pieces information
+  pieces_.clear();
 
-void PeerConnection::updateBitfield(uint32_t pieceIndex) {
+  // Resize the pieces vector to hold the status of all pieces
+  // Note: Assumes each bit in the data represents a piece.
+  size_t totalBits = data.size() * 8;
+  pieces_.resize(totalBits, false);
+
+  // Iterate through each byte
+  for (size_t i = 0; i < data.size(); ++i) {
+    // Process each bit in the byte
+    for (int bit = 0; bit < 8; ++bit) {
+      // Calculate the piece index
+      size_t pieceIndex = i * 8 + bit;
+      if (pieceIndex >= pieces_.size()) {
+        break; // Stop if the piece index exceeds the known range
+      }
+
+      // Check if the bit is set
+      bool hasPiece =
+          (static_cast<unsigned char>(data[i]) & (1 << (7 - bit))) != 0;
+      pieces_[pieceIndex] = hasPiece;
+    }
+  }
+
+  // Log the update
+  Logger::instance()->log("Bitfield updated.", Logger::INFO);
+}
+
+void PeerConnection::updateHave(uint32_t pieceIndex) {
   if (pieceIndex < pieces_.size()) {
     pieces_[pieceIndex] = true;
     logger->log("Updated bitfield: peer has piece " +
@@ -378,4 +420,68 @@ void PeerConnection::updateBitfield(uint32_t pieceIndex) {
                     std::to_string(pieceIndex),
                 Logger::ERROR);
   }
+}
+
+void PeerConnection::requestPiece(uint32_t pieceIndex) {
+  uint32_t offset = 0;
+
+  // Request blocks in chunks of 16 KiB
+  while (offset < pieceLength_) {
+    uint32_t blockSize = std::min(BLOCK_SIZE, pieceLength_ - offset);
+    requestBlock(pieceIndex, offset, blockSize);
+    offset += blockSize;
+  }
+}
+
+void PeerConnection::requestBlock(uint32_t pieceIndex, uint32_t offset,
+                                  uint32_t length) {
+  std::lock_guard<std::mutex> lock(socket_mutex_);
+  std::vector<std::byte> requestMsg;
+
+  // Length prefix (4 bytes): 13 (1 byte ID + 4 bytes index + 4 bytes offset + 4
+  // bytes length)
+  uint32_t messageLength = htonl((uint32_t)13);
+  std::byte *lengthPtr = reinterpret_cast<std::byte *>(&messageLength);
+  requestMsg.insert(requestMsg.end(), lengthPtr,
+                    lengthPtr + sizeof(messageLength));
+
+  // Message ID (1 byte): 6 (request)
+  requestMsg.push_back(static_cast<std::byte>(6));
+
+  // Piece index (4 bytes)
+  uint32_t networkPieceIndex = htonl(pieceIndex);
+  std::byte *pieceIndexPtr = reinterpret_cast<std::byte *>(&networkPieceIndex);
+  requestMsg.insert(requestMsg.end(), pieceIndexPtr,
+                    pieceIndexPtr + sizeof(networkPieceIndex));
+
+  // Offset (4 bytes)
+  uint32_t networkOffset = htonl(offset);
+  std::byte *offsetPtr = reinterpret_cast<std::byte *>(&networkOffset);
+  requestMsg.insert(requestMsg.end(), offsetPtr,
+                    offsetPtr + sizeof(networkOffset));
+
+  // Length (4 bytes)
+  uint32_t networkLength = htonl(length);
+  std::byte *blockLengthPtr = reinterpret_cast<std::byte *>(&networkLength);
+  requestMsg.insert(requestMsg.end(), blockLengthPtr,
+                    blockLengthPtr + sizeof(networkLength));
+
+  // Send the request message
+  boost::asio::async_write(
+      socket_, boost::asio::buffer(requestMsg),
+      [this, pieceIndex, offset, length](const boost::system::error_code &error,
+                                         std::size_t bytes_transferred) {
+        if (!error) {
+          Logger::instance()->log(
+              "Request message sent successfully for piece " +
+                  std::to_string(pieceIndex) + ", offset " +
+                  std::to_string(offset) + ", length " + std::to_string(length),
+              Logger::INFO);
+          readMessage();
+        } else {
+          Logger::instance()->log("Failed to send request message: " +
+                                      error.message(),
+                                  Logger::ERROR);
+        }
+      });
 }

@@ -35,17 +35,19 @@ struct ConnectionState {
   ConnectionState() = default;
 };
 
-class PeerConnection {
+class PeerConnection : public std::enable_shared_from_this<PeerConnection> {
 public:
   PeerConnection(boost::asio::io_context &ioContext, const Peer peer,
                  const std::array<std::byte, 20> myPeerId,
                  const std::array<std::byte, 20> infoHash,
-                 const size_t totalPieces)
+                 const size_t totalPieces, uint32_t pieceLength)
       : ioContext_(ioContext), socket_(ioContext), peer_(peer),
         myPeerId_(myPeerId), infoHash_(infoHash), pieces_(totalPieces, false),
-        readBuffer_(1024), state_() {
+        readBuffer_(1024), state_(), pieceLength_(pieceLength) {
     logger = Logger::instance();
   }
+
+  ~PeerConnection();
 
   // Establish connection and perform handshake
   void handshake();
@@ -75,10 +77,13 @@ private:
   std::atomic<bool> isActive_{false};
   ConnectionState state_;
   std::mutex socket_mutex_;
+  uint32_t pieceLength_;
 
+  std::vector<uint32_t> piecesToRequest_;
   Logger *logger;
 
-  void updateBitfield(const uint32_t pieceIndex);
+  void updateBitfield(const std::vector<std::byte> &data);
+  void updateHave(uint32_t pieceIndex);
 
   std::vector<std::byte> createHandshakeMessage() const;
   std::vector<std::byte> createInterestedMessage() const;
@@ -100,6 +105,11 @@ private:
                   std::size_t bytes_transferred);
 
   void readMessage();
+
+  void requestPiece(uint32_t pieceIndex);
+  void requestBlock(uint32_t pieceIndex, uint32_t offset, uint32_t length);
+
+  static constexpr uint32_t BLOCK_SIZE = 16384; // 16 KiB
 };
 
 #endif // PEERCONNECTION_H

@@ -1,100 +1,68 @@
 #include "FileManager/FileManager.h"
-#include <fstream>
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <stdexcept>
 
-class LinuxFileManagerTest : public ::testing::Test {
+class FileManagerTest : public ::testing::Test {
 protected:
-  LinuxFileManager *manager;
-  std::vector<FileInfo> files;
-  size_t pieceLength;
+  std::vector<FileInfo> mockFiles;
+  uint32_t pieceLength = 1024; // Example piece length
+  std::vector<InfoHash>
+      infoHashes; // You would need to mock or define infoHashes appropriate for
+                  // your testing environment
 
-  void SetUp() override {
-    pieceLength = 512; // Assume each piece is 512 bytes
-    files.push_back(
-        {"file1.txt", 1024, 0, 1023}); // A file of 1024 bytes, 2 pieces
-    manager = new LinuxFileManager(files, pieceLength);
+  virtual void SetUp() {
+    mockFiles.push_back(
+        FileInfo{"test/test_files/file1.bin", 2048, 0, 2048}); // Example file
+    for (size_t i = 0; i < 2; ++i) {
+      infoHashes.push_back(
+          {}); // Assuming InfoHash can be default constructed or mocked
+    }
   }
-
-  void TearDown() override { delete manager; }
 };
 
-// Test writing a block within the piece boundary
-TEST_F(LinuxFileManagerTest, WriteBlockWithinBounds) {
-  BlockInfo block{0, pieceLength / 2}; // Write half piece
-  std::vector<char> data(pieceLength / 2, 'A');
-  ASSERT_TRUE(manager->writeBlock(0, block, data));
+TEST_F(FileManagerTest, InitializesCorrectly) {
+  ASSERT_NO_THROW(LinuxFileManager(mockFiles, pieceLength, infoHashes));
 }
 
-// Test writing a block out of bounds
-TEST_F(LinuxFileManagerTest, WriteBlockOutOfBounds) {
-  BlockInfo block{0, pieceLength * 2}; // Attempt to write double the piece size
-  std::vector<char> data(pieceLength * 2, 'B');
-  ASSERT_FALSE(manager->writeBlock(0, block, data));
+TEST_F(FileManagerTest, ThrowsOnHashPieceMismatch) {
+  infoHashes.pop_back(); // Remove one hash to create mismatch
+  ASSERT_THROW(LinuxFileManager(mockFiles, pieceLength, infoHashes),
+               std::invalid_argument);
 }
 
-// Test that the piece is marked complete when all blocks have been written
-TEST_F(LinuxFileManagerTest, WriteCompletePiece) {
-  size_t blockSize = pieceLength / 2;
+TEST_F(FileManagerTest, WriteAndReadCompletePiece) {
+  LinuxFileManager manager(mockFiles, pieceLength, infoHashes);
+  std::vector<char> testData(pieceLength,
+                             'x'); // Fill piece with 'x' to simulate full piece
 
-  for (int i = 0; i < 2; ++i) {
-    BlockInfo block{i * blockSize, blockSize};
-    std::vector<char> data(blockSize, 'A' + i); // Different data for each block
-    ASSERT_TRUE(manager->writeBlock(0, block, data));
-  }
+  // Write enough blocks to cover the entire piece
+  bool writeSuccess = manager.writeBlock(0, 0, testData);
+  ASSERT_TRUE(writeSuccess);
 
-  std::ifstream file("file1.txt");
-  ASSERT_TRUE(file);
+  // Optional: Confirm that the piece is marked as complete if your design
+  // allows for this check ASSERT_TRUE(manager.isPieceComplete(0)); // This
+  // requires you exposing such functionality
 
-  constexpr size_t bytesToRead = 512;
-  std::vector<char> buffer(bytesToRead);
-
-  file.read(buffer.data(), bytesToRead);
-  std::streamsize bytes_read = file.gcount();
-
-  ASSERT_TRUE(bytes_read == 512);
-
-  for (size_t i = 0; i < 256; ++i) {
-    ASSERT_EQ(buffer[i], 'A'); // First half should be 'A'
-  }
-  for (size_t i = 256; i < 512; ++i) {
-    ASSERT_EQ(buffer[i], 'B'); // Second half should be 'B'
-  }
+  // Now read back the data
+  auto readData = manager.readBlock(0, 0, pieceLength);
+  ASSERT_EQ(readData.size(), testData.size());
+  EXPECT_THAT(
+      readData,
+      ::testing::ElementsAreArray(
+          testData)); // Using ElementsAreArray to compare the whole vector
 }
 
-TEST_F(LinuxFileManagerTest, WriteReadBlockRoundtrip) {
-  size_t blockSize = pieceLength / 2;
-
-  for (int i = 0; i < 2; ++i) {
-    BlockInfo block{i * blockSize, blockSize};
-    std::vector<char> data(blockSize, 'A' + i); // Different data for each block
-    ASSERT_TRUE(manager->writeBlock(0, block, data));
-  }
-  std::vector<char> aBuffer = manager->readBlock(0, {0, blockSize});
-  std::vector<char> bBuffer = manager->readBlock(0, {blockSize, blockSize});
-
-  for (size_t i = 0; i < 256; ++i) {
-    ASSERT_EQ(aBuffer[i], 'A'); // First half should be 'A'
-    ASSERT_EQ(bBuffer[i], 'B'); // Second half should be 'B'
-  }
+TEST_F(FileManagerTest, WriteBlockOutOfBounds) {
+  LinuxFileManager manager(mockFiles, pieceLength, infoHashes);
+  std::vector<char> testData = {'x', 'y', 'z'};
+  EXPECT_FALSE(
+      manager.writeBlock(5, 0, testData)); // Assuming 5 is out of range
 }
 
-TEST_F(LinuxFileManagerTest, WriteReadPieceRoundtrip) {
-  size_t blockSize = pieceLength / 2;
-
-  for (int i = 0; i < 2; ++i) {
-    BlockInfo block{i * blockSize, blockSize};
-    std::vector<char> data(blockSize, 'A' + i); // Different data for each block
-    ASSERT_TRUE(manager->writeBlock(0, block, data));
-  }
-
-  std::vector<char> buffer = manager->readPiece(0);
-
-  for (size_t i = 0; i < 256; ++i) {
-    ASSERT_EQ(buffer[i], 'A'); // First half should be 'A'
-  }
-
-  for (size_t i = 256; i < 512; ++i) {
-    ASSERT_EQ(buffer[i], 'B'); // Second half should be 'B'
-  }
+TEST_F(FileManagerTest, WritesCompletePiece) {
+  LinuxFileManager manager(mockFiles, pieceLength, infoHashes);
+  std::vector<char> testData(pieceLength, 'x');    // Data that fills a piece
+  EXPECT_TRUE(manager.writeBlock(0, 0, testData)); // Write a full piece
+  // Further expectations could include checking file contents or mocking file
+  // I/O
 }

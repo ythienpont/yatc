@@ -46,8 +46,8 @@ void TorrentClient::setupTorrent(const std::string &torrentFile) {
   }
 
   try {
-    fileManager_ = std::make_unique<LinuxFileManager>(torrent_.files,
-                                                      torrent_.pieceLength);
+    fileManager_ = std::make_unique<LinuxFileManager>(
+        torrent_.files, torrent_.pieceLength, torrent_.pieces);
     logger->log("File manager created for " +
                 std::to_string(torrent_.files.size()) + " file(s).");
   } catch (const std::exception &e) {
@@ -99,7 +99,7 @@ void TorrentClient::connectToPeers() {
     if (connection == nullptr) { // Check if the unique_ptr is empty
       connection = std::make_unique<PeerConnection>(
           io_context_, peer, trackerClient_->getPeerId(), torrent_.infoHash,
-          torrent_.totalPieces());
+          torrent_.totalPieces(), static_cast<uint32_t>(torrent_.pieceLength));
     }
     connection->handshake();
   }

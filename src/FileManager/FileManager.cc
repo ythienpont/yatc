@@ -1,172 +1,176 @@
 #include "FileManager.h"
-#include "Torrent/Torrent.h"
-#include <fstream>
-#include <memory>
-
-size_t FileManager::totalFileSize() const {
-  size_t totalFileSize = 0;
-
-  for (const auto &file : files_) {
-    totalFileSize += file.length;
-  }
-
-  return totalFileSize;
-}
+#include <algorithm>
+#include <cstdint>
+#include <cstdio>
+#include <string>
 
 FileManager::FileManager(const std::vector<FileInfo> &files,
-                         const size_t pieceLength)
+                         uint32_t pieceLength, std::vector<InfoHash> infoHashes)
+
     : files_(files), pieceLength_(pieceLength) {
-  size_t numPieces = totalPieces();
-  pieceBuffers_.resize(numPieces);
-
-  for (size_t i = 0; i < numPieces; i++) {
-    pieceBuffers_[i] = nullptr;
+  if (infoHashes.size() != totalPieces()) {
+    throw std::invalid_argument("Mismatch in hashes and total pieces");
   }
-}
 
-size_t FileManager::totalPieces() const {
-  return (totalFileSize() + pieceLength_ - 1) / pieceLength_;
-}
+  // Initialize pieces_ for each piece defined by the info hashes
+  for (const auto &infoHash : infoHashes) {
+    auto info = std::make_unique<PieceBufferInfo>(pieceLength, infoHash);
 
-std::pair<size_t, size_t>
-FileManager::getBlockBounds(const size_t pieceIndex,
-                            const BlockInfo &block) const {
-  size_t start = pieceIndex * pieceLength_ + block.offset;
-  size_t end = start + block.length;
-
-  return {start, end};
+    pieces_.push_back(PieceData{nullptr, std::move(info)});
+  }
 }
 
 LinuxFileManager::LinuxFileManager(const std::vector<FileInfo> &files,
-                                   const size_t pieceLength)
-    : FileManager(files, pieceLength) {
+                                   uint32_t pieceLength,
+                                   std::vector<InfoHash> infoHashes)
+    : FileManager(files, pieceLength, infoHashes) {
   preAllocateSpace();
 }
 
-bool LinuxFileManager::writeBlock(const size_t pieceIndex,
-                                  const BlockInfo &block,
+size_t FileManager::totalPieces() const {
+  uint64_t totalSize = 0;
+
+  for (const auto &file : files_) {
+    totalSize += file.length;
+  }
+
+  size_t numPieces = totalSize / pieceLength_;
+
+  if (totalSize % pieceLength_ != 0) {
+    ++numPieces;
+  }
+
+  return numPieces;
+}
+
+bool LinuxFileManager::writeBlock(uint32_t pieceIndex, uint32_t offset,
                                   const std::vector<char> &data) {
-  // TODO: Check if have in piecemanager
-  if (pieceIndex >= pieceBuffers_.size())
-    throw std::out_of_range("Piece index is out of range.");
-
-  if (pieceBuffers_[pieceIndex] == nullptr) {
-    pieceBuffers_[pieceIndex] = std::make_unique<PieceBuffer>(pieceLength_);
-  }
-
-  if (!pieceBuffers_[pieceIndex]->addBlock(block, data))
+  if (pieceIndex >= pieces_.size()) {
     return false;
+  }
 
-  if (pieceBuffers_[pieceIndex]->isComplete() && writePiece(pieceIndex)) {
-    // TODO: Check hash before writing piece
-    pieceBuffers_[pieceIndex].reset(); // Reset buffer after writing to disk
-    // TODO: Set to have in piecemanager
+  PieceData &pieceData = pieces_[pieceIndex];
+
+  if (pieceData.buffer == nullptr) {
+    pieceData.buffer = std::make_unique<PieceBuffer>(pieceLength_);
+  }
+
+  pieceData.buffer->addData(offset, data);
+
+  pieceData.info->addBlock(offset, data.size());
+  if (pieceData.info->isComplete()) {
+    std::cout << "Writing complete block" << std::endl;
+    return writePiece(pieceIndex);
   }
 
   return true;
 }
 
-bool LinuxFileManager::writePiece(const size_t pieceIndex) {
-  // TODO: Check if have in piecemanager
-  if (pieceIndex >= pieceBuffers_.size() || !pieceBuffers_[pieceIndex])
-    throw std::invalid_argument("Invalid piece index or uninitialized buffer.");
-
-  const auto &pieceData = pieceBuffers_[pieceIndex]->getData();
-  auto [pieceStart, pieceEnd] = getBlockBounds(pieceIndex, {0, pieceLength_});
-
-  for (const auto &file : files_) {
-    if (pieceEnd <= file.startOffset || pieceStart >= file.endOffset)
-      continue; // Piece does not intersect with this file
-
-    size_t fileWriteStart =
-        std::max(pieceStart, file.startOffset) - file.startOffset;
-    size_t dataOffset = std::max(file.startOffset, pieceStart) - pieceStart;
-    size_t writeSize = std::min(file.endOffset, pieceEnd) -
-                       std::max(file.startOffset, pieceStart);
-
-    std::fstream fileStream(file.path,
-                            std::ios::in | std::ios::out | std::ios::binary);
-    if (!fileStream)
-      throw std::runtime_error("Failed to open file: " + file.path);
-
-    fileStream.seekp(fileWriteStart);
-    fileStream.write(&pieceData[dataOffset], writeSize);
-    if (!fileStream.good())
-      throw std::runtime_error("Failed to write data to file: " + file.path);
-  }
-
-  return true;
-}
-
-std::vector<char> LinuxFileManager::readBlock(const size_t pieceIndex,
-                                              const BlockInfo &block) const {
-  if (pieceIndex >= totalPieces())
-    throw std::out_of_range("Piece index is out of range.");
-
-  // Calculate the global offset in the torrent data
-  auto [blockStart, blockEnd] = getBlockBounds(pieceIndex, block);
-
-  if (blockStart + block.length > totalFileSize()) {
-    throw std::runtime_error(
-        "Block extends beyond the end of the managed file data.");
-  }
-
-  std::vector<char> data(block.length, 0); // Initialize vector with zeros
-
-  size_t dataOffset = 0; // Offset within the data vector
+std::vector<char> LinuxFileManager::readBlock(uint32_t pieceIndex,
+                                              uint32_t offset,
+                                              uint32_t length) const {
+  std::vector<char> buffer(length);
+  uint64_t bytesRead = 0;
+  uint64_t globalOffset = static_cast<uint64_t>(
+      pieceIndex * pieceLength_ + offset); // Ensure uint64_t for multiplication
 
   for (const auto &file : files_) {
-    if (blockEnd <= file.startOffset || blockStart >= file.endOffset)
-      continue; // Block does not intersect with this file
+    if (globalOffset < file.endOffset) {
+      uint64_t fileOffset = globalOffset - file.startOffset;
+      uint64_t bytesToRead =
+          std::min(length - bytesRead, file.length - fileOffset);
+      int fd = open(file.path.c_str(), O_RDONLY);
+      if (fd == -1) {
+        std::cerr << "Failed to open file for reading: " << strerror(errno)
+                  << std::endl;
+        return {};
+      }
 
-    size_t fileReadStart =
-        std::max(blockStart, file.startOffset) - file.startOffset;
-    size_t blockReadOffset =
-        std::max(file.startOffset, blockStart) - blockStart;
-    size_t readSize = std::min(file.endOffset, blockEnd) -
-                      std::max(file.startOffset, blockStart);
+      lseek(fd, fileOffset, SEEK_SET);
+      ssize_t result = read(fd, buffer.data() + bytesRead, bytesToRead);
+      close(fd);
 
-    if (readSize <= 0) {
-      continue; // No valid data to read based on calculated size
+      if (result == -1) {
+        std::cerr << "Failed to read file: " << strerror(errno) << std::endl;
+        return {};
+      }
+
+      bytesRead += result;
+      globalOffset += result;
+      if (bytesRead == length) {
+        break;
+      }
     }
-
-    std::ifstream fileStream(file.path, std::ios::binary);
-    if (!fileStream) {
-      throw std::runtime_error("Failed to open file: " + file.path);
-    }
-
-    fileStream.seekg(fileReadStart);
-    fileStream.read(&data[dataOffset + blockReadOffset], readSize);
-    if (fileStream.gcount() != static_cast<std::streamsize>(readSize)) {
-      throw std::runtime_error(
-          "Failed to read the full expected amount of data from file.");
-    }
-
-    dataOffset += readSize;
   }
 
-  return data;
-}
-
-std::vector<char> LinuxFileManager::readPiece(const size_t pieceIndex) const {
-  return readBlock(pieceIndex, {0, pieceLength_});
+  return buffer;
 }
 
 void LinuxFileManager::preAllocateSpace() {
   for (const auto &file : files_) {
-    int fd = open(file.path.c_str(), O_WRONLY | O_CREAT, 0644);
+    int fd = open(file.path.c_str(), O_WRONLY | O_CREAT, 0666);
     if (fd == -1) {
-      throw std::runtime_error("Failed to open file: " + file.path +
-                               "; Error: " + std::string(strerror(errno)));
+      std::cerr << "Failed to open file for pre-allocation: " << strerror(errno)
+                << std::endl;
+      continue;
     }
 
-    if (posix_fallocate(fd, 0, file.length) != 0) {
-      close(fd);
-      throw std::runtime_error("Failed to pre-allocate file space for " +
-                               file.path +
-                               "; Error: " + std::string(strerror(errno)));
+    if (ftruncate(fd, file.length) == -1) {
+      std::cerr << "Failed to pre-allocate space: " << strerror(errno)
+                << std::endl;
     }
-
     close(fd);
   }
+}
+
+bool LinuxFileManager::writePiece(uint32_t pieceIndex) {
+  if (pieceIndex >= pieces_.size()) {
+    return false;
+  }
+
+  const PieceData &pieceData = pieces_[pieceIndex];
+  const std::vector<char> &data = pieceData.buffer->getData();
+
+  uint64_t offset = static_cast<uint64_t>(pieceIndex * pieceLength_);
+  uint64_t remainingData = static_cast<uint64_t>(pieceLength_);
+  size_t dataOffset = 0;
+
+  for (const auto &file : files_) {
+    if (offset < file.endOffset) {
+      uint64_t fileOffset = offset - file.startOffset;
+      uint64_t writeSize = std::min(remainingData, file.length - fileOffset);
+      if (!writeToFile(file.path, fileOffset, &data[dataOffset], writeSize)) {
+        return false;
+      }
+      offset += writeSize;
+      remainingData -= writeSize;
+      dataOffset += writeSize;
+      if (remainingData == 0) {
+        break;
+      }
+    }
+  }
+
+  return true;
+}
+
+bool LinuxFileManager::writeToFile(const std::string &path, uint64_t offset,
+                                   const char *data, uint64_t length) {
+  int fd = open(path.c_str(), O_WRONLY);
+  if (fd == -1) {
+    std::cerr << "Failed to open file for writing: " << strerror(errno)
+              << std::endl;
+    return false;
+  }
+
+  lseek(fd, offset, SEEK_SET);
+  ssize_t bytesWritten = write(fd, data, length);
+  close(fd);
+
+  if (bytesWritten != length) {
+    std::cerr << "Failed to write file: " << strerror(errno) << std::endl;
+    return false;
+  }
+
+  return true;
 }

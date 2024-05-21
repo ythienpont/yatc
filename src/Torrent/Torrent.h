@@ -16,10 +16,10 @@
  * where the file starts and ends within the overall content of the torrent.
  */
 struct FileInfo {
-  std::string path;   ///< Full path of the file.
-  uint64_t length;    ///< Total length of the file in bytes.
-  size_t startOffset; ///< Byte index where the file starts.
-  size_t endOffset;   ///< Byte index where the file ends.
+  std::string path;     ///< Full path of the file.
+  uint64_t length;      ///< Total length of the file in bytes.
+  uint64_t startOffset; ///< Byte index where the file starts.
+  uint64_t endOffset;   ///< Byte index where the file ends.
 };
 
 /**
@@ -73,6 +73,9 @@ struct Torrent {
    * @brief Default destructor for Torrent.
    */
   ~Torrent() = default;
+
+  // DELETE: For debugging
+  std::string diagnosticInfo() const;
 };
 
 #endif // TORRENT_H

@@ -1,4 +1,6 @@
 #include "TorrentParser.h"
+#include "Logger/Logger.h"
+#include <cstdint>
 #include <fstream>
 #include <stdexcept>
 
@@ -51,7 +53,7 @@ void TorrentParser::extractFileInfo(Torrent &torrent,
     const auto &files = std::get<bencode::list>(infoDict.at("files"));
 
     // Starting offset for file start
-    size_t currentOffset = 0;
+    uint64_t currentOffset = 0;
 
     for (const auto &fileEntry : files) {
       const auto &fileDict = std::get<bencode::dict>(fileEntry);
@@ -117,6 +119,8 @@ Torrent TorrentParser::parseTorrentFile(const std::string &filename) const {
 
   extractFileInfo(torrent, infoDict);
   extractPieces(torrent, infoDict);
+
+  Logger::instance()->log(torrent.diagnosticInfo(), Logger::DEBUG);
 
   return torrent;
 }

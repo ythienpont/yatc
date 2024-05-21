@@ -27,13 +27,18 @@ enum class MessageType : uint8_t {
   Cancel = 8,
 };
 
-using Payload =
-    std::variant<std::monostate,         // for messages with no payload
-                 uint32_t,               // for Have message (piece index)
-                 std::vector<std::byte>, // for Bitfield and Piece
-                 std::tuple<uint32_t, uint32_t, uint32_t>>; // for Request and
-                                                            // Cancel (index,
-                                                            // begin, length)
+struct PieceData {
+  uint32_t index;
+  std::vector<std::byte> block;
+};
+
+using Payload = std::variant<std::monostate, // for messages with no payload
+                             uint32_t,       // for Have message (piece index)
+                             std::vector<std::byte>, // for Bitfield and Piece
+                             std::tuple<uint32_t, uint32_t,
+                                        uint32_t>, // for Request and Cancel
+                                                   // (index begin, length)
+                             PieceData>; // for Piece message (index, block)
 
 struct Message {
   MessageType type;
@@ -72,6 +77,16 @@ struct Message {
       return {type, std::make_tuple(bytes_to_uint32(payloadBytes, 0),
                                     bytes_to_uint32(payloadBytes, 4),
                                     bytes_to_uint32(payloadBytes, 8))};
+
+    case MessageType::Piece:
+      if (payloadBytes.size() < sizeof(uint32_t))
+        throw std::runtime_error("Invalid payload size for Piece message.");
+      {
+        uint32_t index = bytes_to_uint32(payloadBytes);
+        std::vector<std::byte> block(payloadBytes.begin() + 4,
+                                     payloadBytes.end());
+        return {type, PieceData{index, std::move(block)}};
+      }
 
     default:
       throw std::runtime_error("Unknown message type.");

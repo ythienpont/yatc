@@ -1,17 +1,17 @@
 #ifndef FILEMANAGER_H
 #define FILEMANAGER_H
 
-#include "PieceBuffer.h"
-#include "PieceBufferInfo.h"
+#include "PieceBuffer/PieceBuffer.h"
 #include "Torrent/Torrent.h"
-#include <memory>
-#include <vector>
 #include <cerrno>
+#include <cstdint>
 #include <cstring>
 #include <fcntl.h>
+#include <memory>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <vector>
 
 /**
  * @class FileManager
@@ -38,7 +38,8 @@ public:
    * @param data Data to be written.
    * @return true if the write operation was successful, false otherwise.
    */
-  virtual bool writeBlock(uint32_t pieceIndex, uint32_t offset, const std::vector<char>& data) = 0;
+  virtual bool writeBlock(uint32_t pieceIndex, uint32_t offset,
+                          const std::vector<char> &data) = 0;
 
   /**
    * @brief Reads a block of data from the appropriate file and position.
@@ -48,7 +49,8 @@ public:
    * @param length Length of the data to read in bytes.
    * @return Vector containing the read data.
    */
-  virtual std::vector<char> readBlock(uint32_t pieceIndex, uint32_t offset, uint32_t length) const = 0;
+  virtual std::vector<char> readBlock(uint32_t pieceIndex, uint32_t offset,
+                                      uint32_t length) const = 0;
 
   /**
    * @brief Pre-allocates disk space to optimize file writing operations.
@@ -63,7 +65,8 @@ protected:
    * @param files Vector of FileInfo structures detailing the files.
    * @param pieceLength Length of each piece in bytes.
    */
-  FileManager(const std::vector<FileInfo>& files, uint32_t pieceLength);
+  FileManager(const std::vector<FileInfo> &files, uint32_t pieceLength,
+              std::vector<InfoHash> infoHashes);
 
   /**
    * @brief Writes a full piece to the appropriate location.
@@ -82,12 +85,38 @@ protected:
   size_t totalPieces() const;
 
   std::vector<FileInfo> files_; ///< List of files associated with the torrent.
-  uint32_t pieceLength_;          ///< Length of each piece in bytes.
+  uint32_t pieceLength_;        ///< Length of each piece in bytes.
+
   struct PieceData {
     std::unique_ptr<PieceBuffer> buffer;
     std::unique_ptr<PieceBufferInfo> info;
   };
-  std::vector<PieceData> pieces_; ///< Combined buffers and state tracking for each piece.
+
+  std::vector<PieceData>
+      pieces_; ///< Combined buffers and state tracking for each piece.
+};
+
+class LinuxFileManager : public FileManager {
+public:
+  LinuxFileManager(const std::vector<FileInfo> &files, uint32_t pieceLength,
+                   std::vector<InfoHash> infoHashes);
+
+  virtual ~LinuxFileManager() override = default;
+
+  virtual bool writeBlock(uint32_t pieceIndex, uint32_t offset,
+                          const std::vector<char> &data) override;
+
+  virtual std::vector<char> readBlock(uint32_t pieceIndex, uint32_t offset,
+                                      uint32_t length) const override;
+
+  virtual void preAllocateSpace() override;
+
+protected:
+  virtual bool writePiece(uint32_t pieceIndex) override;
+
+private:
+  bool writeToFile(const std::string &path, uint64_t offset, const char *data,
+                   uint64_t length);
 };
 
 #endif // FILEMANAGER_H
