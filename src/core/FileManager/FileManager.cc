@@ -174,3 +174,9 @@ bool LinuxFileManager::writeToFile(const std::string &path, uint64_t offset,
 
   return true;
 }
+
+bool LinuxFileManager::writeTestPiece(const char *data, uint32_t offset,
+                                      uint32_t length) {
+  return writeToFile(files_[0].path, static_cast<uint64_t>(offset), data,
+                     (length));
+}

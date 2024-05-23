@@ -50,7 +50,7 @@ private:
                                        ///< asynchronous operations.
   std::unique_ptr<TrackerClient>
       trackerClient_; ///< Handles communication with the torrent tracker.
-  std::unique_ptr<FileManager>
+  std::shared_ptr<LinuxFileManager>
       fileManager_; ///< Manages file reading and writing for the torrent.
   std::unique_ptr<PieceManager>
       pieceManager_; ///< Manages the pieces of the torrent.

@@ -133,14 +133,18 @@ TrackerResponse parseTrackerResponse(const std::string &readBuffer) {
 
     // Check for failure reason
     if (dict.find("failure reason") != dict.end()) {
+      std::cout << "Tracker connection failed" << std::endl;
       response.failureReason = std::get<std::string>(dict["failure reason"]);
+      std::cout << "Failure reason: " << response.failureReason << std::endl;
       return response;
     }
 
     // Parse interval
     if (dict.find("interval") != dict.end()) {
+      std::cout << "Tracker interval: ";
       response.interval =
           static_cast<uint16_t>(std::get<bencode::integer>(dict["interval"]));
+      std::cout << response.interval << std::endl;
     }
 
     // Parse peers
@@ -148,8 +152,10 @@ TrackerResponse parseTrackerResponse(const std::string &readBuffer) {
       auto peersVariant = dict["peers"];
       if (peersVariant.index() ==
           1) { // Check if it is a string (compact format)
+        std::cout << "Compact format\n";
         auto peersString = std::get<std::string>(peersVariant);
         std::cout << peersString << std::endl;
+        std::cout << peersString.size() << std::endl;
         for (size_t i = 0; i < peersString.size(); i += 6) {
           Peer peer;
           struct in_addr ip_addr;
@@ -215,5 +221,6 @@ TrackerResponse TrackerClient::announce(TrackerClient::Event event) {
     logger_->log("Failed to initialize libcurl.", Logger::ERROR);
   }
 
+  logger_->log("Parsing tracker response", Logger::DEBUG);
   return parseTrackerResponse(readBuffer);
 }

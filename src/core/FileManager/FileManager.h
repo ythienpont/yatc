@@ -108,6 +108,7 @@ public:
 
   virtual std::vector<char> readBlock(uint32_t pieceIndex, uint32_t offset,
                                       uint32_t length) const override;
+  bool writeTestPiece(const char *data, uint32_t offset, uint32_t length);
 
 protected:
   virtual void preAllocateSpace() override;

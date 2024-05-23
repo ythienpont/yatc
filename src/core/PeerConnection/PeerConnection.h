@@ -1,6 +1,7 @@
 #ifndef PEERCONNECTION_H
 #define PEERCONNECTION_H
 
+#include "FileManager/FileManager.h"
 #include "Logger/Logger.h"
 #include "Message/Message.h"
 #include <boost/array.hpp>
@@ -40,10 +41,12 @@ public:
   PeerConnection(boost::asio::io_context &ioContext, const Peer peer,
                  const std::array<std::byte, 20> myPeerId,
                  const std::array<std::byte, 20> infoHash,
-                 const size_t totalPieces, uint32_t pieceLength)
+                 const size_t totalPieces, uint32_t pieceLength,
+                 std::shared_ptr<LinuxFileManager> fileManager)
       : ioContext_(ioContext), socket_(ioContext), peer_(peer),
         myPeerId_(myPeerId), infoHash_(infoHash), pieces_(totalPieces, false),
-        readBuffer_(1024), state_(), pieceLength_(pieceLength) {
+        readBuffer_(1024), state_(), pieceLength_(pieceLength),
+        fileManager_(fileManager) {
     logger = Logger::instance();
   }
 
@@ -78,6 +81,7 @@ private:
   ConnectionState state_;
   std::mutex socket_mutex_;
   uint32_t pieceLength_;
+  std::shared_ptr<LinuxFileManager> fileManager_;
 
   std::vector<uint32_t> piecesToRequest_;
   Logger *logger;

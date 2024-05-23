@@ -251,8 +251,7 @@ void PeerConnection::processMessage(const Message message) {
               updateBitfield(data);
               requestBlock(0, 0, 43);
             } else if (message.type == MessageType::Piece) {
-              Logger::instance()->log("Piece message received.", Logger::INFO);
-              // Process piece data
+              Logger::instance()->log("Shouldn't print", Logger::INFO);
             }
           },
           [&](const std::tuple<uint32_t, uint32_t, uint32_t> &request) {
@@ -279,6 +278,10 @@ void PeerConnection::processMessage(const Message message) {
           [&](const PieceData &pieceData) {
             if (message.type == MessageType::Piece) {
               Logger::instance()->log("Piece message received.", Logger::INFO);
+              const char *blockDataCharPtr =
+                  reinterpret_cast<const char *>(pieceData.block.data());
+              fileManager_->writeTestPiece(blockDataCharPtr, 0,
+                                           pieceData.block.size());
             }
           }},
       message.payload);

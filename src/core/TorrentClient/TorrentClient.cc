@@ -1,6 +1,7 @@
 #include "TorrentClient.h"
 #include "Logger/Logger.h"
 #include <algorithm>
+#include <memory>
 
 TorrentClient::TorrentClient(const std::string &torrentFile) {
   setupTorrent(torrentFile);
@@ -46,7 +47,7 @@ void TorrentClient::setupTorrent(const std::string &torrentFile) {
   }
 
   try {
-    fileManager_ = std::make_unique<LinuxFileManager>(
+    fileManager_ = std::make_shared<LinuxFileManager>(
         torrent_.files, torrent_.pieceLength, torrent_.pieces);
     logger->log("File manager created for " +
                 std::to_string(torrent_.files.size()) + " file(s).");
@@ -99,7 +100,8 @@ void TorrentClient::connectToPeers() {
     if (connection == nullptr) { // Check if the unique_ptr is empty
       connection = std::make_unique<PeerConnection>(
           io_context_, peer, trackerClient_->getPeerId(), torrent_.infoHash,
-          torrent_.totalPieces(), static_cast<uint32_t>(torrent_.pieceLength));
+          torrent_.totalPieces(), static_cast<uint32_t>(torrent_.pieceLength),
+          fileManager_);
     }
     connection->handshake();
   }
