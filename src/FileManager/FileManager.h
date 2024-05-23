@@ -52,12 +52,12 @@ public:
   virtual std::vector<char> readBlock(uint32_t pieceIndex, uint32_t offset,
                                       uint32_t length) const = 0;
 
+protected:
   /**
    * @brief Pre-allocates disk space to optimize file writing operations.
    */
   virtual void preAllocateSpace() = 0;
 
-protected:
   /**
    * @brief Constructor initializing the FileManager with a list of files and
    * piece length.
@@ -109,9 +109,8 @@ public:
   virtual std::vector<char> readBlock(uint32_t pieceIndex, uint32_t offset,
                                       uint32_t length) const override;
 
-  virtual void preAllocateSpace() override;
-
 protected:
+  virtual void preAllocateSpace() override;
   virtual bool writePiece(uint32_t pieceIndex) override;
 
 private:
