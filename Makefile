@@ -1,11 +1,11 @@
 CXX=g++
-BASE_CXXFLAGS=-std=c++17 -Isrc -I./lib -I/usr/include/gtest
+BASE_CXXFLAGS=-std=c++17 -Isrc/core -I./lib -I/usr/include/gtest
 PROJECT_CXXFLAGS=$(BASE_CXXFLAGS) -Wall 
 DEBUG_CXXFLAGS=-g -O0
 LDFLAGS=-lcurl -lcrypto
 GTEST_LDFLAGS=-lgtest -lgtest_main -pthread $(LDFLAGS)
 EXEC=yatc
-SOURCEDIR=src
+SOURCEDIR=src/core
 TESTDIR=test
 BUILDDIR=build
 SOURCES=$(wildcard $(SOURCEDIR)/**/*.cc $(SOURCEDIR)/*.cc)
