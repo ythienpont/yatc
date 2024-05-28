@@ -15,7 +15,8 @@ std::array<std::byte, 20> compute_sha1(const std::string &data) {
   return result;
 }
 
-std::string TorrentParser::readTorrentFile(const std::string &filename) const {
+std::string
+TorrentParser::read_torrent_file(const std::string &filename) const {
   std::ifstream file(filename, std::ios::binary);
   if (!file.is_open()) {
     throw std::runtime_error("Failed to open torrent file.");
@@ -24,103 +25,106 @@ std::string TorrentParser::readTorrentFile(const std::string &filename) const {
           std::istreambuf_iterator<char>()};
 }
 
-bencode::dict TorrentParser::decodeContent(const std::string &content) const {
+bencode::dict TorrentParser::decode_content(const std::string &content) const {
   return std::get<bencode::dict>(bencode::decode(content));
 }
 
-std::string TorrentParser::extractTrackerUrl(const bencode::dict &dict) const {
+std::string
+TorrentParser::extract_tracker_url(const bencode::dict &dict) const {
   if (dict.find("announce") == dict.end()) {
     throw std::runtime_error("Torrent file does not contain announce URL.");
   }
   return std::get<std::string>(dict.at("announce"));
 }
 
-bencode::dict TorrentParser::extractInfoDict(const bencode::dict &dict) const {
+bencode::dict
+TorrentParser::extract_info_dict(const bencode::dict &dict) const {
   if (dict.find("info") == dict.end()) {
     throw std::runtime_error("Torrent file does not contain info dictionary.");
   }
   return std::get<bencode::dict>(dict.at("info"));
 }
 
-InfoHash TorrentParser::computeInfoHash(const bencode::dict &infoDict) const {
-  auto infoBencoded = bencode::encode(infoDict);
-  return compute_sha1(infoBencoded);
+InfoHash
+TorrentParser::compute_info_hash(const bencode::dict &info_dict) const {
+  auto info_bencoded = bencode::encode(info_dict);
+  return compute_sha1(info_bencoded);
 }
 
-void TorrentParser::extractFileInfo(Torrent &torrent,
-                                    const bencode::dict &infoDict) const {
-  if (infoDict.find("files") != infoDict.end()) { // Multi-file torrent
-    const auto &files = std::get<bencode::list>(infoDict.at("files"));
+void TorrentParser::extract_file_info(Torrent &torrent,
+                                      const bencode::dict &info_dict) const {
+  if (info_dict.find("files") != info_dict.end()) { // Multi-file torrent
+    const auto &files = std::get<bencode::list>(info_dict.at("files"));
 
     // Starting offset for file start
-    uint64_t currentOffset = 0;
+    uint64_t current_offset = 0;
 
-    for (const auto &fileEntry : files) {
-      const auto &fileDict = std::get<bencode::dict>(fileEntry);
-      FileInfo fileInfo;
-      fileInfo.length =
-          (uint64_t)std::get<bencode::integer>(fileDict.at("length"));
+    for (const auto &file_entry : files) {
+      const auto &file_dict = std::get<bencode::dict>(file_entry);
+      FileInfo file_info;
+      file_info.length =
+          (uint64_t)std::get<bencode::integer>(file_dict.at("length"));
 
       // Construct the path from the path list
-      const auto &pathList = std::get<bencode::list>(fileDict.at("path"));
-      for (const auto &pathPart : pathList) {
-        if (!fileInfo.path.empty()) {
-          fileInfo.path += "/";
+      const auto &path_list = std::get<bencode::list>(file_dict.at("path"));
+      for (const auto &path_part : path_list) {
+        if (!file_info.path.empty()) {
+          file_info.path += "/";
         }
-        fileInfo.path += std::get<std::string>(pathPart);
+        file_info.path += std::get<std::string>(path_part);
       }
 
       // Calculate start and end offsets based on the current cumulative offset
-      fileInfo.startOffset = currentOffset;
-      fileInfo.endOffset = currentOffset + fileInfo.length - 1;
+      file_info.start_offset = current_offset;
+      file_info.end_offset = current_offset + file_info.length - 1;
 
       // Update the current offset for the next file
-      currentOffset += fileInfo.length;
+      current_offset += file_info.length;
 
-      torrent.files.push_back(std::move(fileInfo));
+      torrent.files.push_back(std::move(file_info));
     }
 
   } else { // Single-file torrent
     torrent.files.emplace_back(FileInfo{
-        std::get<std::string>(infoDict.at("name")), // File name
+        std::get<std::string>(info_dict.at("name")), // File name
         (uint64_t)std::get<bencode::integer>(
-            infoDict.at("length")) // File length
+            info_dict.at("length")) // File length
     });
   }
 }
 
-void TorrentParser::extractPieces(Torrent &torrent,
-                                  const bencode::dict &infoDict) const {
-  torrent.pieceLength = std::get<bencode::integer>(
-      infoDict.at("piece length")); // Assuming piece length is stored as int
+void TorrentParser::extract_pieces(Torrent &torrent,
+                                   const bencode::dict &info_dict) const {
+  torrent.piece_length = static_cast<uint32_t>(std::get<bencode::integer>(
+      info_dict.at("piece length"))); // Assuming piece length is stored as int
 
-  const auto &piecesString = std::get<std::string>(infoDict.at("pieces"));
-  for (size_t i = 0; i < piecesString.size(); i += 20) {
-    InfoHash pieceHash;
+  const auto &pieces_string = std::get<std::string>(info_dict.at("pieces"));
+  for (size_t i = 0; i < pieces_string.size(); i += 20) {
+    InfoHash piece_hash;
 
-    std::transform(piecesString.begin() + i, piecesString.begin() + i + 20,
-                   pieceHash.begin(), [](char c) {
+    std::transform(pieces_string.begin() + i, pieces_string.begin() + i + 20,
+                   piece_hash.begin(), [](char c) {
                      return std::byte{static_cast<unsigned char>(c)};
                    });
 
-    torrent.pieces.push_back(pieceHash);
+    torrent.pieces.push_back(piece_hash);
   }
 }
 
-Torrent TorrentParser::parseTorrentFile(const std::string &filename) const {
-  std::string content = readTorrentFile(filename);
-  auto dict = decodeContent(content);
+Torrent TorrentParser::parse_torrent_file(const std::string &filename) const {
+  std::string content = read_torrent_file(filename);
+  auto dict = decode_content(content);
 
   Torrent torrent;
-  torrent.trackerUrl = extractTrackerUrl(dict);
-  auto infoDict = extractInfoDict(dict);
-  torrent.infoHash = computeInfoHash(infoDict);
-  torrent.info = infoDict;
+  torrent.tracker_url = extract_tracker_url(dict);
+  auto info_dict = extract_info_dict(dict);
+  torrent.info_hash = compute_info_hash(info_dict);
+  torrent.info = info_dict;
 
-  extractFileInfo(torrent, infoDict);
-  extractPieces(torrent, infoDict);
+  extract_file_info(torrent, info_dict);
+  extract_pieces(torrent, info_dict);
 
-  Logger::instance()->log(torrent.diagnosticInfo(), Logger::DEBUG);
+  Logger::instance()->log(torrent.diagnostic_info(), Logger::DEBUG);
 
   return torrent;
 }

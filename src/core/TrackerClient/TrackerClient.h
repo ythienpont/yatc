@@ -1,6 +1,7 @@
 #ifndef TRACKERCLIENT_H
 #define TRACKERCLIENT_H
 
+#include "Logger/Logger.h"
 #include "PeerConnection/PeerConnection.h"
 #include "Torrent/Torrent.h"
 #include <cstdint>
@@ -78,7 +79,7 @@ public:
    *
    * @return InfoHash The info hash of the torrent.
    */
-  InfoHash getInfoHash() const { return torrent_.infoHash; }
+  InfoHash get_info_hash() const { return torrent_.info_hash; }
 
   /**
    * @brief Constructs a new Tracker Client object.

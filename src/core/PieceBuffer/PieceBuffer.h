@@ -3,40 +3,49 @@
 
 #include "Torrent/Torrent.h"
 #include <cstdint>
-#include <stdexcept>
 #include <vector>
 
 class PieceBufferInfo {
 public:
-  PieceBufferInfo(uint32_t pieceLength, InfoHash infoHash);
+  PieceBufferInfo(uint32_t piece_length, InfoHash info_hash);
 
-  bool addBlock(uint32_t offset, uint32_t length);
-  bool isComplete() const;
-  bool isActive() const;
+  bool add_block(uint32_t offset, uint32_t length);
+  bool is_complete() const;
+  bool is_active() const;
   void clear();
-  std::vector<uint32_t> getMissingBlockIndices() const;
+  std::vector<uint32_t> get_missing_block_indices() const;
+
+  uint32_t piece_length_ = 0;
 
 private:
-  uint32_t pieceLength_ = 0;
-  uint32_t blockSize_ = 0;
-  InfoHash infoHash_;
+  uint32_t block_size_ = 0;
+  InfoHash info_hash_;
 
-  std::vector<bool> receivedBlocks_;
+  std::vector<bool> received_blocks_;
 };
 
-struct PieceBuffer {
-  explicit PieceBuffer(uint32_t pieceLength) : data_(pieceLength) {}
+class PieceBufferData {
+public:
+  explicit PieceBufferData(uint32_t piece_length) : data_(piece_length) {}
 
-  void addData(uint32_t offset, const std::vector<char> &data) {
-    if (offset + data.size() > data_.size()) {
-      throw std::runtime_error("Data overflow attempt");
-    }
-    std::copy(data.begin(), data.end(), data_.begin() + offset);
-  }
+  void add_data(uint32_t offset, const std::vector<std::byte> &data);
 
-  const std::vector<char> &getData() const { return data_; }
+  const std::vector<std::byte> &get_data() const { return data_; }
 
-  std::vector<char> data_;
+private:
+  std::vector<std::byte> data_;
+};
+
+class PieceBuffer {
+public:
+  PieceBuffer(uint32_t piece_length, InfoHash info_hash)
+      : buffer_(nullptr),
+        info_(std::make_unique<PieceBufferInfo>(piece_length, info_hash)) {}
+
+  bool write_block(uint32_t offset, const std::vector<std::byte> &data);
+
+  std::unique_ptr<PieceBufferData> buffer_;
+  std::unique_ptr<PieceBufferInfo> info_;
 };
 
 #endif // PIECEBUFFER_H

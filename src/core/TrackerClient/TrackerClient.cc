@@ -1,6 +1,8 @@
 #include "TrackerClient.h"
+#include <arpa/inet.h>
 #include <iomanip>
 #include <iostream>
+#include <netinet/in.h>
 #include <random>
 
 size_t WriteCallback(char *contents, size_t size, size_t nmemb, void *userp) {
@@ -95,8 +97,8 @@ TrackerClient::TrackerClient(const Torrent &torrent, const uint16_t port)
 
 std::string TrackerClient::buildQueryString(TrackerClient::Event event) const {
   std::stringstream ss;
-  ss << torrent_.trackerUrl << "?"
-     << "info_hash=" << urlEncode(torrent_.infoHash)
+  ss << torrent_.tracker_url << "?"
+     << "info_hash=" << urlEncode(torrent_.info_hash)
      << "&peer_id=" << urlEncode(peerId_) << "&port=" << port_
      << "&uploaded=" << uploaded_ << "&downloaded=" << downloaded_
      << "&left=" << left_;

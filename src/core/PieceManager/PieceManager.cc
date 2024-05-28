@@ -1,31 +1,34 @@
 #include "PieceManager.h"
-#include <openssl/sha.h>
 #include <stdexcept>
 
-PieceManager::PieceManager(const size_t totalPieces) {
-  downloadedPieces_.resize(totalPieces, false);
+PieceManager::PieceManager(const uint32_t total_pieces) {
+  downloaded_pieces_.resize(total_pieces, false);
 }
 
-bool PieceManager::hasPiece(size_t pieceIndex) const {
-  return pieceIndex < downloadedPieces_.size() && downloadedPieces_[pieceIndex];
+bool PieceManager::has_piece(const uint32_t piece_index) const {
+  std::lock_guard<std::mutex> lock(mutex_);
+  return piece_index < downloaded_pieces_.size() &&
+         downloaded_pieces_[piece_index];
 }
 
-std::unordered_set<size_t> PieceManager::missingPieces() const {
-  std::unordered_set<size_t> missing;
-  for (size_t i = 0; i < downloadedPieces_.size(); ++i) {
-    if (!downloadedPieces_[i]) {
+std::unordered_set<uint32_t> PieceManager::missing_pieces() const {
+  std::lock_guard<std::mutex> lock(mutex_);
+  std::unordered_set<uint32_t> missing;
+  for (uint32_t i = 0; i < downloaded_pieces_.size(); ++i) {
+    if (!downloaded_pieces_[i]) {
       missing.insert(i);
     }
   }
   return missing;
 }
 
-void PieceManager::savePiece(size_t pieceIndex) {
-  if (pieceIndex >= downloadedPieces_.size()) {
+void PieceManager::save_piece(const uint32_t piece_index) {
+  std::lock_guard<std::mutex> lock(mutex_);
+  if (piece_index >= downloaded_pieces_.size()) {
     throw std::out_of_range("Attempted to access an invalid piece index");
   }
 
-  if (!downloadedPieces_[pieceIndex]) {
-    downloadedPieces_[pieceIndex] = true;
+  if (!downloaded_pieces_[piece_index]) {
+    downloaded_pieces_[piece_index] = true;
   }
 }

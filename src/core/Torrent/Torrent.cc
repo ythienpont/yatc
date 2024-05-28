@@ -1,11 +1,13 @@
 #include "Torrent.h"
 #include <cstdint>
-#include <iomanip> // For std::setw and std::setfill
-#include <sstream> // For std::ostringstream
+#include <iomanip>
+#include <sstream>
 
-bool Torrent::isSingleFile() const { return files.size() == 1; }
+bool Torrent::is_single_file() const { return files.size() == 1; }
 
-size_t Torrent::totalPieces() const { return pieces.size(); }
+uint32_t Torrent::total_pieces() const {
+  return static_cast<uint32_t>(pieces.size());
+}
 
 uint64_t Torrent::size() const {
   uint64_t size = 0;
@@ -15,37 +17,30 @@ uint64_t Torrent::size() const {
   return size;
 }
 
-/**
- * @brief Returns a diagnostic string containing detailed information about the
- * torrent.
- *
- * @return std::string A formatted string containing key details of the torrent.
- */
-std::string Torrent::diagnosticInfo() const {
+std::string Torrent::diagnostic_info() const {
   std::ostringstream stream;
   stream << "Torrent Name: " << name << "\n"
-         << "Tracker URL: " << trackerUrl << "\n"
+         << "Tracker URL: " << tracker_url << "\n"
          << "Total Size: " << size() << " bytes\n"
-         << "Piece Length: " << pieceLength << " bytes\n"
-         << "Total Pieces: " << totalPieces() << "\n"
+         << "Piece Length: " << piece_length << " bytes\n"
+         << "Total Pieces: " << total_pieces() << "\n"
          << "File Count: " << files.size() << "\n"
-         << "Single File Torrent: " << (isSingleFile() ? "Yes" : "No") << "\n";
+         << "Single File Torrent: " << (is_single_file() ? "Yes" : "No")
+         << "\n";
 
-  // Optionally, list the files included in the torrent
-  if (!isSingleFile()) {
+  if (!is_single_file()) {
     stream << "Files in Torrent:\n";
     for (const auto &file : files) {
       stream << " - " << file.path << " (Size: " << file.length << " bytes)\n";
     }
   }
 
-  // Output the InfoHash in a human-readable hexadecimal format
   stream << "InfoHash: ";
-  for (auto &byte : infoHash) {
+  for (auto &byte : info_hash) {
     stream << std::hex << std::setw(2) << std::setfill('0')
            << static_cast<unsigned>(std::to_integer<int>(byte));
   }
-  stream << std::dec << "\n"; // Switch back to decimal output
+  stream << std::dec << "\n";
 
   return stream.str();
 }

@@ -16,10 +16,10 @@
  * where the file starts and ends within the overall content of the torrent.
  */
 struct FileInfo {
-  std::string path;     ///< Full path of the file.
-  uint64_t length;      ///< Total length of the file in bytes.
-  uint64_t startOffset; ///< Byte index where the file starts.
-  uint64_t endOffset;   ///< Byte index where the file ends.
+  std::string path;      ///< Full path of the file.
+  uint64_t length;       ///< Total length of the file in bytes.
+  uint64_t start_offset; ///< Byte index where the file starts.
+  uint64_t end_offset;   ///< Byte index where the file ends.
 };
 
 /**
@@ -40,10 +40,10 @@ struct Torrent {
   std::string name; ///< Name of the torrent.
   bencode::dict
       info; ///< Decoded bencode dictionary containing the torrent's metadata.
-  std::string trackerUrl; ///< URL of the tracker server for announcements.
-  InfoHash infoHash =
+  std::string tracker_url; ///< URL of the tracker server for announcements.
+  InfoHash info_hash =
       {}; ///< The 20-byte SHA-1 hash of the bencoded 'info' value.
-  uint64_t pieceLength;        ///< Number of bytes each piece contains.
+  uint32_t piece_length;       ///< Number of bytes each piece contains.
   std::vector<FileInfo> files; ///< List of files included in the torrent.
   std::vector<InfoHash>
       pieces; ///< List of SHA-1 hashes for each piece of the torrent.
@@ -53,15 +53,20 @@ struct Torrent {
    *
    * @return true if the torrent represents a single file, false otherwise.
    */
-  bool isSingleFile() const;
+  bool is_single_file() const;
 
   /**
    * @brief Returns the total number of pieces in the torrent.
    *
    * @return size_t The total number of pieces.
    */
-  size_t totalPieces() const;
+  uint32_t total_pieces() const;
 
+  /**
+   * @brief Returns the total size of the torrent.
+   *
+   * @return uint64_t The total size of the torrent.
+   */
   uint64_t size() const;
 
   /**
@@ -74,8 +79,12 @@ struct Torrent {
    */
   ~Torrent() = default;
 
-  // DELETE: For debugging
-  std::string diagnosticInfo() const;
+  /**
+   * @brief Provides diagnostic information for debugging.
+   *
+   * @return std::string Diagnostic information.
+   */
+  std::string diagnostic_info() const;
 };
 
 #endif // TORRENT_H

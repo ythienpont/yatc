@@ -1,37 +1,26 @@
 #include "TorrentClient.h"
 #include "Logger/Logger.h"
-#include <algorithm>
+#include <iostream>
 #include <memory>
 
-TorrentClient::TorrentClient(const std::string &torrentFile) {
-  setupTorrent(torrentFile);
-}
-
-void TorrentClient::pruneDeadConnections() {
-  peerConnections_.erase(
-      std::remove_if(
-          peerConnections_.begin(), peerConnections_.end(),
-          [](const std::pair<Peer, std::unique_ptr<PeerConnection>> &pair) {
-            return !pair.second->isConnected();
-          }),
-      peerConnections_.end());
+TorrentClient::TorrentClient(const std::string &torrent_file) {
+  setup_torrent(torrent_file);
 }
 
 void TorrentClient::start() {
   Logger::instance()->log("Initiating tracker session...");
-  initiateTrackerSession();
-  connectToPeers();
+  initiate_tracker_session();
   io_context_.run();
 }
 
 void TorrentClient::stop() { io_context_.stop(); }
 
-void TorrentClient::setupTorrent(const std::string &torrentFile) {
+void TorrentClient::setup_torrent(const std::string &torrent_file) {
   Logger *logger = Logger::instance();
   logger->log("Initializing torrent setup...");
 
   try {
-    torrentParser_ = std::make_unique<TorrentParser>();
+    torrent_parser_ = std::make_unique<TorrentParser>();
     logger->log("Torrent parser initialized.");
   } catch (const std::exception &e) {
     logger->log("Error initializing torrent parser: " + std::string(e.what()));
@@ -39,27 +28,17 @@ void TorrentClient::setupTorrent(const std::string &torrentFile) {
   }
 
   try {
-    torrent_ = torrentParser_->parseTorrentFile(torrentFile);
-    logger->log("Torrent file parsed: " + torrentFile);
+    torrent_ = torrent_parser_->parse_torrent_file(torrent_file);
+    logger->log("Torrent file parsed: " + torrent_file);
   } catch (const std::exception &e) {
     logger->log("Error parsing torrent file: " + std::string(e.what()));
     return;
   }
 
   try {
-    fileManager_ = std::make_shared<LinuxFileManager>(
-        torrent_.files, torrent_.pieceLength, torrent_.pieces);
-    logger->log("File manager created for " +
-                std::to_string(torrent_.files.size()) + " file(s).");
-  } catch (const std::exception &e) {
-    logger->log("Error creating file manager: " + std::string(e.what()));
-    return;
-  }
-
-  try {
-    pieceManager_ = std::make_unique<PieceManager>(torrent_.totalPieces());
+    piece_manager_ = std::make_shared<PieceManager>(torrent_.total_pieces());
     logger->log("Piece manager set up for " +
-                std::to_string(torrent_.totalPieces()) + " pieces.");
+                std::to_string(torrent_.total_pieces()) + " pieces.");
   } catch (const std::exception &e) {
     logger->log("Error setting up piece manager: " + std::string(e.what()));
     return;
@@ -68,48 +47,60 @@ void TorrentClient::setupTorrent(const std::string &torrentFile) {
   logger->log("Torrent setup complete.");
 }
 
-void TorrentClient::initiateTrackerSession() {
-  int retryCount = 0;
-  const int maxRetries = 3; // Maximum number of retry attempts
-  while (retryCount < maxRetries) {
-    trackerClient_ = std::make_unique<TrackerClient>(torrent_);
+void TorrentClient::initiate_tracker_session() {
+  int retry_count = 0;
+  const int max_retries = 3; // Maximum number of retry attempts
+  while (retry_count < max_retries) {
+    tracker_client_ = std::make_unique<TrackerClient>(torrent_);
     try {
       TrackerResponse response =
-          trackerClient_->announce(TrackerClient::Event::Started);
+          tracker_client_->announce(TrackerClient::Event::Started);
 
       for (auto peer : response.peers) {
-        peerConnections_.emplace_back(peer, nullptr);
+        add_connection(peer);
       }
 
       // Successfully connected and received response
       break;
     } catch (const std::exception &e) {
-      retryCount++;
+      retry_count++;
 
       std::cerr << "Tracker connection failed: " << e.what() << ". Retrying ("
-                << retryCount << "/" << maxRetries << ")" << std::endl;
-      if (retryCount == maxRetries) {
+                << retry_count << "/" << max_retries << ")" << std::endl;
+      if (retry_count == max_retries) {
         throw; // Rethrow the exception
       }
     }
   }
 }
 
-void TorrentClient::connectToPeers() {
-  for (auto &[peer, connection] : peerConnections_) {
-    if (connection == nullptr) { // Check if the unique_ptr is empty
-      connection = std::make_unique<PeerConnection>(
-          io_context_, peer, trackerClient_->getPeerId(), torrent_.infoHash,
-          torrent_.totalPieces(), static_cast<uint32_t>(torrent_.pieceLength),
-          fileManager_);
-    }
-    connection->handshake();
+void TorrentClient::add_connection(const Peer &peer) {
+  auto connection = std::make_shared<PeerConnection>(
+      io_context_, torrent_.info_hash, tracker_client_->getPeerId(),
+      piece_manager_);
+  {
+    std::lock_guard<std::mutex> lock(connections_mutex_);
+    peer_connections_.push_back(connection);
   }
+  tcp::resolver resolver(io_context_);
+  auto endpoints = resolver.resolve(peer.ip, std::to_string(peer.port));
+  boost::asio::async_connect(connection->socket(), endpoints,
+                             boost::bind(&TorrentClient::handle_connect, this,
+                                         connection,
+                                         boost::asio::placeholders::error));
 }
 
-void TorrentClient::handleDownload() {
-  // Start the asio context in a separate thread or run it directly if the
-  // client is single-threaded.
-  //
-  // TODO: Post-download handling (e.g., verifying download, re-seeding)
+void TorrentClient::handle_connect(std::shared_ptr<PeerConnection> connection,
+                                   const boost::system::error_code &error) {
+  if (!error) {
+    connection->start();
+  } else {
+    std::cerr << "Connect error: " << error.message() << std::endl;
+    {
+      std::lock_guard<std::mutex> lock(connections_mutex_);
+      auto it = std::remove(peer_connections_.begin(), peer_connections_.end(),
+                            connection);
+      peer_connections_.erase(it, peer_connections_.end());
+    }
+  }
 }

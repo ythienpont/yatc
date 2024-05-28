@@ -48,11 +48,11 @@ struct Message {
       : type(type), payload(std::move(payload)) {}
 
   static Message parseMessage(const std::vector<std::byte> &data) {
-    if (data.empty())
-      throw std::runtime_error("Empty data vector received.");
+    if (data.size() < 5)
+      throw std::runtime_error("Invalid message data received.");
 
-    MessageType type = static_cast<MessageType>(static_cast<uint8_t>(data[0]));
-    std::vector<std::byte> payloadBytes(data.begin() + 1, data.end());
+    MessageType type = static_cast<MessageType>(static_cast<uint8_t>(data[4]));
+    std::vector<std::byte> payloadBytes(data.begin() + 5, data.end());
 
     switch (type) {
     case MessageType::Choke:

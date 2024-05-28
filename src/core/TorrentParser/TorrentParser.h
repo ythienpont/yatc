@@ -21,7 +21,7 @@ private:
    * @param filename Path to the torrent file.
    * @return std::string The content of the torrent file as a string.
    */
-  std::string readTorrentFile(const std::string &filename) const;
+  std::string read_torrent_file(const std::string &filename) const;
 
   /**
    * @brief Decodes a bencoded string into a dictionary.
@@ -29,7 +29,7 @@ private:
    * @param content The bencoded string to decode.
    * @return bencode::dict A dictionary representing the decoded content.
    */
-  bencode::dict decodeContent(const std::string &content) const;
+  bencode::dict decode_content(const std::string &content) const;
 
   /**
    * @brief Extracts the tracker URL from the torrent's metainfo dictionary.
@@ -37,7 +37,7 @@ private:
    * @param dict The metainfo dictionary.
    * @return std::string The extracted tracker URL.
    */
-  std::string extractTrackerUrl(const bencode::dict &dict) const;
+  std::string extract_tracker_url(const bencode::dict &dict) const;
 
   /**
    * @brief Extracts the 'info' dictionary from the torrent's metainfo
@@ -47,17 +47,17 @@ private:
    * @param dict The metainfo dictionary.
    * @return bencode::dict The 'info' dictionary.
    */
-  bencode::dict extractInfoDict(const bencode::dict &dict) const;
+  bencode::dict extract_info_dict(const bencode::dict &dict) const;
 
   /**
    * @brief Computes the SHA-1 hash of the bencoded 'info' dictionary.
    *
    * This hash is used as the torrent's InfoHash to verify the integrity and
    * identity of the torrent.
-   * @param infoDict The 'info' dictionary.
+   * @param info_dict The 'info' dictionary.
    * @return InfoHash The computed SHA-1 hash.
    */
-  InfoHash computeInfoHash(const bencode::dict &infoDict) const;
+  InfoHash compute_info_hash(const bencode::dict &info_dict) const;
 
   /**
    * @brief Extracts file information from the 'info' dictionary and populates
@@ -65,18 +65,18 @@ private:
    *
    * This includes setting file paths, lengths, and other relevant data.
    * @param torrent Reference to the Torrent object to populate.
-   * @param infoDict The 'info' dictionary containing file details.
+   * @param info_dict The 'info' dictionary containing file details.
    */
-  void extractFileInfo(Torrent &torrent, const bencode::dict &infoDict) const;
+  void extract_file_info(Torrent &torrent, const bencode::dict &info_dict) const;
 
   /**
    * @brief Extracts the piece hashes from the 'info' dictionary and stores them
    * in the Torrent object.
    *
    * @param torrent Reference to the Torrent object to populate.
-   * @param infoDict The 'info' dictionary containing piece hashes.
+   * @param info_dict The 'info' dictionary containing piece hashes.
    */
-  void extractPieces(Torrent &torrent, const bencode::dict &infoDict) const;
+  void extract_pieces(Torrent &torrent, const bencode::dict &info_dict) const;
 
 public:
   /**
@@ -96,7 +96,7 @@ public:
    * @param filename Path to the torrent file to parse.
    * @return Torrent A Torrent object populated with data from the torrent file.
    */
-  Torrent parseTorrentFile(const std::string &filename) const;
+  Torrent parse_torrent_file(const std::string &filename) const;
 };
 
 #endif // TORRENTPARSER_H
