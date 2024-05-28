@@ -116,11 +116,11 @@ void PeerConnection::handle_read_length(const boost::system::error_code &error,
         return;
       }
 
-      if (message_length > 16 * 1024) { // Check for a sane message length
+      /*if (message_length > 16 * 1024) { // Check for a sane message length
         std::cerr << "Invalid message length: " << message_length << std::endl;
         stop();
         return;
-      }
+      }*/
 
       read_buffer_.resize(4 + message_length);
       auto self(shared_from_this());
@@ -232,6 +232,9 @@ void PeerConnection::request_piece() {
   std::unordered_set<uint32_t> missing_pieces =
       piece_manager_->missing_pieces();
 
+  if (missing_pieces.size() == 0)
+    stop();
+
   std::cout << "Missing pieces: ";
   for (const auto &piece_index : missing_pieces) {
     std::cout << piece_index << " ";
@@ -251,18 +254,31 @@ void PeerConnection::request_piece() {
     }
 
     std::cout << "Requesting piece index " << piece_index << std::endl;
-    send_request(piece_index);
+    uint32_t piece_size = piece_manager_->piece_size(piece_index);
+    uint32_t total_blocks = (piece_size + BLOCK_SIZE - 1) / BLOCK_SIZE;
+
+    piece_download_states_.emplace(
+        piece_index, PieceDownloadState(piece_index, total_blocks, piece_size));
+
+    request_more_blocks(piece_download_states_[piece_index]);
     request_pending_ = true;
     break;
   }
 }
 
-void PeerConnection::send_request(uint32_t piece_index) {
+void PeerConnection::send_block_request(uint32_t piece_index,
+                                        uint32_t block_index) {
   auto self(shared_from_this());
 
-  // Example offset and length for the request
-  uint32_t begin = 0;   // Start of the piece
-  uint32_t length = 43; // Length of the block to request
+  uint32_t begin = block_index * BLOCK_SIZE;
+  uint32_t length = BLOCK_SIZE;
+
+  uint32_t piece_length = piece_manager_->piece_size(piece_index);
+
+  // Adjust length for the last block in the piece if necessary
+  if (begin + length > piece_length) {
+    length = piece_length - begin;
+  }
 
   std::vector<std::byte> request(PIECE_REQUEST_SIZE, std::byte{0});
   // Length of the request message (13 bytes)
@@ -290,9 +306,9 @@ void PeerConnection::send_request(uint32_t piece_index) {
   request[15] = static_cast<std::byte>((length >> 8) & 0xFF);
   request[16] = static_cast<std::byte>(length & 0xFF);
 
-  std::cout << "Sending request for piece index " << piece_index
-            << ", begin offset " << begin << ", block length " << length
-            << std::endl;
+  std::cout << "Sending block request for piece index " << piece_index
+            << ", block index " << block_index << ", begin offset " << begin
+            << ", block length " << length << std::endl;
 
   boost::asio::async_write(socket_,
                            boost::asio::buffer(request, PIECE_REQUEST_SIZE),
@@ -300,10 +316,24 @@ void PeerConnection::send_request(uint32_t piece_index) {
                                        self, boost::asio::placeholders::error));
 }
 
+void PeerConnection::request_more_blocks(PieceDownloadState &piece_request) {
+  uint32_t blocks_to_request = 0;
+  while (blocks_to_request < MAX_CONCURRENT_BLOCK_REQUESTS &&
+         piece_request.next_block_to_request < piece_request.total_blocks) {
+    if (!piece_request.blocks_received[piece_request.next_block_to_request]) {
+      send_block_request(piece_request.piece_index,
+                         piece_request.next_block_to_request);
+      blocks_to_request++;
+    }
+    piece_request.next_block_to_request++;
+  }
+}
+
 void PeerConnection::handle_piece_request(
     const boost::system::error_code &error) {
   if (!error) {
     std::cout << "Piece request sent successfully." << std::endl;
+    request_pending_ = false;
   } else {
     std::cerr << "Piece request error: " << error.message() << std::endl;
   }
@@ -322,11 +352,62 @@ void PeerConnection::handle_bitfield(
 
 void PeerConnection::handle_piece(const PieceData &piece_data) {
   std::cout << "Handling piece data - Index: " << piece_data.index
+            << ", Begin: " << piece_data.begin
             << ", Block size: " << piece_data.block.size() << std::endl;
 
-  // Save the piece data using the piece manager
-  piece_manager_->save_piece(piece_data.index);
+  // Find the matching piece request
+  auto it = piece_download_states_.find(piece_data.index);
 
-  // Clear the request pending flag
+  if (it != piece_download_states_.end()) {
+    PieceDownloadState &piece_request = it->second;
+    uint32_t block_offset = piece_data.begin;
+
+    std::cout << "Storing block at offset: " << block_offset << std::endl;
+
+    // Store the received block in the buffer
+    std::copy(piece_data.block.begin(), piece_data.block.end(),
+              piece_request.piece_data_buffer.begin() + block_offset);
+
+    // Calculate block index based on the offset
+    uint32_t block_index = piece_data.begin / BLOCK_SIZE;
+    piece_request.blocks_received[block_index] = true;
+
+    // Print the blocks received so far for debugging
+    std::cout << "Blocks received for piece " << piece_data.index << ": ";
+    for (const auto &received : piece_request.blocks_received) {
+      std::cout << received << " ";
+    }
+    std::cout << std::endl;
+
+    // Check if all blocks for this piece are received
+    if (std::all_of(piece_request.blocks_received.begin(),
+                    piece_request.blocks_received.end(),
+                    [](bool received) { return received; })) {
+      std::cout << "All blocks for piece " << piece_data.index << " received."
+                << std::endl;
+
+      // Save the complete piece if file_manager_ is not null
+      if (file_manager_) {
+        file_manager_->write_piece(piece_data.index,
+                                   piece_request.piece_data_buffer);
+        std::cout << "Piece " << piece_data.index << " written to file."
+                  << std::endl;
+        piece_manager_->save_piece(piece_data.index);
+      } else {
+        std::cerr << "Error: file_manager_ is null. Cannot write piece "
+                  << piece_data.index << std::endl;
+      }
+      piece_download_states_.erase(it);
+    } else {
+      // Request the next set of blocks
+      request_more_blocks(piece_request);
+      std::cout << "Requesting more blocks for piece " << piece_data.index
+                << std::endl;
+    }
+  } else {
+    std::cerr << "Error: No matching piece request found for index "
+              << piece_data.index << std::endl;
+  }
+
   request_pending_ = false;
 }

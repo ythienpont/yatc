@@ -29,6 +29,7 @@ enum class MessageType : uint8_t {
 
 struct PieceData {
   uint32_t index;
+  uint32_t begin;
   std::vector<std::byte> block;
 };
 
@@ -37,8 +38,8 @@ using Payload = std::variant<std::monostate, // for messages with no payload
                              std::vector<std::byte>, // for Bitfield and Piece
                              std::tuple<uint32_t, uint32_t,
                                         uint32_t>, // for Request and Cancel
-                                                   // (index begin, length)
-                             PieceData>; // for Piece message (index, block)
+                                                   // (index, begin, length)
+                             PieceData>; // for Piece message (index, begin, block)
 
 struct Message {
   MessageType type;
@@ -79,13 +80,14 @@ struct Message {
                                     bytes_to_uint32(payloadBytes, 8))};
 
     case MessageType::Piece:
-      if (payloadBytes.size() < sizeof(uint32_t))
+      if (payloadBytes.size() < 2 * sizeof(uint32_t))
         throw std::runtime_error("Invalid payload size for Piece message.");
       {
-        uint32_t index = bytes_to_uint32(payloadBytes);
-        std::vector<std::byte> block(payloadBytes.begin() + 4,
+        uint32_t index = bytes_to_uint32(payloadBytes, 0);
+        uint32_t begin = bytes_to_uint32(payloadBytes, 4);
+        std::vector<std::byte> block(payloadBytes.begin() + 8,
                                      payloadBytes.end());
-        return {type, PieceData{index, std::move(block)}};
+        return {type, PieceData{index, begin, std::move(block)}};
       }
 
     default:
@@ -94,4 +96,4 @@ struct Message {
   }
 };
 
-#endif //! MESSAGE_H
+#endif // !MESSAGE_H

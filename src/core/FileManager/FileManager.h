@@ -1,7 +1,6 @@
 #ifndef FILEMANAGER_H
 #define FILEMANAGER_H
 
-#include "PieceBuffer/PieceBuffer.h"
 #include "Torrent/Torrent.h"
 #include <cerrno>
 #include <cstdint>
@@ -16,11 +15,11 @@ class FileManager {
 public:
   virtual ~FileManager() = default;
 
-  virtual bool write_block(uint32_t piece_index, uint32_t offset,
-                           const std::vector<std::byte> &data);
-
   virtual std::vector<std::byte>
   read_block(uint32_t piece_index, uint32_t offset, uint32_t length) const = 0;
+
+  virtual bool write_piece(uint32_t piece_index,
+                           std::vector<std::byte> &data) = 0;
 
 protected:
   virtual void pre_allocate_space() = 0;
@@ -28,15 +27,10 @@ protected:
   FileManager(const std::vector<FileInfo> &files, uint32_t piece_length,
               std::vector<InfoHash> info_hashes);
 
-  virtual bool write_piece(uint32_t piece_index) = 0;
-
   uint32_t total_pieces() const;
 
   std::vector<FileInfo> files_;
   uint32_t piece_length_;
-
-  std::vector<PieceBuffer>
-      pieces_; ///< Combined buffers and state tracking for each piece.
 };
 
 class LinuxFileManager : public FileManager {
@@ -49,12 +43,12 @@ public:
   virtual std::vector<std::byte> read_block(uint32_t piece_index,
                                             uint32_t offset,
                                             uint32_t length) const override;
-  bool write_test_piece(const std::byte *data, uint32_t offset,
-                        uint32_t length);
+
+  virtual bool write_piece(uint32_t piece_index,
+                           std::vector<std::byte> &data) override;
 
 protected:
   virtual void pre_allocate_space() override;
-  virtual bool write_piece(uint32_t piece_index) override;
 
 private:
   bool write_to_file(const std::string &path, uint64_t offset,

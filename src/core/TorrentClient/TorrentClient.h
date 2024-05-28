@@ -1,6 +1,7 @@
 #ifndef TORRENTCLIENT_H
 #define TORRENTCLIENT_H
 
+#include "FileManager/FileManager.h"
 #include "PeerConnection/PeerConnection.h"
 #include "PieceManager/PieceManager.h"
 #include "TorrentParser/TorrentParser.h"
@@ -23,6 +24,7 @@ private:
 
   std::unique_ptr<TrackerClient> tracker_client_;
   std::shared_ptr<PieceManager> piece_manager_;
+  std::shared_ptr<LinuxFileManager> file_manager_;
   std::unique_ptr<TorrentParser> torrent_parser_;
   Torrent torrent_;
   std::vector<std::shared_ptr<PeerConnection>> peer_connections_;

@@ -85,11 +85,13 @@ void TorrentParser::extract_file_info(Torrent &torrent,
     }
 
   } else { // Single-file torrent
-    torrent.files.emplace_back(FileInfo{
-        std::get<std::string>(info_dict.at("name")), // File name
-        (uint64_t)std::get<bencode::integer>(
-            info_dict.at("length")) // File length
-    });
+    uint64_t length =
+        (uint64_t)std::get<bencode::integer>(info_dict.at("length"));
+    torrent.files.emplace_back(
+        FileInfo{std::get<std::string>(info_dict.at("name")), // File name
+                 length,                                      // File length
+                 0, length});
+    std::cout << torrent.files[0].end_offset << std::endl;
   }
 }
 

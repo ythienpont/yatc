@@ -36,11 +36,20 @@ void TorrentClient::setup_torrent(const std::string &torrent_file) {
   }
 
   try {
-    piece_manager_ = std::make_shared<PieceManager>(torrent_.total_pieces());
+    piece_manager_ =
+        std::make_shared<PieceManager>(torrent_.size(), torrent_.piece_length);
     logger->log("Piece manager set up for " +
                 std::to_string(torrent_.total_pieces()) + " pieces.");
   } catch (const std::exception &e) {
     logger->log("Error setting up piece manager: " + std::string(e.what()));
+    return;
+  }
+
+  try {
+    file_manager_ = std::make_shared<LinuxFileManager>(
+        torrent_.files, torrent_.piece_length, torrent_.pieces);
+  } catch (const std::exception &e) {
+    logger->log("Error setting up file manager: " + std::string(e.what()));
     return;
   }
 
@@ -77,7 +86,7 @@ void TorrentClient::initiate_tracker_session() {
 void TorrentClient::add_connection(const Peer &peer) {
   auto connection = std::make_shared<PeerConnection>(
       io_context_, torrent_.info_hash, tracker_client_->getPeerId(),
-      piece_manager_);
+      piece_manager_, file_manager_);
   {
     std::lock_guard<std::mutex> lock(connections_mutex_);
     peer_connections_.push_back(connection);
