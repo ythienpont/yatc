@@ -5,7 +5,7 @@
 #include <stdexcept>
 
 std::array<std::byte, 20> compute_sha1(const std::string &data) {
-  unsigned char hash[SHA_DIGEST_LENGTH]; // Ensure SHA_DIGEST_LENGTH is 20
+  unsigned char hash[SHA_DIGEST_LENGTH]; // SHA_DIGEST_LENGTH is 20
   SHA1(reinterpret_cast<const unsigned char *>(data.c_str()), data.size(),
        hash);
 
@@ -87,10 +87,12 @@ void TorrentParser::extract_file_info(Torrent &torrent,
   } else { // Single-file torrent
     uint64_t length =
         (uint64_t)std::get<bencode::integer>(info_dict.at("length"));
-    torrent.files.emplace_back(
-        FileInfo{std::get<std::string>(info_dict.at("name")), // File name
-                 length,                                      // File length
-                 0, length});
+    torrent.files.emplace_back(FileInfo{
+        std::get<std::string>(info_dict.at("name")), // File name
+        length,                                      // File length
+        0,                                           // Start offset
+        length                                       // End offset
+    });
     std::cout << torrent.files[0].end_offset << std::endl;
   }
 }

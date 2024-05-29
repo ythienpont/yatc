@@ -2,7 +2,6 @@
 #include "Message/Message.h"
 #include "Torrent/Torrent.h"
 #include <boost/asio.hpp>
-#include <iostream>
 #include <unordered_set>
 #include <vector>
 
@@ -38,6 +37,8 @@ tcp::socket &PeerConnection::socket() { return socket_; }
 
 void PeerConnection::start() {
   auto self(shared_from_this());
+
+  // Start handshake
   std::vector<std::byte> handshake = create_handshake(info_hash_, peer_id_);
   boost::asio::async_write(socket_, boost::asio::buffer(handshake),
                            boost::bind(&PeerConnection::handle_handshake, self,
@@ -67,31 +68,32 @@ void PeerConnection::handle_handshake_response(
     std::shared_ptr<std::vector<std::byte>> response,
     const boost::system::error_code &error) {
   if (!error) {
-    send_interested();
+    std::cout << "Handshake succesful" << std::endl;
+    send_interested_message();
   } else {
     stop();
   }
 }
 
-void PeerConnection::send_interested() {
+void PeerConnection::send_interested_message() {
   auto self(shared_from_this());
   std::vector<std::byte> interested = {std::byte{0x00}, std::byte{0x00},
                                        std::byte{0x00}, std::byte{0x01},
                                        std::byte{0x02}};
-  boost::asio::async_write(socket_,
-                           boost::asio::buffer(interested, interested.size()),
-                           boost::bind(&PeerConnection::handle_interested, self,
-                                       boost::asio::placeholders::error));
+  boost::asio::async_write(
+      socket_, boost::asio::buffer(interested, interested.size()),
+      boost::bind(&PeerConnection::handle_interested_message, self,
+                  boost::asio::placeholders::error));
 }
 
-void PeerConnection::handle_interested(const boost::system::error_code &error) {
+void PeerConnection::handle_interested_message(
+    const boost::system::error_code &error) {
   if (!error) {
     read_message();
   }
 }
 
 void PeerConnection::read_message() {
-  std::cout << "Reading message" << std::endl;
   auto self(shared_from_this());
   read_buffer_.resize(4);
   boost::asio::async_read(
@@ -104,24 +106,18 @@ void PeerConnection::read_message() {
 void PeerConnection::handle_read_length(const boost::system::error_code &error,
                                         std::size_t bytes_transferred) {
   if (!error) {
-    std::cout << "Read length: " << bytes_transferred << " bytes" << std::endl;
+    // Read the first 4 bytes to get the message length
     if (bytes_transferred == 4) {
       uint32_t message_length =
           ntohl(*reinterpret_cast<uint32_t *>(read_buffer_.data()));
-      std::cout << "Message length: " << message_length << std::endl;
 
+      // If message length is zero, it is a keep-alive message
       if (message_length == 0) {
-        std::cout << "Keep-alive message received" << std::endl;
         read_message();
         return;
       }
 
-      /*if (message_length > 16 * 1024) { // Check for a sane message length
-        std::cerr << "Invalid message length: " << message_length << std::endl;
-        stop();
-        return;
-      }*/
-
+      // Read the remaining part of the message
       read_buffer_.resize(4 + message_length);
       auto self(shared_from_this());
       boost::asio::async_read(
@@ -130,13 +126,9 @@ void PeerConnection::handle_read_length(const boost::system::error_code &error,
                       boost::asio::placeholders::error,
                       boost::asio::placeholders::bytes_transferred));
     } else {
-      std::cerr << "Error: Expected 4 bytes for message length, but got "
-                << bytes_transferred << std::endl;
       read_message();
     }
   } else {
-    std::cerr << "Error reading message length: " << error.message()
-              << std::endl;
     stop();
   }
 }
@@ -144,82 +136,60 @@ void PeerConnection::handle_read_length(const boost::system::error_code &error,
 void PeerConnection::handle_read_message(const boost::system::error_code &error,
                                          std::size_t bytes_transferred) {
   if (!error) {
-    std::cout << "Read message: " << bytes_transferred << " bytes" << std::endl;
-    if (bytes_transferred == read_buffer_.size() - 4) {
-      // Process the complete message
+    if (bytes_transferred == read_buffer_.size() - 4) { // All bytes read
       Message message = Message::parseMessage(read_buffer_);
-      std::cout << "Message parsed: Type = " << static_cast<int>(message.type)
-                << std::endl;
       process_message(message);
 
-      // Clear the buffer for the next message
       read_buffer_.clear();
-
-      // Start reading the next message
       read_message();
     } else {
-      std::cerr << "Error: Expected " << (read_buffer_.size() - 4)
-                << " bytes, but got " << bytes_transferred << std::endl;
-      read_message();
+      read_message(); // Keep reading
     }
   } else {
-    std::cerr << "Error reading message: " << error.message() << std::endl;
     stop();
   }
 }
 
 void PeerConnection::process_message(const Message &message) {
-  std::cout << "Processing message of type: " << static_cast<int>(message.type)
-            << std::endl;
-
   auto handle_payload = overloaded{
       [](std::monostate) {}, [](uint32_t piece_index) {},
       [this](const std::vector<std::byte> &bitfield_data) {
-        handle_bitfield(bitfield_data);
+        handle_bitfield_message(bitfield_data);
       },
       [](const std::tuple<uint32_t, uint32_t, uint32_t> &request_data) {},
-      [this](const PieceData &piece_data) { handle_piece(piece_data); }};
+      [this](const PieceData &piece_data) {
+        handle_piece_message(piece_data);
+      }};
 
   switch (message.type) {
   case MessageType::Choke:
-    std::cout << "Choked by peer" << std::endl;
     local_state_.choked = true;
     break;
   case MessageType::Unchoke:
-    std::cout << "Unchoked by peer" << std::endl;
     local_state_.choked = false;
     break;
   case MessageType::Interested:
-    std::cout << "Remote peer is interested" << std::endl;
     remote_state_.interested = true;
     break;
   case MessageType::NotInterested:
-    std::cout << "Remote peer is not interested" << std::endl;
     remote_state_.interested = false;
     break;
   case MessageType::Have:
-    std::cout << "Have message received" << std::endl;
     std::visit(handle_payload, message.payload);
     break;
   case MessageType::Bitfield:
-    std::cout << "Bitfield received" << std::endl;
     std::visit(handle_payload, message.payload);
     break;
-  case MessageType::Request:
-    std::cout << "Request message received" << std::endl;
+  case MessageType::Request: // TODO
     std::visit(handle_payload, message.payload);
     break;
   case MessageType::Piece:
-    std::cout << "Piece message received" << std::endl;
     std::visit(handle_payload, message.payload);
     break;
-  case MessageType::Cancel:
-    std::cout << "Cancel message received" << std::endl;
+  case MessageType::Cancel: // TODO
     std::visit(handle_payload, message.payload);
     break;
   default:
-    std::cerr << "Unknown message type received: "
-              << static_cast<int>(message.type) << std::endl;
     break;
   }
 
@@ -229,37 +199,37 @@ void PeerConnection::process_message(const Message &message) {
 }
 
 void PeerConnection::request_piece() {
+  // Get the list of missing pieces from the PieceManager
   std::unordered_set<uint32_t> missing_pieces =
       piece_manager_->missing_pieces();
 
-  if (missing_pieces.size() == 0)
+  // If there are no missing pieces, stop the connection
+  if (missing_pieces.size() == 0) {
     stop();
-
-  std::cout << "Missing pieces: ";
-  for (const auto &piece_index : missing_pieces) {
-    std::cout << piece_index << " ";
+    return;
   }
-  std::cout << std::endl;
 
+  // Iterate over the missing pieces to request one
   for (const auto &piece_index : missing_pieces) {
+    // Skip if the piece index is out of bounds
     if (piece_index >= bitfield_.size()) {
-      std::cerr << "Piece index " << piece_index << " is out of bounds."
-                << std::endl;
       continue;
     }
 
+    // Skip if the peer doesn't have this piece
     if (!bitfield_[piece_index]) {
-      std::cout << "Peer doesn't have piece " << piece_index << std::endl;
       continue;
     }
 
-    std::cout << "Requesting piece index " << piece_index << std::endl;
+    // Get the size of the piece and calculate the total number of blocks
     uint32_t piece_size = piece_manager_->piece_size(piece_index);
     uint32_t total_blocks = (piece_size + BLOCK_SIZE - 1) / BLOCK_SIZE;
 
+    // Initialize the download state for the piece
     piece_download_states_.emplace(
         piece_index, PieceDownloadState(piece_index, total_blocks, piece_size));
 
+    // Request blocks for the piece
     request_more_blocks(piece_download_states_[piece_index]);
     request_pending_ = true;
     break;
@@ -270,18 +240,18 @@ void PeerConnection::send_block_request(uint32_t piece_index,
                                         uint32_t block_index) {
   auto self(shared_from_this());
 
+  // Calculate the beginning offset and length of the block
   uint32_t begin = block_index * BLOCK_SIZE;
   uint32_t length = BLOCK_SIZE;
-
   uint32_t piece_length = piece_manager_->piece_size(piece_index);
 
-  // Adjust length for the last block in the piece if necessary
+  // Adjust the length for the last block if necessary
   if (begin + length > piece_length) {
     length = piece_length - begin;
   }
 
+  // Create a block request message
   std::vector<std::byte> request(PIECE_REQUEST_SIZE, std::byte{0});
-  // Length of the request message (13 bytes)
   request[0] = std::byte{0x00};
   request[1] = std::byte{0x00};
   request[2] = std::byte{0x00};
@@ -306,20 +276,20 @@ void PeerConnection::send_block_request(uint32_t piece_index,
   request[15] = static_cast<std::byte>((length >> 8) & 0xFF);
   request[16] = static_cast<std::byte>(length & 0xFF);
 
-  std::cout << "Sending block request for piece index " << piece_index
-            << ", block index " << block_index << ", begin offset " << begin
-            << ", block length " << length << std::endl;
-
-  boost::asio::async_write(socket_,
-                           boost::asio::buffer(request, PIECE_REQUEST_SIZE),
-                           boost::bind(&PeerConnection::handle_piece_request,
-                                       self, boost::asio::placeholders::error));
+  // Send the block request to the peer
+  boost::asio::async_write(
+      socket_, boost::asio::buffer(request, PIECE_REQUEST_SIZE),
+      boost::bind(&PeerConnection::handle_piece_request_response, self,
+                  boost::asio::placeholders::error));
 }
 
 void PeerConnection::request_more_blocks(PieceDownloadState &piece_request) {
   uint32_t blocks_to_request = 0;
+
+  // Request more blocks while staying within the limit of concurrent requests
   while (blocks_to_request < MAX_CONCURRENT_BLOCK_REQUESTS &&
          piece_request.next_block_to_request < piece_request.total_blocks) {
+    // If the block has not been received, request it
     if (!piece_request.blocks_received[piece_request.next_block_to_request]) {
       send_block_request(piece_request.piece_index,
                          piece_request.next_block_to_request);
@@ -329,19 +299,20 @@ void PeerConnection::request_more_blocks(PieceDownloadState &piece_request) {
   }
 }
 
-void PeerConnection::handle_piece_request(
+void PeerConnection::handle_piece_request_response(
     const boost::system::error_code &error) {
   if (!error) {
-    std::cout << "Piece request sent successfully." << std::endl;
     request_pending_ = false;
   } else {
-    std::cerr << "Piece request error: " << error.message() << std::endl;
+    stop();
   }
 }
 
-void PeerConnection::handle_bitfield(
+void PeerConnection::handle_bitfield_message(
     const std::vector<std::byte> &bitfield_data) {
   bitfield_.clear();
+
+  // Convert the bitfield data to a vector of booleans
   for (const auto &byte : bitfield_data) {
     for (int i = 7; i >= 0; --i) {
       bitfield_.push_back(
@@ -350,11 +321,7 @@ void PeerConnection::handle_bitfield(
   }
 }
 
-void PeerConnection::handle_piece(const PieceData &piece_data) {
-  std::cout << "Handling piece data - Index: " << piece_data.index
-            << ", Begin: " << piece_data.begin
-            << ", Block size: " << piece_data.block.size() << std::endl;
-
+void PeerConnection::handle_piece_message(const PieceData &piece_data) {
   // Find the matching piece request
   auto it = piece_download_states_.find(piece_data.index);
 
@@ -362,51 +329,25 @@ void PeerConnection::handle_piece(const PieceData &piece_data) {
     PieceDownloadState &piece_request = it->second;
     uint32_t block_offset = piece_data.begin;
 
-    std::cout << "Storing block at offset: " << block_offset << std::endl;
-
-    // Store the received block in the buffer
     std::copy(piece_data.block.begin(), piece_data.block.end(),
               piece_request.piece_data_buffer.begin() + block_offset);
 
-    // Calculate block index based on the offset
     uint32_t block_index = piece_data.begin / BLOCK_SIZE;
     piece_request.blocks_received[block_index] = true;
-
-    // Print the blocks received so far for debugging
-    std::cout << "Blocks received for piece " << piece_data.index << ": ";
-    for (const auto &received : piece_request.blocks_received) {
-      std::cout << received << " ";
-    }
-    std::cout << std::endl;
 
     // Check if all blocks for this piece are received
     if (std::all_of(piece_request.blocks_received.begin(),
                     piece_request.blocks_received.end(),
                     [](bool received) { return received; })) {
-      std::cout << "All blocks for piece " << piece_data.index << " received."
-                << std::endl;
+      file_manager_->write_piece(piece_data.index,
+                                 piece_request.piece_data_buffer);
+      // TODO: Check if write succeeds, I'm just happy it works for now
+      piece_manager_->save_piece(piece_data.index);
 
-      // Save the complete piece if file_manager_ is not null
-      if (file_manager_) {
-        file_manager_->write_piece(piece_data.index,
-                                   piece_request.piece_data_buffer);
-        std::cout << "Piece " << piece_data.index << " written to file."
-                  << std::endl;
-        piece_manager_->save_piece(piece_data.index);
-      } else {
-        std::cerr << "Error: file_manager_ is null. Cannot write piece "
-                  << piece_data.index << std::endl;
-      }
       piece_download_states_.erase(it);
     } else {
-      // Request the next set of blocks
       request_more_blocks(piece_request);
-      std::cout << "Requesting more blocks for piece " << piece_data.index
-                << std::endl;
     }
-  } else {
-    std::cerr << "Error: No matching piece request found for index "
-              << piece_data.index << std::endl;
   }
 
   request_pending_ = false;

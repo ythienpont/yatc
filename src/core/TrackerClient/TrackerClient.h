@@ -72,14 +72,14 @@ public:
    *
    * @return Peer::Id The peer ID.
    */
-  Peer::Id getPeerId() const { return peerId_; }
+  Peer::Id peer_id() const { return peerId_; }
 
   /**
    * @brief Retrieves the info hash of the torrent.
    *
    * @return InfoHash The info hash of the torrent.
    */
-  InfoHash get_info_hash() const { return torrent_.info_hash; }
+  InfoHash info_hash() const { return torrent_.info_hash; }
 
   /**
    * @brief Constructs a new Tracker Client object.

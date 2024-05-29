@@ -85,7 +85,7 @@ void TorrentClient::initiate_tracker_session() {
 
 void TorrentClient::add_connection(const Peer &peer) {
   auto connection = std::make_shared<PeerConnection>(
-      io_context_, torrent_.info_hash, tracker_client_->getPeerId(),
+      io_context_, torrent_.info_hash, tracker_client_->peer_id(),
       piece_manager_, file_manager_);
   {
     std::lock_guard<std::mutex> lock(connections_mutex_);
@@ -103,7 +103,7 @@ void TorrentClient::handle_connect(std::shared_ptr<PeerConnection> connection,
                                    const boost::system::error_code &error) {
   if (!error) {
     connection->start();
-  } else {
+  } else { // Remove connection if it fails
     std::cerr << "Connect error: " << error.message() << std::endl;
     {
       std::lock_guard<std::mutex> lock(connections_mutex_);

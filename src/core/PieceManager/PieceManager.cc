@@ -16,7 +16,8 @@ bool PieceManager::has_piece(const uint32_t piece_index) const {
 
 std::unordered_set<uint32_t> PieceManager::missing_pieces() const {
   std::lock_guard<std::mutex> lock(mutex_);
-  std::unordered_set<uint32_t> missing;
+  std::unordered_set<uint32_t> missing; // Might change this to a queue later
+
   for (uint32_t i = 0; i < downloaded_pieces_.size(); ++i) {
     if (!downloaded_pieces_[i]) {
       missing.insert(i);

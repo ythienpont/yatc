@@ -1,13 +1,16 @@
-#include "../TorrentInfo/TorrentInfo.h"
+#include "TorrentClient/TorrentClient.h"
 #include <gtk/gtk.h>
+#include <iostream>
+#include <memory>
+#include <vector>
 
 class MainWindow {
 private:
   GtkApplication *app;
   GtkWidget *window;
-  std::vector<TorrentInfo> torrents;
   std::vector<GtkWidget *> drawingAreas; // Store pointers to drawing areas
   guint updateTimerId;
+  std::unique_ptr<TorrentClient> torrentClient;
 
 public:
   MainWindow();
@@ -20,9 +23,7 @@ public:
   void setupMenuBar(GtkWidget *vbox);
   void applyCss();
   void run(int argc, char **argv);
-
-  static void on_add_torrent_activate(GMenu *menuitem, gpointer user_data) {
-    // Function to handle the add torrent action
-    g_print("Add Torrent clicked\n");
-  }
+  void on_file_open();
+  static void file_open_response(GtkNativeDialog *dialog, int response_id,
+                                 gpointer user_data);
 };

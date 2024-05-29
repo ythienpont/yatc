@@ -8,7 +8,7 @@ RUN apk add --no-cache aria2
 RUN mkdir -p /files /torrents
 
 # Copy the test file and torrent file into the container
-COPY files/rubens.jpg /files/
-COPY torrents/rubens.torrent /torrents/
+COPY files/pengting.mp4 /files/
+COPY torrents/pengting.torrent /torrents/
 
-CMD sleep 10 && aria2c -V --seed-ratio=0.0 --bt-tracker=http://opentracker:6969/announce -d /files /torrents/rubens.torrent
+CMD sleep 10 && aria2c -V --seed-ratio=0.0 --bt-tracker=http://opentracker:6969/announce -d /files /torrents/pengting.torrent

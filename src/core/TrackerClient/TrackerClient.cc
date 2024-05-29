@@ -1,8 +1,6 @@
 #include "TrackerClient.h"
-#include <arpa/inet.h>
 #include <iomanip>
 #include <iostream>
-#include <netinet/in.h>
 #include <random>
 
 size_t WriteCallback(char *contents, size_t size, size_t nmemb, void *userp) {

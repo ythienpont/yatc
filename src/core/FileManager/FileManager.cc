@@ -36,6 +36,8 @@ uint32_t FileManager::total_pieces() const {
 std::vector<std::byte> LinuxFileManager::read_block(uint32_t piece_index,
                                                     uint32_t offset,
                                                     uint32_t length) const {
+  std::lock_guard<std::mutex> lock(file_mutex_);
+
   std::vector<std::byte> buffer(length);
   uint64_t bytes_read = 0;
   uint64_t global_offset =
@@ -77,6 +79,8 @@ std::vector<std::byte> LinuxFileManager::read_block(uint32_t piece_index,
 }
 
 void LinuxFileManager::pre_allocate_space() {
+  std::lock_guard<std::mutex> lock(file_mutex_);
+
   for (const auto &file : files_) {
     int fd = open(file.path.c_str(), O_WRONLY | O_CREAT, 0666);
     if (fd == -1) {
@@ -95,6 +99,7 @@ void LinuxFileManager::pre_allocate_space() {
 
 bool LinuxFileManager::write_piece(uint32_t piece_index,
                                    std::vector<std::byte> &data) {
+  std::lock_guard<std::mutex> lock(file_mutex_);
 
   if (piece_index >= total_pieces()) {
     std::cerr << "Invalid piece index: " << piece_index << std::endl;
@@ -105,11 +110,7 @@ bool LinuxFileManager::write_piece(uint32_t piece_index,
   uint64_t remaining_data = static_cast<uint64_t>(piece_length_);
   size_t data_offset = 0;
 
-  std::cout << "Writing piece " << piece_index << " to files." << std::endl;
   for (const auto &file : files_) {
-    std::cout << "Checking file: " << file.path
-              << ", start_offset: " << file.start_offset
-              << ", end_offset: " << file.end_offset << std::endl;
 
     if (offset < file.end_offset) {
       uint64_t file_offset = offset - file.start_offset;
@@ -117,9 +118,6 @@ bool LinuxFileManager::write_piece(uint32_t piece_index,
 
       std::string data_str(reinterpret_cast<char *>(&data[data_offset]),
                            write_size);
-      std::cout << "Writing to file: " << file.path
-                << ", file_offset: " << file_offset
-                << ", write_size: " << write_size << std::endl;
 
       if (!write_to_file(file.path, file_offset, &data[data_offset],
                          write_size)) {
@@ -137,14 +135,11 @@ bool LinuxFileManager::write_piece(uint32_t piece_index,
     }
   }
 
-  std::cout << "Successfully wrote piece " << piece_index << " to files."
-            << std::endl;
   return true;
 }
 
 bool LinuxFileManager::write_to_file(const std::string &path, uint64_t offset,
                                      const std::byte *data, uint64_t length) {
-  std::cout << "Opening file for writing: " << path << std::endl;
   int fd = open(path.c_str(), O_WRONLY);
   if (fd == -1) {
     std::cerr << "Failed to open file for writing: " << strerror(errno)
@@ -152,8 +147,6 @@ bool LinuxFileManager::write_to_file(const std::string &path, uint64_t offset,
     return false;
   }
 
-  std::cout << "Seeking to offset: " << offset << " in file: " << path
-            << std::endl;
   lseek(fd, offset, SEEK_SET);
   ssize_t bytes_written = write(fd, data, length);
   close(fd);
@@ -162,10 +155,6 @@ bool LinuxFileManager::write_to_file(const std::string &path, uint64_t offset,
     std::cerr << "Failed to write file: " << strerror(errno) << std::endl;
     return false;
   }
-
-  std::string data_str(reinterpret_cast<const char *>(data), length);
-  std::cout << "Successfully wrote " << bytes_written
-            << " bytes to file: " << path << std::endl;
 
   return true;
 }
