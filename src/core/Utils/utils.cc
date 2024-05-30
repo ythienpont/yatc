@@ -1,6 +1,7 @@
 #include "utils.h"
 #include <iomanip>
 #include <iostream>
+
 uint32_t bytes_to_uint32(const std::vector<std::byte> &bytes, size_t offset) {
   uint32_t value = 0;
   for (int i = 0; i < 4; ++i) {

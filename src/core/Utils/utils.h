@@ -1,6 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include <cstddef>
 #include <cstdint>
 #include <vector>
 
