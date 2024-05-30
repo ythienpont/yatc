@@ -1,0 +1,22 @@
+\doxysection{Peer.\+h}
+\hypertarget{Peer_8h_source}{}\label{Peer_8h_source}\index{/home/yonah/School/PRO/yatc/src/core/Peer/Peer.h@{/home/yonah/School/PRO/yatc/src/core/Peer/Peer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ <array>}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structPeer}{Peer}}\ \{}
+\DoxyCodeLine{00013\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{structPeer_a2507a4f82b96df926fc3c259b24a8e6f}{Id}}\ =\ std::array<std::byte,\ 20>;}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00020\ \ \ std::optional<Id>\ \mbox{\hyperlink{structPeer_a4675e5b92dcb989be7c7af566c5af2a7}{id}};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00027\ \ \ std::string\ \mbox{\hyperlink{structPeer_a2378d6ea4dda14b95ec8be83f7917de8}{ip}};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00032\ \ \ uint16\_t\ \mbox{\hyperlink{structPeer_adc762054b5f9eb8b7f1173d85fd85ec4}{port}};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00039\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structPeer_a67d384d76487e9fe9eae65286343b7bb}{is\_id\_set}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{id}.has\_value();\ \}}
+\DoxyCodeLine{00040\ \};}
+
+\end{DoxyCode}

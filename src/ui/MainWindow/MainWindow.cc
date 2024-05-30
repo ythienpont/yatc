@@ -77,15 +77,24 @@ void MainWindow::draw_callback(GtkDrawingArea *area, cairo_t *cr, int width,
     cairo_set_source_rgb(cr, 0.95, 0.95, 0.95);
     cairo_paint(cr);
 
+    // Margins
+    double margin = 20.0;
+    double adjusted_width = width - 2 * margin;
+    double adjusted_height = height - 2 * margin;
+
     // Rounded corners
     double radius = 20.0;
     double degrees = M_PI / 180.0;
     cairo_new_sub_path(cr);
-    cairo_arc(cr, width - radius, radius, radius, -90 * degrees, 0 * degrees);
-    cairo_arc(cr, width - radius, height - radius, radius, 0 * degrees,
+    cairo_arc(cr, margin + adjusted_width - radius, margin + radius, radius,
+              -90 * degrees, 0 * degrees);
+    cairo_arc(cr, margin + adjusted_width - radius,
+              margin + adjusted_height - radius, radius, 0 * degrees,
               90 * degrees);
-    cairo_arc(cr, radius, height - radius, radius, 90 * degrees, 180 * degrees);
-    cairo_arc(cr, radius, radius, radius, 180 * degrees, 270 * degrees);
+    cairo_arc(cr, margin + radius, margin + adjusted_height - radius, radius,
+              90 * degrees, 180 * degrees);
+    cairo_arc(cr, margin + radius, margin + radius, radius, 180 * degrees,
+              270 * degrees);
     cairo_close_path(cr);
     cairo_set_source_rgb(cr, 0.2, 0.2, 0.2); // Darker gray
     cairo_fill(cr);
@@ -95,14 +104,14 @@ void MainWindow::draw_callback(GtkDrawingArea *area, cairo_t *cr, int width,
     cairo_select_font_face(cr, "Sans", CAIRO_FONT_SLANT_NORMAL,
                            CAIRO_FONT_WEIGHT_NORMAL);
     cairo_set_font_size(cr, 24);
-    cairo_move_to(cr, 20, 50);
+    cairo_move_to(cr, margin + 20, margin + 50);
     cairo_show_text(cr, ss.str().c_str());
 
     // Bar
-    double bar_width = width - 40;
+    double bar_width = adjusted_width - 40;
     double bar_height = 30;
-    double bar_x = 20;
-    double bar_y = 100;
+    double bar_x = margin + 20;
+    double bar_y = margin + 100;
 
     // Bar background
     cairo_set_source_rgb(cr, 0.3, 0.3, 0.3);

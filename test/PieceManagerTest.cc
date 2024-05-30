@@ -1,4 +1,5 @@
 #include "PieceManager/PieceManager.h"
+#include "Logger/Logger.h"
 #include <gtest/gtest.h>
 #include <unordered_set>
 
@@ -51,6 +52,8 @@ TEST_F(PieceManagerTest, PieceSize) {
   EXPECT_EQ(pm_large.piece_size(10), 50); // Last piece is smaller
   EXPECT_EQ(pm_large.piece_size(11), 0);  // Out of bounds
 }
+
+std::ostringstream Logger::null_stream_;
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);

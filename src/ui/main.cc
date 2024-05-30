@@ -1,4 +1,3 @@
-#include "Logger/Logger.h"
 #include "MainWindow/MainWindow.h"
 #include <sstream>
 
