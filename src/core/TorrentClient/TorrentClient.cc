@@ -103,8 +103,7 @@ void TorrentClient::handle_connect(std::shared_ptr<PeerConnection> connection,
                                    const boost::system::error_code &error) {
   if (!error) {
     connection->start();
-  } else { // Remove connection if it fails
-    std::cerr << "Connect error: " << error.message() << std::endl;
+  } else {
     {
       std::lock_guard<std::mutex> lock(connections_mutex_);
       auto it = std::remove(peer_connections_.begin(), peer_connections_.end(),
@@ -112,4 +111,20 @@ void TorrentClient::handle_connect(std::shared_ptr<PeerConnection> connection,
       peer_connections_.erase(it, peer_connections_.end());
     }
   }
+}
+
+TorrentInfo TorrentClient::download_info() const {
+  TorrentInfo info;
+  info.name = torrent_.name;
+  info.connections = peer_connections_.size();
+  if (piece_manager_ != nullptr) {
+    info.pieces_needed = piece_manager_->missing_pieces().size();
+  } else {
+    info.pieces_needed = 0;
+  }
+
+  info.total_pieces = torrent_.total_pieces();
+  info.piece_length = torrent_.piece_length;
+
+  return info;
 }

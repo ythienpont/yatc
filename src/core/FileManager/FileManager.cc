@@ -151,7 +151,7 @@ bool LinuxFileManager::write_to_file(const std::string &path, uint64_t offset,
   ssize_t bytes_written = write(fd, data, length);
   close(fd);
 
-  if (bytes_written != length) {
+  if (static_cast<uint64_t>(bytes_written) != length) {
     std::cerr << "Failed to write file: " << strerror(errno) << std::endl;
     return false;
   }

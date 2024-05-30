@@ -67,7 +67,8 @@ private:
    * @param torrent Reference to the Torrent object to populate.
    * @param info_dict The 'info' dictionary containing file details.
    */
-  void extract_file_info(Torrent &torrent, const bencode::dict &info_dict) const;
+  void extract_file_info(Torrent &torrent,
+                         const bencode::dict &info_dict) const;
 
   /**
    * @brief Extracts the piece hashes from the 'info' dictionary and stores them

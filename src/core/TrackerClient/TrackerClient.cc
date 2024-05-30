@@ -86,18 +86,19 @@ std::string arrayToString(const std::array<std::byte, 20> &data) {
 
 TrackerClient::TrackerClient(const Torrent &torrent, const uint16_t port)
     : torrent_(torrent), port_(port), uploaded_(0), downloaded_(0) {
-  peerId_ = generatePeerId();
+  peer_id_ = generatePeerId();
   left_ = torrent_.size();
   logger_ = Logger::instance();
   logger_->log("TrackerClient constructed with generated peer ID",
                Logger::DEBUG);
 }
 
-std::string TrackerClient::buildQueryString(TrackerClient::Event event) const {
+std::string
+TrackerClient::build_query_string(TrackerClient::Event event) const {
   std::stringstream ss;
   ss << torrent_.tracker_url << "?"
      << "info_hash=" << urlEncode(torrent_.info_hash)
-     << "&peer_id=" << urlEncode(peerId_) << "&port=" << port_
+     << "&peer_id=" << urlEncode(peer_id_) << "&port=" << port_
      << "&uploaded=" << uploaded_ << "&downloaded=" << downloaded_
      << "&left=" << left_;
 
@@ -134,17 +135,15 @@ TrackerResponse parseTrackerResponse(const std::string &readBuffer) {
     // Check for failure reason
     if (dict.find("failure reason") != dict.end()) {
       std::cout << "Tracker connection failed" << std::endl;
-      response.failureReason = std::get<std::string>(dict["failure reason"]);
-      std::cout << "Failure reason: " << response.failureReason << std::endl;
+      response.failure_reason = std::get<std::string>(dict["failure reason"]);
+      std::cout << "Failure reason: " << response.failure_reason << std::endl;
       return response;
     }
 
     // Parse interval
     if (dict.find("interval") != dict.end()) {
-      std::cout << "Tracker interval: ";
       response.interval =
           static_cast<uint16_t>(std::get<bencode::integer>(dict["interval"]));
-      std::cout << response.interval << std::endl;
     }
 
     // Parse peers
@@ -152,10 +151,7 @@ TrackerResponse parseTrackerResponse(const std::string &readBuffer) {
       auto peersVariant = dict["peers"];
       if (peersVariant.index() ==
           1) { // Check if it is a string (compact format)
-        std::cout << "Compact format\n";
         auto peersString = std::get<std::string>(peersVariant);
-        std::cout << peersString << std::endl;
-        std::cout << peersString.size() << std::endl;
         for (size_t i = 0; i < peersString.size(); i += 6) {
           Peer peer;
           struct in_addr ip_addr;
@@ -163,8 +159,6 @@ TrackerResponse parseTrackerResponse(const std::string &readBuffer) {
           peer.ip = inet_ntoa(ip_addr);
           peer.port = ntohs(
               *reinterpret_cast<const uint16_t *>(peersString.data() + i + 4));
-          std::cout << "Peer IP: " << peer.ip << ", Port: " << peer.port
-                    << std::endl;
           response.peers.emplace_back(peer);
         }
       } else if (peersVariant.index() == 2) { // List of dictionaries format
@@ -193,7 +187,6 @@ TrackerResponse parseTrackerResponse(const std::string &readBuffer) {
     std::cerr << readBuffer << std::endl;
     throw std::runtime_error("Failed to parse tracker response");
   }
-  std::cout << "Tracker response parsed\n";
   return response;
 }
 
@@ -201,7 +194,7 @@ TrackerResponse TrackerClient::announce(TrackerClient::Event event) {
   CURL *curl = curl_easy_init();
   std::string readBuffer;
   if (curl) {
-    std::string url = buildQueryString(event);
+    std::string url = build_query_string(event);
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);

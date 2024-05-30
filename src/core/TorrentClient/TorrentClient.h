@@ -11,6 +11,14 @@
 #include <string>
 #include <vector>
 
+struct TorrentInfo {
+  std::string name;
+  size_t connections;
+  size_t pieces_needed;
+  size_t total_pieces;
+  size_t piece_length;
+};
+
 /**
  * @brief Manages the overall process of downloading and uploading a torrent.
  */
@@ -37,7 +45,7 @@ public:
    */
   void stop();
 
-  std::string download_info() { return "YAY!"; };
+  TorrentInfo download_info() const;
 
 private:
   boost::asio::io_context

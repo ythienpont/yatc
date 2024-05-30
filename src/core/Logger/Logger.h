@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <mutex>
+#include <sstream>
 #include <string>
 
 /**
@@ -63,7 +64,7 @@ private:
   /**
    * @brief Private constructor for the singleton logger.
    */
-  Logger() : output_(&std::cerr), logLevel_(DEBUG) {}
+  Logger() : output_(&null_stream_), logLevel_(DEBUG) {}
 
   /**
    * @brief Converts a log level to its string representation.
@@ -78,6 +79,7 @@ private:
   std::mutex mu_;           ///< Mutex for thread-safe logging.
   std::ostream *output_;    ///< Pointer to the output stream.
   Level logLevel_;          ///< Current logging level.
+  static std::ostringstream null_stream_;
 };
 
 #endif // !LOGGER_H

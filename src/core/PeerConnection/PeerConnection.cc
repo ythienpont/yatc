@@ -68,7 +68,6 @@ void PeerConnection::handle_handshake_response(
     std::shared_ptr<std::vector<std::byte>> response,
     const boost::system::error_code &error) {
   if (!error) {
-    std::cout << "Handshake succesful" << std::endl;
     send_interested_message();
   } else {
     stop();

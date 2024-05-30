@@ -24,7 +24,7 @@ Peer::Id generatePeerId();
  */
 struct TrackerResponse {
   /// @brief Description of failure if the request failed; empty otherwise.
-  std::string failureReason;
+  std::string failure_reason;
 
   /// @brief The number of seconds the client should wait before making a
   /// rerequest.
@@ -72,7 +72,7 @@ public:
    *
    * @return Peer::Id The peer ID.
    */
-  Peer::Id peer_id() const { return peerId_; }
+  Peer::Id peer_id() const { return peer_id_; }
 
   /**
    * @brief Retrieves the info hash of the torrent.
@@ -98,7 +98,7 @@ private:
 
   /// @brief This downloader's peer ID, randomly generated at the start of a new
   /// download.
-  Peer::Id peerId_;
+  Peer::Id peer_id_;
 
   /// @brief Port number on which this peer listens.
   uint16_t port_;
@@ -121,7 +121,7 @@ private:
    * @param event The event type to report in the query string.
    * @return std::string The constructed query string.
    */
-  std::string buildQueryString(Event event) const;
+  std::string build_query_string(Event event) const;
 };
 
 #endif // TRACKERCLIENT_H

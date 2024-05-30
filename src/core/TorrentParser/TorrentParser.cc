@@ -93,7 +93,6 @@ void TorrentParser::extract_file_info(Torrent &torrent,
         0,                                           // Start offset
         length                                       // End offset
     });
-    std::cout << torrent.files[0].end_offset << std::endl;
   }
 }
 
@@ -127,6 +126,11 @@ Torrent TorrentParser::parse_torrent_file(const std::string &filename) const {
 
   extract_file_info(torrent, info_dict);
   extract_pieces(torrent, info_dict);
+  if (torrent.files.size() != 0) {
+    torrent.name = torrent.files[0].path;
+  } else {
+    torrent.name = "Unknown";
+  }
 
   Logger::instance()->log(torrent.diagnostic_info(), Logger::DEBUG);
 
