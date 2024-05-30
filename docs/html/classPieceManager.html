@@ -99,32 +99,35 @@ $(function(){initNavTree('classPieceManager.html',''); initResizable(); });
 </div><!--header-->
 <div class="contents">
 
-<p>Manages the status of pieces in a torrent download.  
+<p>Manages the pieces of a torrent download.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="PieceManager_8h_source.html">PieceManager.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac05f7a04b088b5e879d93e7d5ebfb17f" id="r_ac05f7a04b088b5e879d93e7d5ebfb17f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac05f7a04b088b5e879d93e7d5ebfb17f">PieceManager</a> (const size_t totalPieces)</td></tr>
-<tr class="memdesc:ac05f7a04b088b5e879d93e7d5ebfb17f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new Piece Manager object.  <br /></td></tr>
-<tr class="separator:ac05f7a04b088b5e879d93e7d5ebfb17f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f0af3c1d66310b93223cbdf70067f00" id="r_a8f0af3c1d66310b93223cbdf70067f00"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f0af3c1d66310b93223cbdf70067f00">hasPiece</a> (const size_t pieceIndex) const</td></tr>
-<tr class="memdesc:a8f0af3c1d66310b93223cbdf70067f00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a piece has already been downloaded.  <br /></td></tr>
-<tr class="separator:a8f0af3c1d66310b93223cbdf70067f00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a771cafd418df95a9503a45d5e3e94dd9" id="r_a771cafd418df95a9503a45d5e3e94dd9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a771cafd418df95a9503a45d5e3e94dd9">savePiece</a> (const size_t pieceIndex)</td></tr>
-<tr class="memdesc:a771cafd418df95a9503a45d5e3e94dd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks a piece as downloaded.  <br /></td></tr>
-<tr class="separator:a771cafd418df95a9503a45d5e3e94dd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af37fbec495d7c9d288b3be205f282d68" id="r_af37fbec495d7c9d288b3be205f282d68"><td class="memItemLeft" align="right" valign="top">std::unordered_set&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af37fbec495d7c9d288b3be205f282d68">missingPieces</a> () const</td></tr>
-<tr class="memdesc:af37fbec495d7c9d288b3be205f282d68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves a set of indices representing all pieces that are still missing.  <br /></td></tr>
-<tr class="separator:af37fbec495d7c9d288b3be205f282d68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ba527870dc528a69914a76f8f5c21b3" id="r_a0ba527870dc528a69914a76f8f5c21b3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ba527870dc528a69914a76f8f5c21b3">PieceManager</a> (const uint64_t total_size, const uint32_t piece_length)</td></tr>
+<tr class="memdesc:a0ba527870dc528a69914a76f8f5c21b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classPieceManager.html" title="Manages the pieces of a torrent download.">PieceManager</a> with the total size and piece length of the torrent.  <br /></td></tr>
+<tr class="separator:a0ba527870dc528a69914a76f8f5c21b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad16602ac8b56e7f3b72515ee99fcdbc6" id="r_ad16602ac8b56e7f3b72515ee99fcdbc6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad16602ac8b56e7f3b72515ee99fcdbc6">has_piece</a> (const uint32_t piece_index) const</td></tr>
+<tr class="memdesc:ad16602ac8b56e7f3b72515ee99fcdbc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a piece has been downloaded.  <br /></td></tr>
+<tr class="separator:ad16602ac8b56e7f3b72515ee99fcdbc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6eeb2a12f9b12bd09bf06f1756f0000c" id="r_a6eeb2a12f9b12bd09bf06f1756f0000c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6eeb2a12f9b12bd09bf06f1756f0000c">save_piece</a> (const uint32_t piece_index)</td></tr>
+<tr class="memdesc:a6eeb2a12f9b12bd09bf06f1756f0000c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks a piece as downloaded.  <br /></td></tr>
+<tr class="separator:a6eeb2a12f9b12bd09bf06f1756f0000c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf06ea6a0d957c790e657e14431c3995" id="r_aaf06ea6a0d957c790e657e14431c3995"><td class="memItemLeft" align="right" valign="top">std::unordered_set&lt; uint32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf06ea6a0d957c790e657e14431c3995">missing_pieces</a> () const</td></tr>
+<tr class="memdesc:aaf06ea6a0d957c790e657e14431c3995"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves a set of all missing pieces.  <br /></td></tr>
+<tr class="separator:aaf06ea6a0d957c790e657e14431c3995"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae703f2f0783a098b1a79cce28e75c7f1" id="r_ae703f2f0783a098b1a79cce28e75c7f1"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae703f2f0783a098b1a79cce28e75c7f1">piece_size</a> (const uint32_t piece_index)</td></tr>
+<tr class="memdesc:ae703f2f0783a098b1a79cce28e75c7f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the size of a specific piece.  <br /></td></tr>
+<tr class="separator:ae703f2f0783a098b1a79cce28e75c7f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Manages the status of pieces in a torrent download. </p>
-<p>Tracks which pieces have been successfully downloaded and which are still missing. </p>
+<div class="textblock"><p>Manages the pieces of a torrent download. </p>
+<p>This class keeps track of which pieces have been downloaded and which are still missing. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ac05f7a04b088b5e879d93e7d5ebfb17f" name="ac05f7a04b088b5e879d93e7d5ebfb17f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac05f7a04b088b5e879d93e7d5ebfb17f">&#9670;&#160;</a></span>PieceManager()</h2>
+<a id="a0ba527870dc528a69914a76f8f5c21b3" name="a0ba527870dc528a69914a76f8f5c21b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ba527870dc528a69914a76f8f5c21b3">&#9670;&#160;</a></span>PieceManager()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -132,16 +135,21 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">PieceManager::PieceManager </td>
           <td>(</td>
-          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>totalPieces</em></span></td><td>)</td>
+          <td class="paramtype">const uint64_t</td>          <td class="paramname"><span class="paramname"><em>total_size</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const uint32_t</td>          <td class="paramname"><span class="paramname"><em>piece_length</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Constructs a new Piece Manager object. </p>
+<p>Constructs a <a class="el" href="classPieceManager.html" title="Manages the pieces of a torrent download.">PieceManager</a> with the total size and piece length of the torrent. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">totalPieces</td><td>Total number of pieces in the torrent. </td></tr>
+    <tr><td class="paramname">total_size</td><td>The total size of the torrent in bytes. </td></tr>
+    <tr><td class="paramname">piece_length</td><td>The length of each piece in bytes. </td></tr>
   </table>
   </dd>
 </dl>
@@ -149,42 +157,40 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a8f0af3c1d66310b93223cbdf70067f00" name="a8f0af3c1d66310b93223cbdf70067f00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f0af3c1d66310b93223cbdf70067f00">&#9670;&#160;</a></span>hasPiece()</h2>
+<a id="ad16602ac8b56e7f3b72515ee99fcdbc6" name="ad16602ac8b56e7f3b72515ee99fcdbc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad16602ac8b56e7f3b72515ee99fcdbc6">&#9670;&#160;</a></span>has_piece()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool PieceManager::hasPiece </td>
+          <td class="memname">bool PieceManager::has_piece </td>
           <td>(</td>
-          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>pieceIndex</em></span></td><td>)</td>
+          <td class="paramtype">const uint32_t</td>          <td class="paramname"><span class="paramname"><em>piece_index</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Checks if a piece has already been downloaded. </p>
+<p>Checks if a piece has been downloaded. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pieceIndex</td><td>Index of the piece to check. </td></tr>
+    <tr><td class="paramname">piece_index</td><td>The index of the piece to check. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true If the piece is downloaded. </dd>
-<dd>
-false If the piece is not downloaded. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the piece has been downloaded, false otherwise. </dd></dl>
 
 </div>
 </div>
-<a id="af37fbec495d7c9d288b3be205f282d68" name="af37fbec495d7c9d288b3be205f282d68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af37fbec495d7c9d288b3be205f282d68">&#9670;&#160;</a></span>missingPieces()</h2>
+<a id="aaf06ea6a0d957c790e657e14431c3995" name="aaf06ea6a0d957c790e657e14431c3995"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf06ea6a0d957c790e657e14431c3995">&#9670;&#160;</a></span>missing_pieces()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::unordered_set&lt; size_t &gt; PieceManager::missingPieces </td>
+          <td class="memname">std::unordered_set&lt; uint32_t &gt; PieceManager::missing_pieces </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
           <td> const</td>
@@ -192,21 +198,47 @@ false If the piece is not downloaded. </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Retrieves a set of indices representing all pieces that are still missing. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::unordered_set&lt;size_t&gt; Set of missing piece indices. </dd></dl>
+<p>Retrieves a set of all missing pieces. </p>
+<dl class="section return"><dt>Returns</dt><dd>A set containing the indices of all missing pieces. </dd></dl>
 
 </div>
 </div>
-<a id="a771cafd418df95a9503a45d5e3e94dd9" name="a771cafd418df95a9503a45d5e3e94dd9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a771cafd418df95a9503a45d5e3e94dd9">&#9670;&#160;</a></span>savePiece()</h2>
+<a id="ae703f2f0783a098b1a79cce28e75c7f1" name="ae703f2f0783a098b1a79cce28e75c7f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae703f2f0783a098b1a79cce28e75c7f1">&#9670;&#160;</a></span>piece_size()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void PieceManager::savePiece </td>
+          <td class="memname">uint32_t PieceManager::piece_size </td>
           <td>(</td>
-          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>pieceIndex</em></span></td><td>)</td>
+          <td class="paramtype">const uint32_t</td>          <td class="paramname"><span class="paramname"><em>piece_index</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the size of a specific piece. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">piece_index</td><td>The index of the piece. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The size of the piece in bytes. </dd></dl>
+
+</div>
+</div>
+<a id="a6eeb2a12f9b12bd09bf06f1756f0000c" name="a6eeb2a12f9b12bd09bf06f1756f0000c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6eeb2a12f9b12bd09bf06f1756f0000c">&#9670;&#160;</a></span>save_piece()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PieceManager::save_piece </td>
+          <td>(</td>
+          <td class="paramtype">const uint32_t</td>          <td class="paramname"><span class="paramname"><em>piece_index</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -215,7 +247,7 @@ false If the piece is not downloaded. </dd></dl>
 <p>Marks a piece as downloaded. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pieceIndex</td><td>Index of the piece to mark as downloaded. </td></tr>
+    <tr><td class="paramname">piece_index</td><td>The index of the piece to mark as downloaded. </td></tr>
   </table>
   </dd>
 </dl>
@@ -223,8 +255,8 @@ false If the piece is not downloaded. </dd></dl>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/yonah/School/PRO/yatc/src/PieceManager/<a class="el" href="PieceManager_8h_source.html">PieceManager.h</a></li>
-<li>/home/yonah/School/PRO/yatc/src/PieceManager/<b>PieceManager.cc</b></li>
+<li>/home/yonah/School/PRO/yatc/src/core/PieceManager/<a class="el" href="PieceManager_8h_source.html">PieceManager.h</a></li>
+<li>/home/yonah/School/PRO/yatc/src/core/PieceManager/<b>PieceManager.cc</b></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

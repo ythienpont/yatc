@@ -23,9 +23,9 @@ enum class \mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339
 \item 
 \mbox{\hyperlink{structTrackerResponse}{Tracker\+Response}} \mbox{\hyperlink{classTrackerClient_aeb3e6dfa5c20ed79e7ae76f7518cd678}{announce}} (\mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339}{Event}} event=\mbox{\hyperlink{classTrackerClient_ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07}{Event\+::\+Empty}})
 \begin{DoxyCompactList}\small\item\em Sends an announce request to the tracker to update the current status of the torrent session. \end{DoxyCompactList}\item 
-Peer\+::\+Id \mbox{\hyperlink{classTrackerClient_a4fb2e21164a4302313de9a99ffcc6b72}{get\+Peer\+Id}} () const
+\mbox{\hyperlink{structPeer_a2507a4f82b96df926fc3c259b24a8e6f}{Peer\+::\+Id}} \mbox{\hyperlink{classTrackerClient_afa515002ee838077d2330e62fc03405c}{peer\+\_\+id}} () const
 \begin{DoxyCompactList}\small\item\em Retrieves the peer ID used by this client. \end{DoxyCompactList}\item 
-Info\+Hash \mbox{\hyperlink{classTrackerClient_aa52a55a5b7bea7c04753120cc92d1ea2}{get\+Info\+Hash}} () const
+Info\+Hash \mbox{\hyperlink{classTrackerClient_a70450363990f96a94cb410adfd40d347}{info\+\_\+hash}} () const
 \begin{DoxyCompactList}\small\item\em Retrieves the info hash of the torrent. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classTrackerClient_a41e1eadd9e5c579d2f6f26d48651cadf}{Tracker\+Client}} (const \mbox{\hyperlink{structTorrent}{Torrent}} \&torrent, const uint16\+\_\+t port=6881)
 \begin{DoxyCompactList}\small\item\em Constructs a new Tracker Client object. \end{DoxyCompactList}\item 
@@ -115,11 +115,11 @@ Sends an announce request to the tracker to update the current status of the tor
 \begin{DoxyReturn}{Returns}
 \doxylink{structTrackerResponse}{Tracker\+Response} The response from the tracker. 
 \end{DoxyReturn}
-\Hypertarget{classTrackerClient_aa52a55a5b7bea7c04753120cc92d1ea2}\label{classTrackerClient_aa52a55a5b7bea7c04753120cc92d1ea2} 
-\index{TrackerClient@{TrackerClient}!getInfoHash@{getInfoHash}}
-\index{getInfoHash@{getInfoHash}!TrackerClient@{TrackerClient}}
-\doxysubsubsection{\texorpdfstring{getInfoHash()}{getInfoHash()}}
-{\footnotesize\ttfamily Info\+Hash Tracker\+Client\+::get\+Info\+Hash (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+\Hypertarget{classTrackerClient_a70450363990f96a94cb410adfd40d347}\label{classTrackerClient_a70450363990f96a94cb410adfd40d347} 
+\index{TrackerClient@{TrackerClient}!info\_hash@{info\_hash}}
+\index{info\_hash@{info\_hash}!TrackerClient@{TrackerClient}}
+\doxysubsubsection{\texorpdfstring{info\_hash()}{info\_hash()}}
+{\footnotesize\ttfamily Info\+Hash Tracker\+Client\+::info\+\_\+hash (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -128,22 +128,22 @@ Retrieves the info hash of the torrent.
 \begin{DoxyReturn}{Returns}
 Info\+Hash The info hash of the torrent. 
 \end{DoxyReturn}
-\Hypertarget{classTrackerClient_a4fb2e21164a4302313de9a99ffcc6b72}\label{classTrackerClient_a4fb2e21164a4302313de9a99ffcc6b72} 
-\index{TrackerClient@{TrackerClient}!getPeerId@{getPeerId}}
-\index{getPeerId@{getPeerId}!TrackerClient@{TrackerClient}}
-\doxysubsubsection{\texorpdfstring{getPeerId()}{getPeerId()}}
-{\footnotesize\ttfamily Peer\+::\+Id Tracker\+Client\+::get\+Peer\+Id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+\Hypertarget{classTrackerClient_afa515002ee838077d2330e62fc03405c}\label{classTrackerClient_afa515002ee838077d2330e62fc03405c} 
+\index{TrackerClient@{TrackerClient}!peer\_id@{peer\_id}}
+\index{peer\_id@{peer\_id}!TrackerClient@{TrackerClient}}
+\doxysubsubsection{\texorpdfstring{peer\_id()}{peer\_id()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structPeer_a2507a4f82b96df926fc3c259b24a8e6f}{Peer\+::\+Id}} Tracker\+Client\+::peer\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
 Retrieves the peer ID used by this client. 
 
 \begin{DoxyReturn}{Returns}
-Peer\+::\+Id The peer ID. 
+\doxylink{structPeer_a2507a4f82b96df926fc3c259b24a8e6f}{Peer\+::\+Id} The peer ID. 
 \end{DoxyReturn}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/home/yonah/\+School/\+PRO/yatc/src/\+Tracker\+Client/Tracker\+Client.\+h\item 
-/home/yonah/\+School/\+PRO/yatc/src/\+Tracker\+Client/Tracker\+Client.\+cc\end{DoxyCompactItemize}
+/home/yonah/\+School/\+PRO/yatc/src/core/\+Tracker\+Client/Tracker\+Client.\+h\item 
+/home/yonah/\+School/\+PRO/yatc/src/core/\+Tracker\+Client/Tracker\+Client.\+cc\end{DoxyCompactItemize}

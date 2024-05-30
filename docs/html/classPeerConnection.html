@@ -98,37 +98,120 @@ $(function(){initNavTree('classPeerConnection.html',''); initResizable(); });
   <div class="headertitle"><div class="title">PeerConnection Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Manages the connection to a peer in the BitTorrent network.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="PeerConnection_8h_source.html">PeerConnection.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return dynsection.toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for PeerConnection:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+ <div class="center">
+  <img src="classPeerConnection.png" alt=""/>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a63811d72dc6ed9bbbfd4e3b98db2febc" id="r_a63811d72dc6ed9bbbfd4e3b98db2febc"><td class="memItemLeft" align="right" valign="top"><a id="a63811d72dc6ed9bbbfd4e3b98db2febc" name="a63811d72dc6ed9bbbfd4e3b98db2febc"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>PeerConnection</b> (boost::asio::io_context &amp;ioContext, const <a class="el" href="structPeer.html">Peer</a> peer, const std::array&lt; std::byte, 20 &gt; myPeerId, const std::array&lt; std::byte, 20 &gt; infoHash)</td></tr>
-<tr class="separator:a63811d72dc6ed9bbbfd4e3b98db2febc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d0b633a291d817f17f1ccfecf2a034d" id="r_a3d0b633a291d817f17f1ccfecf2a034d"><td class="memItemLeft" align="right" valign="top"><a id="a3d0b633a291d817f17f1ccfecf2a034d" name="a3d0b633a291d817f17f1ccfecf2a034d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>handshake</b> ()</td></tr>
-<tr class="separator:a3d0b633a291d817f17f1ccfecf2a034d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c8290f68931d61eb26777009a96749c" id="r_a8c8290f68931d61eb26777009a96749c"><td class="memItemLeft" align="right" valign="top"><a id="a8c8290f68931d61eb26777009a96749c" name="a8c8290f68931d61eb26777009a96749c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>sendInterest</b> ()</td></tr>
-<tr class="separator:a8c8290f68931d61eb26777009a96749c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc8e61bc5088e9853818567a2661f6c0" id="r_afc8e61bc5088e9853818567a2661f6c0"><td class="memItemLeft" align="right" valign="top"><a id="afc8e61bc5088e9853818567a2661f6c0" name="afc8e61bc5088e9853818567a2661f6c0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>sendRequest</b> (int pieceIndex)</td></tr>
-<tr class="separator:afc8e61bc5088e9853818567a2661f6c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4d43b782fbb1d2f2642e9c70132f478" id="r_ac4d43b782fbb1d2f2642e9c70132f478"><td class="memItemLeft" align="right" valign="top"><a id="ac4d43b782fbb1d2f2642e9c70132f478" name="ac4d43b782fbb1d2f2642e9c70132f478"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>receivePiece</b> (int pieceIndex, const std::vector&lt; uint8_t &gt; &amp;pieceData)</td></tr>
-<tr class="separator:ac4d43b782fbb1d2f2642e9c70132f478"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dbb21ee8ca6749cbf2fe89e5c9b211a" id="r_a3dbb21ee8ca6749cbf2fe89e5c9b211a"><td class="memItemLeft" align="right" valign="top"><a id="a3dbb21ee8ca6749cbf2fe89e5c9b211a" name="a3dbb21ee8ca6749cbf2fe89e5c9b211a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>disconnect</b> ()</td></tr>
-<tr class="separator:a3dbb21ee8ca6749cbf2fe89e5c9b211a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2acc15e295f4759d5f7dc7e1655bcb36" id="r_a2acc15e295f4759d5f7dc7e1655bcb36"><td class="memItemLeft" align="right" valign="top"><a id="a2acc15e295f4759d5f7dc7e1655bcb36" name="a2acc15e295f4759d5f7dc7e1655bcb36"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>isConnected</b> () const</td></tr>
-<tr class="separator:a2acc15e295f4759d5f7dc7e1655bcb36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42e2b753472edef8198c186f21b6089e" id="r_a42e2b753472edef8198c186f21b6089e"><td class="memItemLeft" align="right" valign="top"><a id="a42e2b753472edef8198c186f21b6089e" name="a42e2b753472edef8198c186f21b6089e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setActive</b> (const bool active)</td></tr>
-<tr class="separator:a42e2b753472edef8198c186f21b6089e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9594702c856de8947b15bcb1f55d0f7f" id="r_a9594702c856de8947b15bcb1f55d0f7f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9594702c856de8947b15bcb1f55d0f7f">PeerConnection</a> (boost::asio::io_context &amp;io_context, const InfoHash &amp;info_hash, const <a class="el" href="structPeer.html#a2507a4f82b96df926fc3c259b24a8e6f">Peer::Id</a> &amp;peer_id, std::shared_ptr&lt; <a class="el" href="classPieceManager.html">PieceManager</a> &gt; piece_manager, std::shared_ptr&lt; <a class="el" href="classLinuxFileManager.html">LinuxFileManager</a> &gt; file_manager)</td></tr>
+<tr class="memdesc:a9594702c856de8947b15bcb1f55d0f7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classPeerConnection.html" title="Manages the connection to a peer in the BitTorrent network.">PeerConnection</a>.  <br /></td></tr>
+<tr class="separator:a9594702c856de8947b15bcb1f55d0f7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b8e7d8eab3d7015c4a7671897e831ae" id="r_a5b8e7d8eab3d7015c4a7671897e831ae"><td class="memItemLeft" align="right" valign="top">tcp::socket &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b8e7d8eab3d7015c4a7671897e831ae">socket</a> ()</td></tr>
+<tr class="memdesc:a5b8e7d8eab3d7015c4a7671897e831ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the socket associated with the peer connection.  <br /></td></tr>
+<tr class="separator:a5b8e7d8eab3d7015c4a7671897e831ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14089e9d800627939e8376d0f3c001d2" id="r_a14089e9d800627939e8376d0f3c001d2"><td class="memItemLeft" align="right" valign="top"><a id="a14089e9d800627939e8376d0f3c001d2" name="a14089e9d800627939e8376d0f3c001d2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>start</b> ()</td></tr>
+<tr class="memdesc:a14089e9d800627939e8376d0f3c001d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the peer connection. <br /></td></tr>
+<tr class="separator:a14089e9d800627939e8376d0f3c001d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ca897cd9e4879f3b816ddd58b31733c" id="r_a0ca897cd9e4879f3b816ddd58b31733c"><td class="memItemLeft" align="right" valign="top"><a id="a0ca897cd9e4879f3b816ddd58b31733c" name="a0ca897cd9e4879f3b816ddd58b31733c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>stop</b> ()</td></tr>
+<tr class="memdesc:a0ca897cd9e4879f3b816ddd58b31733c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the peer connection. <br /></td></tr>
+<tr class="separator:a0ca897cd9e4879f3b816ddd58b31733c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Manages the connection to a peer in the BitTorrent network. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a9594702c856de8947b15bcb1f55d0f7f" name="a9594702c856de8947b15bcb1f55d0f7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9594702c856de8947b15bcb1f55d0f7f">&#9670;&#160;</a></span>PeerConnection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PeerConnection::PeerConnection </td>
+          <td>(</td>
+          <td class="paramtype">boost::asio::io_context &amp;</td>          <td class="paramname"><span class="paramname"><em>io_context</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const InfoHash &amp;</td>          <td class="paramname"><span class="paramname"><em>info_hash</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structPeer.html#a2507a4f82b96df926fc3c259b24a8e6f">Peer::Id</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>peer_id</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classPieceManager.html">PieceManager</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>piece_manager</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classLinuxFileManager.html">LinuxFileManager</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>file_manager</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a <a class="el" href="classPeerConnection.html" title="Manages the connection to a peer in the BitTorrent network.">PeerConnection</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">io_context</td><td>Boost.Asio IO context. </td></tr>
+    <tr><td class="paramname">info_hash</td><td>Info hash of the torrent. </td></tr>
+    <tr><td class="paramname">peer_id</td><td>ID of the peer. </td></tr>
+    <tr><td class="paramname">piece_manager</td><td>Shared pointer to the <a class="el" href="classPieceManager.html" title="Manages the pieces of a torrent download.">PieceManager</a>. </td></tr>
+    <tr><td class="paramname">file_manager</td><td>Shared pointer to the <a class="el" href="classFileManager.html" title="Abstract base class for managing torrent files.">FileManager</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a5b8e7d8eab3d7015c4a7671897e831ae" name="a5b8e7d8eab3d7015c4a7671897e831ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b8e7d8eab3d7015c4a7671897e831ae">&#9670;&#160;</a></span>socket()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tcp::socket &amp; PeerConnection::socket </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the socket associated with the peer connection. </p>
+<dl class="section return"><dt>Returns</dt><dd>Reference to the TCP socket. </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/yonah/School/PRO/yatc/src/PeerConnection/<a class="el" href="PeerConnection_8h_source.html">PeerConnection.h</a></li>
-<li>/home/yonah/School/PRO/yatc/src/PeerConnection/<b>PeerConnection.cc</b></li>
+<li>/home/yonah/School/PRO/yatc/src/core/PeerConnection/<a class="el" href="PeerConnection_8h_source.html">PeerConnection.h</a></li>
+<li>/home/yonah/School/PRO/yatc/src/core/PeerConnection/<b>PeerConnection.cc</b></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

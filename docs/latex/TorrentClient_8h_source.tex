@@ -1,5 +1,5 @@
 \doxysection{Torrent\+Client.\+h}
-\hypertarget{TorrentClient_8h_source}{}\label{TorrentClient_8h_source}\index{/home/yonah/School/PRO/yatc/src/TorrentClient/TorrentClient.h@{/home/yonah/School/PRO/yatc/src/TorrentClient/TorrentClient.h}}
+\hypertarget{TorrentClient_8h_source}{}\label{TorrentClient_8h_source}\index{/home/yonah/School/PRO/yatc/src/core/TorrentClient/TorrentClient.h@{/home/yonah/School/PRO/yatc/src/core/TorrentClient/TorrentClient.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ TORRENTCLIENT\_H}}
@@ -15,38 +15,52 @@
 \DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <string>}}
 \DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <vector>}}
 \DoxyCodeLine{00013\ }
-\DoxyCodeLine{00023\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classTorrentClient}{TorrentClient}}\ \{}
-\DoxyCodeLine{00024\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00030\ \ \ \mbox{\hyperlink{classTorrentClient_acde94afbe225e1d7182aaceba9b452b3}{TorrentClient}}(\textcolor{keyword}{const}\ std::string\ \&torrentFile);}
-\DoxyCodeLine{00031\ }
-\DoxyCodeLine{00038\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classTorrentClient_a53b2ae5c1d4db7c0f05f0995628d6974}{start}}();}
-\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structTorrentInfo}{TorrentInfo}}\ \{}
+\DoxyCodeLine{00015\ \ \ std::string\ name;}
+\DoxyCodeLine{00016\ \ \ \textcolor{keywordtype}{size\_t}\ connections;}
+\DoxyCodeLine{00017\ \ \ \textcolor{keywordtype}{size\_t}\ pieces\_needed;}
+\DoxyCodeLine{00018\ \ \ \textcolor{keywordtype}{size\_t}\ total\_pieces;}
+\DoxyCodeLine{00019\ \ \ \textcolor{keywordtype}{size\_t}\ piece\_length;}
+\DoxyCodeLine{00020\ \};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classTorrentClient}{TorrentClient}}\ \{}
+\DoxyCodeLine{00026\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00032\ \ \ \mbox{\hyperlink{classTorrentClient_acde94afbe225e1d7182aaceba9b452b3}{TorrentClient}}(\textcolor{keyword}{const}\ std::string\ \&torrentFile);}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00039\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classTorrentClient_a53b2ae5c1d4db7c0f05f0995628d6974}{start}}();}
+\DoxyCodeLine{00040\ }
 \DoxyCodeLine{00046\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classTorrentClient_a2fcaf6bf0a1977053ed39097f91a9f63}{stop}}();}
 \DoxyCodeLine{00047\ }
-\DoxyCodeLine{00048\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00049\ \ \ boost::asio::io\_context\ io\_context\_;\ }
-\DoxyCodeLine{00051\ \ \ std::unique\_ptr<TrackerClient>}
-\DoxyCodeLine{00052\ \ \ \ \ \ \ trackerClient\_;\ }
-\DoxyCodeLine{00053\ \ \ std::unique\_ptr<FileManager>}
-\DoxyCodeLine{00054\ \ \ \ \ \ \ fileManager\_;\ }
-\DoxyCodeLine{00055\ \ \ std::unique\_ptr<PieceManager>}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ pieceManager\_;\ }
-\DoxyCodeLine{00057\ \ \ std::unique\_ptr<TorrentParser>\ torrentParser\_;\ }
-\DoxyCodeLine{00058\ \ \ \mbox{\hyperlink{structTorrent}{Torrent}}\ torrent\_;\ }
-\DoxyCodeLine{00059\ \ \ std::vector<std::pair<Peer,\ std::unique\_ptr<PeerConnection>>>}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ peerConnections\_;\ }
-\DoxyCodeLine{00061\ }
-\DoxyCodeLine{00068\ \ \ \textcolor{keywordtype}{void}\ setupTorrent(\textcolor{keyword}{const}\ std::string\ \&torrentFile);}
-\DoxyCodeLine{00069\ }
-\DoxyCodeLine{00076\ \ \ \textcolor{keywordtype}{void}\ connectToPeers();}
-\DoxyCodeLine{00077\ }
-\DoxyCodeLine{00084\ \ \ \textcolor{keywordtype}{void}\ initiateTrackerSession();}
-\DoxyCodeLine{00085\ }
-\DoxyCodeLine{00090\ \ \ \textcolor{keywordtype}{void}\ handleDownload();}
-\DoxyCodeLine{00091\ }
-\DoxyCodeLine{00098\ \ \ \textcolor{keywordtype}{void}\ pruneDeadConnections();}
-\DoxyCodeLine{00099\ \};}
-\DoxyCodeLine{00100\ }
-\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TORRENTCLIENT\_H}}
+\DoxyCodeLine{00048\ \ \ \mbox{\hyperlink{structTorrentInfo}{TorrentInfo}}\ download\_info()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00051\ \ \ boost::asio::io\_context}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ io\_context\_;\ }
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ std::unique\_ptr<TrackerClient>}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ tracker\_client\_;\ }
+\DoxyCodeLine{00056\ \ \ std::shared\_ptr<PieceManager>}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ piece\_manager\_;\ }
+\DoxyCodeLine{00058\ \ \ std::shared\_ptr<LinuxFileManager>}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ file\_manager\_;\ }
+\DoxyCodeLine{00060\ \ \ std::unique\_ptr<TorrentParser>\ torrent\_parser\_;\ }
+\DoxyCodeLine{00061\ \ \ \mbox{\hyperlink{structTorrent}{Torrent}}\ torrent\_;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00062\ \ \ std::vector<std::shared\_ptr<PeerConnection>>}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ peer\_connections\_;\ }
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ std::mutex}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ connections\_mutex\_;\ }
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00073\ \ \ \textcolor{keywordtype}{void}\ setup\_torrent(\textcolor{keyword}{const}\ std::string\ \&torrent\_file);}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00078\ \ \ \textcolor{keywordtype}{void}\ initiate\_tracker\_session();}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00085\ \ \ \textcolor{keywordtype}{void}\ add\_connection(\textcolor{keyword}{const}\ \mbox{\hyperlink{structPeer}{Peer}}\ \&peer);}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00093\ \ \ \textcolor{keywordtype}{void}\ handle\_connect(std::shared\_ptr<PeerConnection>\ connection,}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ boost::system::error\_code\ \&error);}
+\DoxyCodeLine{00095\ \};}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TORRENTCLIENT\_H}}
 
 \end{DoxyCode}

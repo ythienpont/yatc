@@ -1,28 +1,37 @@
 \doxysection{Piece\+Manager.\+h}
-\hypertarget{PieceManager_8h_source}{}\label{PieceManager_8h_source}\index{/home/yonah/School/PRO/yatc/src/PieceManager/PieceManager.h@{/home/yonah/School/PRO/yatc/src/PieceManager/PieceManager.h}}
+\hypertarget{PieceManager_8h_source}{}\label{PieceManager_8h_source}\index{/home/yonah/School/PRO/yatc/src/core/PieceManager/PieceManager.h@{/home/yonah/School/PRO/yatc/src/core/PieceManager/PieceManager.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PIECEMANAGER\_H}}
 \DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PIECEMANAGER\_H}}
 \DoxyCodeLine{00003\ }
 \DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <Torrent/Torrent.h>}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{00007\ }
-\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPieceManager}{PieceManager}}\ \{}
-\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00021\ \ \ \mbox{\hyperlink{classPieceManager_ac05f7a04b088b5e879d93e7d5ebfb17f}{PieceManager}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ totalPieces);}
-\DoxyCodeLine{00022\ }
-\DoxyCodeLine{00030\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classPieceManager_a8f0af3c1d66310b93223cbdf70067f00}{hasPiece}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ pieceIndex)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00031\ }
-\DoxyCodeLine{00037\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classPieceManager_a771cafd418df95a9503a45d5e3e94dd9}{savePiece}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ pieceIndex);}
-\DoxyCodeLine{00038\ }
-\DoxyCodeLine{00045\ \ \ std::unordered\_set<size\_t>\ \mbox{\hyperlink{classPieceManager_af37fbec495d7c9d288b3be205f282d68}{missingPieces}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00046\ }
-\DoxyCodeLine{00047\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00049\ \ \ std::vector<bool>\ downloadedPieces\_;}
-\DoxyCodeLine{00050\ \};}
-\DoxyCodeLine{00051\ }
-\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PIECEMANAGER\_H}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPieceManager}{PieceManager}}\ \{}
+\DoxyCodeLine{00017\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00025\ \ \ \mbox{\hyperlink{classPieceManager_a0ba527870dc528a69914a76f8f5c21b3}{PieceManager}}(\textcolor{keyword}{const}\ uint64\_t\ total\_size,\ \textcolor{keyword}{const}\ uint32\_t\ piece\_length);}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00033\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classPieceManager_ad16602ac8b56e7f3b72515ee99fcdbc6}{has\_piece}}(\textcolor{keyword}{const}\ uint32\_t\ piece\_index)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00040\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classPieceManager_a6eeb2a12f9b12bd09bf06f1756f0000c}{save\_piece}}(\textcolor{keyword}{const}\ uint32\_t\ piece\_index);}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00047\ \ \ std::unordered\_set<uint32\_t>\ \mbox{\hyperlink{classPieceManager_aaf06ea6a0d957c790e657e14431c3995}{missing\_pieces}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00055\ \ \ uint32\_t\ \mbox{\hyperlink{classPieceManager_ae703f2f0783a098b1a79cce28e75c7f1}{piece\_size}}(\textcolor{keyword}{const}\ uint32\_t\ piece\_index);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00058\ \ \ \textcolor{keyword}{mutable}\ std::mutex}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ mutex\_;\ }
+\DoxyCodeLine{00060\ \ \ std::vector<bool>\ downloaded\_pieces\_;\ }
+\DoxyCodeLine{00062\ \ \ uint64\_t\ total\_size;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00063\ \ \ uint32\_t\ piece\_length;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00064\ \ \ uint32\_t\ total\_pieces;\ }
+\DoxyCodeLine{00065\ \};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PIECEMANAGER\_H}}
 
 \end{DoxyCode}

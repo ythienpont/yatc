@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['haspiece_0',['hasPiece',['../classPieceManager.html#a8f0af3c1d66310b93223cbdf70067f00',1,'PieceManager']]]
+  ['has_5fpiece_0',['has_piece',['../classPieceManager.html#ad16602ac8b56e7f3b72515ee99fcdbc6',1,'PieceManager']]]
 ];

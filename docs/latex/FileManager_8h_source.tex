@@ -1,71 +1,68 @@
 \doxysection{File\+Manager.\+h}
-\hypertarget{FileManager_8h_source}{}\label{FileManager_8h_source}\index{/home/yonah/School/PRO/yatc/src/FileManager/FileManager.h@{/home/yonah/School/PRO/yatc/src/FileManager/FileManager.h}}
+\hypertarget{FileManager_8h_source}{}\label{FileManager_8h_source}\index{/home/yonah/School/PRO/yatc/src/core/FileManager/FileManager.h@{/home/yonah/School/PRO/yatc/src/core/FileManager/FileManager.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ FILEMANAGER\_H}}
 \DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ FILEMANAGER\_H}}
 \DoxyCodeLine{00003\ }
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}PieceBuffer/PieceBuffer.h"{}}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Torrent/Torrent.h"{}}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <cerrno>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}Torrent/Torrent.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <cerrno>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <cstdint>}}
 \DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <cstring>}}
 \DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <fcntl.h>}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <sys/stat.h>}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <sys/types.h>}}
-\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
-\DoxyCodeLine{00012\ }
-\DoxyCodeLine{00023\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classFileManager}{FileManager}}\ \{}
-\DoxyCodeLine{00024\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00028\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classFileManager_a36b7a8bcda7d424f9cb24e9062cf7b19}{\string~FileManager}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00029\ }
-\DoxyCodeLine{00038\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classFileManager_a07e533081a76aaee9c8f7478799419d9}{writeBlock}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ pieceIndex,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structBlockInfo}{BlockInfo}}\ \&block,}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<char>\ \&data)\ =\ 0;}
-\DoxyCodeLine{00040\ }
-\DoxyCodeLine{00048\ \ \ \textcolor{keyword}{virtual}\ std::vector<char>\ \mbox{\hyperlink{classFileManager_a32d557fbe0cdb278e54009110035729e}{readBlock}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ pieceIndex,}
-\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structBlockInfo}{BlockInfo}}\ \&block)\ \textcolor{keyword}{const}\ =\ 0;}
-\DoxyCodeLine{00050\ }
-\DoxyCodeLine{00054\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classFileManager_a883687a9a43b20bbbd82032d7e36569b}{preAllocateSpace}}()\ =\ 0;}
-\DoxyCodeLine{00055\ }
-\DoxyCodeLine{00061\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classFileManager_ac855664d52f17fde6840328bfeaf68a0}{totalFileSize}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00062\ }
-\DoxyCodeLine{00063\ \textcolor{keyword}{protected}:}
-\DoxyCodeLine{00071\ \ \ \mbox{\hyperlink{classFileManager_ac49c84adbe233ef45846762ea394a45b}{FileManager}}(\textcolor{keyword}{const}\ std::vector<FileInfo>\ \&files,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ pieceLength);}
-\DoxyCodeLine{00072\ }
-\DoxyCodeLine{00081\ \ \ std::pair<size\_t,\ size\_t>\ \mbox{\hyperlink{classFileManager_a6f31891bedaef9d327354c36e50b4d50}{getBlockBounds}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ pieceIndex,}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structBlockInfo}{BlockInfo}}\ \&block)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00083\ }
-\DoxyCodeLine{00090\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classFileManager_a2ff924902b0ae7cf3901303da5f4def7}{calculateDataOffset}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structBlockInfo}{BlockInfo}}\ \&block)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00091\ }
-\DoxyCodeLine{00098\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classFileManager_a7b289f7639665e8de08542148f539d1c}{writePiece}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ pieceIndex)\ =\ 0;}
-\DoxyCodeLine{00099\ }
-\DoxyCodeLine{00106\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classFileManager_a5aa6108095072645631617bba133947a}{totalPieces}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00107\ }
-\DoxyCodeLine{00108\ \ \ std::vector<FileInfo>\ \mbox{\hyperlink{classFileManager_ac864e73b7b86f341d5a2eea75861e6ec}{files\_}};\ }
-\DoxyCodeLine{00109\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classFileManager_a06208c627b46cb9e0b45d67c4f95f675}{pieceLength\_}};\ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00110\ \ \ std::vector<std::unique\_ptr<PieceBuffer>>}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \mbox{\hyperlink{classFileManager_a560f141d08b6f921f2949833e81136bc}{pieceBuffers\_}};\ }
-\DoxyCodeLine{00112\ \};}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <sys/stat.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <sys/types.h>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classFileManager}{FileManager}}\ \{}
+\DoxyCodeLine{00022\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00026\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classFileManager_a36b7a8bcda7d424f9cb24e9062cf7b19}{\string~FileManager}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00036\ \ \ \textcolor{keyword}{virtual}\ std::vector<std::byte>}
+\DoxyCodeLine{00037\ \ \ \mbox{\hyperlink{classFileManager_a3727ea3adb2ca09c3e4c9d52baca700a}{read\_block}}(uint32\_t\ piece\_index,\ uint32\_t\ offset,\ uint32\_t\ length)\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00046\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classFileManager_ab32972cd0fa12764ba13d77eafae5fd4}{write\_piece}}(uint32\_t\ piece\_index,}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<std::byte>\ \&data)\ =\ 0;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00053\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classFileManager_a61e1a25ca0e058577b654c95b4ef3d12}{pre\_allocate\_space}}()\ =\ 0;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00062\ \ \ \mbox{\hyperlink{classFileManager_a79fdec8e703e3535779c1a1a055d9709}{FileManager}}(\textcolor{keyword}{const}\ std::vector<FileInfo>\ \&files,\ uint32\_t\ piece\_length,}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<InfoHash>\ info\_hashes);}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00070\ \ \ uint32\_t\ \mbox{\hyperlink{classFileManager_acfa58583ac17e5ee4843d93aa72edc4e}{total\_pieces}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ std::vector<FileInfo>\ \mbox{\hyperlink{classFileManager_ac864e73b7b86f341d5a2eea75861e6ec}{files\_}};\ }
+\DoxyCodeLine{00073\ \ \ uint32\_t\ \mbox{\hyperlink{classFileManager_a3b191cfcca27387b72fa5356b7954c7a}{piece\_length\_}};\ \ \ \ \ \ \ }
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \textcolor{keyword}{mutable}\ std::mutex}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \mbox{\hyperlink{classFileManager_a2b30ebffbab917f9379f3e3c2de1c532}{file\_mutex\_}};\ }
+\DoxyCodeLine{00077\ \};}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLinuxFileManager}{LinuxFileManager}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classFileManager}{FileManager}}\ \{}
+\DoxyCodeLine{00086\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00094\ \ \ \mbox{\hyperlink{classLinuxFileManager_a46836e74dbc181654d39145205aa225a}{LinuxFileManager}}(\textcolor{keyword}{const}\ std::vector<FileInfo>\ \&files,\ uint32\_t\ piece\_length,}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<InfoHash>\ info\_hashes);}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00100\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classLinuxFileManager_a1438a8919ed14189b9d62a51b5dd8f61}{\string~LinuxFileManager}}()\ \textcolor{keyword}{override}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00110\ \ \ \textcolor{keyword}{virtual}\ std::vector<std::byte>\ \mbox{\hyperlink{classLinuxFileManager_acfe1fa02f6b9f79363563faa08fd0686}{read\_block}}(uint32\_t\ piece\_index,}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ offset,}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ length)\ \textcolor{keyword}{const\ override};}
 \DoxyCodeLine{00113\ }
-\DoxyCodeLine{00121\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLinuxFileManager}{LinuxFileManager}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classFileManager}{FileManager}}\ \{}
-\DoxyCodeLine{00122\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00129\ \ \ \mbox{\hyperlink{classLinuxFileManager_adfa75d417474432db8742fb038bd8c11}{LinuxFileManager}}(\textcolor{keyword}{const}\ std::vector<FileInfo>\ \&files,}
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classFileManager_a06208c627b46cb9e0b45d67c4f95f675}{pieceLength\_}});}
-\DoxyCodeLine{00131\ }
-\DoxyCodeLine{00135\ \ \ \mbox{\hyperlink{classLinuxFileManager_ad07772880c6fc1abbfec28fa97dd5b94}{\string~LinuxFileManager}}()\ \textcolor{keyword}{override}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00136\ }
-\DoxyCodeLine{00137\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLinuxFileManager_a3bc01a8aa5c29d1af1fe17ba7b0f047d}{writeBlock}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ pieceIndex,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structBlockInfo}{BlockInfo}}\ \&block,}
-\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<char>\ \&data)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00139\ }
-\DoxyCodeLine{00140\ \ \ std::vector<char>\ \mbox{\hyperlink{classLinuxFileManager_a8ba3b593fa8ff198c9e1d14f44e279e5}{readBlock}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ pieceIndex,}
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structBlockInfo}{BlockInfo}}\ \&block)\ \textcolor{keyword}{const\ override};}
-\DoxyCodeLine{00142\ }
-\DoxyCodeLine{00149\ \ \ std::vector<char>\ \mbox{\hyperlink{classLinuxFileManager_a250dbb4e640b6e678859f18047758202}{readPiece}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ pieceIndex)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00150\ }
-\DoxyCodeLine{00151\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00152\ \ \ \textcolor{keywordtype}{bool}\ writePiece(\textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ pieceIndex)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00153\ \ \ \textcolor{keywordtype}{void}\ preAllocateSpace()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00154\ \};}
-\DoxyCodeLine{00155\ }
-\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ FILEMANAGER\_H}}
+\DoxyCodeLine{00121\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLinuxFileManager_a993c91b1f5e8d4470bc90facbeb2691a}{write\_piece}}(uint32\_t\ piece\_index,}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<std::byte>\ \&data)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00128\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLinuxFileManager_a04cfd2c38c4f815c32763b5728f80645}{pre\_allocate\_space}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00140\ \ \ \textcolor{keywordtype}{bool}\ write\_to\_file(\textcolor{keyword}{const}\ std::string\ \&path,\ uint64\_t\ offset,}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::byte\ *data,\ uint64\_t\ length);}
+\DoxyCodeLine{00142\ \};}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ FILEMANAGER\_H}}
 
 \end{DoxyCode}

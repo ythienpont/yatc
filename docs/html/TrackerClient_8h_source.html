@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>yatc: /home/yonah/School/PRO/yatc/src/TrackerClient/TrackerClient.h Source File</title>
+<title>yatc: /home/yonah/School/PRO/yatc/src/core/TrackerClient/TrackerClient.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -103,93 +103,95 @@ $(function(){initNavTree('TrackerClient_8h_source.html',''); initResizable(); })
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef TRACKERCLIENT_H</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define TRACKERCLIENT_H</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;PeerConnection/PeerConnection.h&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;Torrent/Torrent.h&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;curl/curl.h&gt;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>Peer::Id generatePeerId();</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="foldopen" id="foldopen00024" data-start="{" data-end="};">
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="structTrackerResponse.html">   24</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structTrackerResponse.html">TrackerResponse</a> {</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="structTrackerResponse.html#ac9ee67a43b670c559d40d3c9a52175f8">   26</a></span>  std::string <a class="code hl_variable" href="structTrackerResponse.html#ac9ee67a43b670c559d40d3c9a52175f8">failureReason</a>;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="structTrackerResponse.html#a0f1c512927deabe62ec8149619e0ed03">   30</a></span>  uint16_t <a class="code hl_variable" href="structTrackerResponse.html#a0f1c512927deabe62ec8149619e0ed03">interval</a>;</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="structTrackerResponse.html#a753f64eee38f4e9bc6e11583b5810707">   33</a></span>  std::vector&lt;Peer&gt; <a class="code hl_variable" href="structTrackerResponse.html#a753f64eee38f4e9bc6e11583b5810707">peers</a>;</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  std::string <a class="code hl_function" href="structTrackerResponse.html#a470577760716a5096df7bba4c3287b9e">toString</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>};</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;Logger/Logger.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;PeerConnection/PeerConnection.h&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;Torrent/Torrent.h&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;curl/curl.h&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><a class="code hl_typedef" href="structPeer.html#a2507a4f82b96df926fc3c259b24a8e6f">Peer::Id</a> generatePeerId();</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="foldopen" id="foldopen00025" data-start="{" data-end="};">
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="structTrackerResponse.html">   25</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structTrackerResponse.html">TrackerResponse</a> {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="structTrackerResponse.html#a6a6a2959cd1a614b6249b2366a74ccad">   27</a></span>  std::string <a class="code hl_variable" href="structTrackerResponse.html#a6a6a2959cd1a614b6249b2366a74ccad">failure_reason</a>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="structTrackerResponse.html#a0f1c512927deabe62ec8149619e0ed03">   31</a></span>  uint16_t <a class="code hl_variable" href="structTrackerResponse.html#a0f1c512927deabe62ec8149619e0ed03">interval</a>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="structTrackerResponse.html#a753f64eee38f4e9bc6e11583b5810707">   34</a></span>  std::vector&lt;Peer&gt; <a class="code hl_variable" href="structTrackerResponse.html#a753f64eee38f4e9bc6e11583b5810707">peers</a>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>};</div>
 </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="foldopen" id="foldopen00050" data-start="{" data-end="};">
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="classTrackerClient.html">   50</a></span><span class="keyword">class </span><a class="code hl_class" href="classTrackerClient.html">TrackerClient</a> {</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classTrackerClient.html#af4458ac82dc3f61619bbc8049182c685">   53</a></span>  <span class="keyword">static</span> <span class="keyword">const</span> std::string <a class="code hl_variable" href="classTrackerClient.html#af4458ac82dc3f61619bbc8049182c685">PREFIX</a>;</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="foldopen" id="foldopen00058" data-start="{" data-end="};">
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339">   58</a></span>  <span class="keyword">enum class</span> <a class="code hl_enumeration" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339">Event</a> {</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <a class="code hl_enumvalue" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339a8428552d86c0d262a542a528af490afa">Started</a>,   </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <a class="code hl_enumvalue" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339a07ca5050e697392c9ed47e6453f1453f">Completed</a>, </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <a class="code hl_enumvalue" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339ac23e2b09ebe6bf4cb5e2a9abe85c0be2">Stopped</a>,   </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <a class="code hl_enumvalue" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07">Empty</a>      </div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  };</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="foldopen" id="foldopen00044" data-start="{" data-end="};">
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classTrackerClient.html">   44</a></span><span class="keyword">class </span><a class="code hl_class" href="classTrackerClient.html">TrackerClient</a> {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classTrackerClient.html#af4458ac82dc3f61619bbc8049182c685">   47</a></span>  <span class="keyword">static</span> <span class="keyword">const</span> std::string <a class="code hl_variable" href="classTrackerClient.html#af4458ac82dc3f61619bbc8049182c685">PREFIX</a>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="foldopen" id="foldopen00052" data-start="{" data-end="};">
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339">   52</a></span>  <span class="keyword">enum class</span> <a class="code hl_enumeration" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339">Event</a> {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <a class="code hl_enumvalue" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339a8428552d86c0d262a542a528af490afa">Started</a>,   </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <a class="code hl_enumvalue" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339a07ca5050e697392c9ed47e6453f1453f">Completed</a>, </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <a class="code hl_enumvalue" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339ac23e2b09ebe6bf4cb5e2a9abe85c0be2">Stopped</a>,   </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <a class="code hl_enumvalue" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07">Empty</a>      </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  };</div>
 </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  <a class="code hl_struct" href="structTrackerResponse.html">TrackerResponse</a> <a class="code hl_function" href="classTrackerClient.html#aeb3e6dfa5c20ed79e7ae76f7518cd678">announce</a>(<a class="code hl_enumeration" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339">Event</a> event = <a class="code hl_enumvalue" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07">Event::Empty</a>);</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="classTrackerClient.html#a4fb2e21164a4302313de9a99ffcc6b72">   81</a></span>  Peer::Id <a class="code hl_function" href="classTrackerClient.html#a4fb2e21164a4302313de9a99ffcc6b72">getPeerId</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> peerId_; }</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="classTrackerClient.html#aa52a55a5b7bea7c04753120cc92d1ea2">   88</a></span>  InfoHash <a class="code hl_function" href="classTrackerClient.html#aa52a55a5b7bea7c04753120cc92d1ea2">getInfoHash</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> torrent_.<a class="code hl_variable" href="structTorrent.html#a5c1396654ee528eb538f0a3f1619dc9d">infoHash</a>; }</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>  <a class="code hl_function" href="classTrackerClient.html#a41e1eadd9e5c579d2f6f26d48651cadf">TrackerClient</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structTorrent.html">Torrent</a> &amp;torrent, <span class="keyword">const</span> uint16_t port = 6881);</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="classTrackerClient.html#a81899d50e48eec127b32b957fb295589">   99</a></span>  <a class="code hl_function" href="classTrackerClient.html#a81899d50e48eec127b32b957fb295589">~TrackerClient</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>  <a class="code hl_struct" href="structTorrent.html">Torrent</a> torrent_;</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  Peer::Id peerId_;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  <a class="code hl_struct" href="structTrackerResponse.html">TrackerResponse</a> <a class="code hl_function" href="classTrackerClient.html#aeb3e6dfa5c20ed79e7ae76f7518cd678">announce</a>(<a class="code hl_enumeration" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339">Event</a> event = <a class="code hl_enumvalue" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07">Event::Empty</a>);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classTrackerClient.html#afa515002ee838077d2330e62fc03405c">   75</a></span>  <a class="code hl_typedef" href="structPeer.html#a2507a4f82b96df926fc3c259b24a8e6f">Peer::Id</a> <a class="code hl_function" href="classTrackerClient.html#afa515002ee838077d2330e62fc03405c">peer_id</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> peer_id_; }</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="classTrackerClient.html#a70450363990f96a94cb410adfd40d347">   82</a></span>  InfoHash <a class="code hl_function" href="classTrackerClient.html#a70450363990f96a94cb410adfd40d347">info_hash</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> torrent_.<a class="code hl_variable" href="structTorrent.html#a3dd7f0d8f55595185c531f1660afdfa4">info_hash</a>; }</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>  <a class="code hl_function" href="classTrackerClient.html#a41e1eadd9e5c579d2f6f26d48651cadf">TrackerClient</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structTorrent.html">Torrent</a> &amp;torrent, <span class="keyword">const</span> uint16_t port = 6881);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="classTrackerClient.html#a81899d50e48eec127b32b957fb295589">   93</a></span>  <a class="code hl_function" href="classTrackerClient.html#a81899d50e48eec127b32b957fb295589">~TrackerClient</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>  <a class="code hl_struct" href="structTorrent.html">Torrent</a> torrent_;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>  <a class="code hl_typedef" href="structPeer.html#a2507a4f82b96df926fc3c259b24a8e6f">Peer::Id</a> peer_id_;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>  uint16_t port_;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  uint64_t uploaded_;</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>  uint16_t port_;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>  uint64_t downloaded_;</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>  uint64_t uploaded_;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>  uint64_t left_;</div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>  uint64_t downloaded_;</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>  uint64_t left_;</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>  std::string buildQueryString(<a class="code hl_enumeration" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339">Event</a> event) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>};</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>  <a class="code hl_class" href="classLogger.html">Logger</a> *logger_;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>  std::string build_query_string(<a class="code hl_enumeration" href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339">Event</a> event) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>};</div>
 </div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="preprocessor">#endif </span><span class="comment">// TRACKERCLIENT_H</span></div>
-<div class="ttc" id="aclassTrackerClient_html"><div class="ttname"><a href="classTrackerClient.html">TrackerClient</a></div><div class="ttdoc">Handles communication with the tracker for a torrent session.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:50</div></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="preprocessor">#endif </span><span class="comment">// TRACKERCLIENT_H</span></div>
+<div class="ttc" id="aclassLogger_html"><div class="ttname"><a href="classLogger.html">Logger</a></div><div class="ttdoc">Singleton Logger class for handling logging operations.</div><div class="ttdef"><b>Definition</b> Logger.h:17</div></div>
+<div class="ttc" id="aclassTrackerClient_html"><div class="ttname"><a href="classTrackerClient.html">TrackerClient</a></div><div class="ttdoc">Handles communication with the tracker for a torrent session.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:44</div></div>
 <div class="ttc" id="aclassTrackerClient_html_a41e1eadd9e5c579d2f6f26d48651cadf"><div class="ttname"><a href="classTrackerClient.html#a41e1eadd9e5c579d2f6f26d48651cadf">TrackerClient::TrackerClient</a></div><div class="ttdeci">TrackerClient(const Torrent &amp;torrent, const uint16_t port=6881)</div><div class="ttdoc">Constructs a new Tracker Client object.</div><div class="ttdef"><b>Definition</b> TrackerClient.cc:87</div></div>
-<div class="ttc" id="aclassTrackerClient_html_a4fb2e21164a4302313de9a99ffcc6b72"><div class="ttname"><a href="classTrackerClient.html#a4fb2e21164a4302313de9a99ffcc6b72">TrackerClient::getPeerId</a></div><div class="ttdeci">Peer::Id getPeerId() const</div><div class="ttdoc">Retrieves the peer ID used by this client.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:81</div></div>
+<div class="ttc" id="aclassTrackerClient_html_a70450363990f96a94cb410adfd40d347"><div class="ttname"><a href="classTrackerClient.html#a70450363990f96a94cb410adfd40d347">TrackerClient::info_hash</a></div><div class="ttdeci">InfoHash info_hash() const</div><div class="ttdoc">Retrieves the info hash of the torrent.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:82</div></div>
 <div class="ttc" id="aclassTrackerClient_html_a81899d50e48eec127b32b957fb295589"><div class="ttname"><a href="classTrackerClient.html#a81899d50e48eec127b32b957fb295589">TrackerClient::~TrackerClient</a></div><div class="ttdeci">~TrackerClient()=default</div><div class="ttdoc">Default destructor.</div></div>
-<div class="ttc" id="aclassTrackerClient_html_aa52a55a5b7bea7c04753120cc92d1ea2"><div class="ttname"><a href="classTrackerClient.html#aa52a55a5b7bea7c04753120cc92d1ea2">TrackerClient::getInfoHash</a></div><div class="ttdeci">InfoHash getInfoHash() const</div><div class="ttdoc">Retrieves the info hash of the torrent.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:88</div></div>
-<div class="ttc" id="aclassTrackerClient_html_ade1ff4a6d31118ccea31f00bf8f89339"><div class="ttname"><a href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339">TrackerClient::Event</a></div><div class="ttdeci">Event</div><div class="ttdoc">Enumeration of possible events to send to the tracker.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:58</div></div>
+<div class="ttc" id="aclassTrackerClient_html_ade1ff4a6d31118ccea31f00bf8f89339"><div class="ttname"><a href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339">TrackerClient::Event</a></div><div class="ttdeci">Event</div><div class="ttdoc">Enumeration of possible events to send to the tracker.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:52</div></div>
 <div class="ttc" id="aclassTrackerClient_html_ade1ff4a6d31118ccea31f00bf8f89339a07ca5050e697392c9ed47e6453f1453f"><div class="ttname"><a href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339a07ca5050e697392c9ed47e6453f1453f">TrackerClient::Event::Completed</a></div><div class="ttdeci">@ Completed</div><div class="ttdoc">Event when the download is complete.</div></div>
 <div class="ttc" id="aclassTrackerClient_html_ade1ff4a6d31118ccea31f00bf8f89339a8428552d86c0d262a542a528af490afa"><div class="ttname"><a href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339a8428552d86c0d262a542a528af490afa">TrackerClient::Event::Started</a></div><div class="ttdeci">@ Started</div><div class="ttdoc">Event when a download first begins.</div></div>
 <div class="ttc" id="aclassTrackerClient_html_ade1ff4a6d31118ccea31f00bf8f89339ac23e2b09ebe6bf4cb5e2a9abe85c0be2"><div class="ttname"><a href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339ac23e2b09ebe6bf4cb5e2a9abe85c0be2">TrackerClient::Event::Stopped</a></div><div class="ttdeci">@ Stopped</div><div class="ttdoc">Event when the downloader ceases downloading.</div></div>
 <div class="ttc" id="aclassTrackerClient_html_ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07"><div class="ttname"><a href="classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07">TrackerClient::Event::Empty</a></div><div class="ttdeci">@ Empty</div><div class="ttdoc">Used for regular interval updates without specific events.</div></div>
-<div class="ttc" id="aclassTrackerClient_html_aeb3e6dfa5c20ed79e7ae76f7518cd678"><div class="ttname"><a href="classTrackerClient.html#aeb3e6dfa5c20ed79e7ae76f7518cd678">TrackerClient::announce</a></div><div class="ttdeci">TrackerResponse announce(Event event=Event::Empty)</div><div class="ttdoc">Sends an announce request to the tracker to update the current status of the torrent session.</div><div class="ttdef"><b>Definition</b> TrackerClient.cc:167</div></div>
-<div class="ttc" id="aclassTrackerClient_html_af4458ac82dc3f61619bbc8049182c685"><div class="ttname"><a href="classTrackerClient.html#af4458ac82dc3f61619bbc8049182c685">TrackerClient::PREFIX</a></div><div class="ttdeci">static const std::string PREFIX</div><div class="ttdoc">Peer ID prefix used when creating a new peer ID.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:53</div></div>
+<div class="ttc" id="aclassTrackerClient_html_aeb3e6dfa5c20ed79e7ae76f7518cd678"><div class="ttname"><a href="classTrackerClient.html#aeb3e6dfa5c20ed79e7ae76f7518cd678">TrackerClient::announce</a></div><div class="ttdeci">TrackerResponse announce(Event event=Event::Empty)</div><div class="ttdoc">Sends an announce request to the tracker to update the current status of the torrent session.</div><div class="ttdef"><b>Definition</b> TrackerClient.cc:193</div></div>
+<div class="ttc" id="aclassTrackerClient_html_af4458ac82dc3f61619bbc8049182c685"><div class="ttname"><a href="classTrackerClient.html#af4458ac82dc3f61619bbc8049182c685">TrackerClient::PREFIX</a></div><div class="ttdeci">static const std::string PREFIX</div><div class="ttdoc">Peer ID prefix used when creating a new peer ID.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:47</div></div>
+<div class="ttc" id="aclassTrackerClient_html_afa515002ee838077d2330e62fc03405c"><div class="ttname"><a href="classTrackerClient.html#afa515002ee838077d2330e62fc03405c">TrackerClient::peer_id</a></div><div class="ttdeci">Peer::Id peer_id() const</div><div class="ttdoc">Retrieves the peer ID used by this client.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:75</div></div>
+<div class="ttc" id="astructPeer_html_a2507a4f82b96df926fc3c259b24a8e6f"><div class="ttname"><a href="structPeer.html#a2507a4f82b96df926fc3c259b24a8e6f">Peer::Id</a></div><div class="ttdeci">std::array&lt; std::byte, 20 &gt; Id</div><div class="ttdoc">Type alias for a peer ID, represented as a 20-byte array.</div><div class="ttdef"><b>Definition</b> Peer.h:13</div></div>
 <div class="ttc" id="astructTorrent_html"><div class="ttname"><a href="structTorrent.html">Torrent</a></div><div class="ttdoc">Represents the essential information of a torrent.</div><div class="ttdef"><b>Definition</b> Torrent.h:39</div></div>
-<div class="ttc" id="astructTorrent_html_a5c1396654ee528eb538f0a3f1619dc9d"><div class="ttname"><a href="structTorrent.html#a5c1396654ee528eb538f0a3f1619dc9d">Torrent::infoHash</a></div><div class="ttdeci">InfoHash infoHash</div><div class="ttdoc">The 20-byte SHA-1 hash of the bencoded 'info' value.</div><div class="ttdef"><b>Definition</b> Torrent.h:44</div></div>
-<div class="ttc" id="astructTrackerResponse_html"><div class="ttname"><a href="structTrackerResponse.html">TrackerResponse</a></div><div class="ttdoc">Represents a response from the tracker.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:24</div></div>
-<div class="ttc" id="astructTrackerResponse_html_a0f1c512927deabe62ec8149619e0ed03"><div class="ttname"><a href="structTrackerResponse.html#a0f1c512927deabe62ec8149619e0ed03">TrackerResponse::interval</a></div><div class="ttdeci">uint16_t interval</div><div class="ttdoc">The number of seconds the client should wait before making a rerequest.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:30</div></div>
-<div class="ttc" id="astructTrackerResponse_html_a470577760716a5096df7bba4c3287b9e"><div class="ttname"><a href="structTrackerResponse.html#a470577760716a5096df7bba4c3287b9e">TrackerResponse::toString</a></div><div class="ttdeci">std::string toString() const</div><div class="ttdoc">Converts tracker response details to a string.</div><div class="ttdef"><b>Definition</b> TrackerClient.cc:191</div></div>
-<div class="ttc" id="astructTrackerResponse_html_a753f64eee38f4e9bc6e11583b5810707"><div class="ttname"><a href="structTrackerResponse.html#a753f64eee38f4e9bc6e11583b5810707">TrackerResponse::peers</a></div><div class="ttdeci">std::vector&lt; Peer &gt; peers</div><div class="ttdoc">List of peers returned by the tracker.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:33</div></div>
-<div class="ttc" id="astructTrackerResponse_html_ac9ee67a43b670c559d40d3c9a52175f8"><div class="ttname"><a href="structTrackerResponse.html#ac9ee67a43b670c559d40d3c9a52175f8">TrackerResponse::failureReason</a></div><div class="ttdeci">std::string failureReason</div><div class="ttdoc">Description of failure if the request failed; empty otherwise.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:26</div></div>
+<div class="ttc" id="astructTorrent_html_a3dd7f0d8f55595185c531f1660afdfa4"><div class="ttname"><a href="structTorrent.html#a3dd7f0d8f55595185c531f1660afdfa4">Torrent::info_hash</a></div><div class="ttdeci">InfoHash info_hash</div><div class="ttdoc">The 20-byte SHA-1 hash of the bencoded 'info' value.</div><div class="ttdef"><b>Definition</b> Torrent.h:44</div></div>
+<div class="ttc" id="astructTrackerResponse_html"><div class="ttname"><a href="structTrackerResponse.html">TrackerResponse</a></div><div class="ttdoc">Represents a response from the tracker.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:25</div></div>
+<div class="ttc" id="astructTrackerResponse_html_a0f1c512927deabe62ec8149619e0ed03"><div class="ttname"><a href="structTrackerResponse.html#a0f1c512927deabe62ec8149619e0ed03">TrackerResponse::interval</a></div><div class="ttdeci">uint16_t interval</div><div class="ttdoc">The number of seconds the client should wait before making a rerequest.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:31</div></div>
+<div class="ttc" id="astructTrackerResponse_html_a6a6a2959cd1a614b6249b2366a74ccad"><div class="ttname"><a href="structTrackerResponse.html#a6a6a2959cd1a614b6249b2366a74ccad">TrackerResponse::failure_reason</a></div><div class="ttdeci">std::string failure_reason</div><div class="ttdoc">Description of failure if the request failed; empty otherwise.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:27</div></div>
+<div class="ttc" id="astructTrackerResponse_html_a753f64eee38f4e9bc6e11583b5810707"><div class="ttname"><a href="structTrackerResponse.html#a753f64eee38f4e9bc6e11583b5810707">TrackerResponse::peers</a></div><div class="ttdeci">std::vector&lt; Peer &gt; peers</div><div class="ttdoc">List of peers returned by the tracker.</div><div class="ttdef"><b>Definition</b> TrackerClient.h:34</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fd6e084be435ec722425b11274b259a0.html">TrackerClient</a></li><li class="navelem"><b>TrackerClient.h</b></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_aebb8dcc11953d78e620bbef0b9e2183.html">core</a></li><li class="navelem"><a class="el" href="dir_8313523aa644034c4f9bbae93e836fa9.html">TrackerClient</a></li><li class="navelem"><b>TrackerClient.h</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
   </ul>
 </div>

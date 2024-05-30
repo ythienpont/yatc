@@ -1,8 +1,8 @@
 var classLinuxFileManager =
 [
-    [ "LinuxFileManager", "classLinuxFileManager.html#adfa75d417474432db8742fb038bd8c11", null ],
-    [ "~LinuxFileManager", "classLinuxFileManager.html#ad07772880c6fc1abbfec28fa97dd5b94", null ],
-    [ "readBlock", "classLinuxFileManager.html#a8ba3b593fa8ff198c9e1d14f44e279e5", null ],
-    [ "readPiece", "classLinuxFileManager.html#a250dbb4e640b6e678859f18047758202", null ],
-    [ "writeBlock", "classLinuxFileManager.html#a3bc01a8aa5c29d1af1fe17ba7b0f047d", null ]
+    [ "LinuxFileManager", "classLinuxFileManager.html#a46836e74dbc181654d39145205aa225a", null ],
+    [ "~LinuxFileManager", "classLinuxFileManager.html#a1438a8919ed14189b9d62a51b5dd8f61", null ],
+    [ "pre_allocate_space", "classLinuxFileManager.html#a04cfd2c38c4f815c32763b5728f80645", null ],
+    [ "read_block", "classLinuxFileManager.html#acfe1fa02f6b9f79363563faa08fd0686", null ],
+    [ "write_piece", "classLinuxFileManager.html#a993c91b1f5e8d4470bc90facbeb2691a", null ]
 ];

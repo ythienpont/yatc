@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['failurereason_0',['failureReason',['../structTrackerResponse.html#ac9ee67a43b670c559d40d3c9a52175f8',1,'TrackerResponse']]],
-  ['fileinfo_1',['FileInfo',['../structFileInfo.html',1,'']]],
-  ['filemanager_2',['FileManager',['../classFileManager.html',1,'FileManager'],['../classFileManager.html#ac49c84adbe233ef45846762ea394a45b',1,'FileManager::FileManager()']]],
-  ['files_3',['files',['../structTorrent.html#a5694512ed188fac85e49abff70863b98',1,'Torrent']]],
-  ['files_5f_4',['files_',['../classFileManager.html#ac864e73b7b86f341d5a2eea75861e6ec',1,'FileManager']]]
+  ['empty_0',['Empty',['../classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07',1,'TrackerClient']]],
+  ['end_5foffset_1',['end_offset',['../structFileInfo.html#ab7cd666c8b863537a1f5c1788742132e',1,'FileInfo']]],
+  ['event_2',['Event',['../classTrackerClient.html#ade1ff4a6d31118ccea31f00bf8f89339',1,'TrackerClient']]]
 ];

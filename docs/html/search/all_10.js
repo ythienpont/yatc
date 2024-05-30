@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['writeblock_0',['writeBlock',['../classFileManager.html#a07e533081a76aaee9c8f7478799419d9',1,'FileManager::writeBlock()'],['../classLinuxFileManager.html#a3bc01a8aa5c29d1af1fe17ba7b0f047d',1,'LinuxFileManager::writeBlock()']]],
-  ['writepiece_1',['writePiece',['../classFileManager.html#a7b289f7639665e8de08542148f539d1c',1,'FileManager']]]
+  ['write_5fpiece_0',['write_piece',['../classFileManager.html#ab32972cd0fa12764ba13d77eafae5fd4',1,'FileManager::write_piece()'],['../classLinuxFileManager.html#a993c91b1f5e8d4470bc90facbeb2691a',1,'LinuxFileManager::write_piece()']]]
 ];

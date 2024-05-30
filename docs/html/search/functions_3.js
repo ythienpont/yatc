@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['filemanager_0',['FileManager',['../classFileManager.html#ac49c84adbe233ef45846762ea394a45b',1,'FileManager']]]
+  ['has_5fpiece_0',['has_piece',['../classPieceManager.html#ad16602ac8b56e7f3b72515ee99fcdbc6',1,'PieceManager']]]
 ];

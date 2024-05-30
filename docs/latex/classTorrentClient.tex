@@ -2,7 +2,7 @@
 \hypertarget{classTorrentClient}{}\label{classTorrentClient}\index{TorrentClient@{TorrentClient}}
 
 
-Manages torrent downloading and uploading, coordinating between different components.  
+Manages the overall process of downloading and uploading a torrent.  
 
 
 
@@ -13,17 +13,18 @@ Manages torrent downloading and uploading, coordinating between different compon
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{classTorrentClient_acde94afbe225e1d7182aaceba9b452b3}{Torrent\+Client}} (const std\+::string \&torrent\+File)
-\begin{DoxyCompactList}\small\item\em Constructs a \doxylink{classTorrentClient}{Torrent\+Client} with a specified torrent file. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Constructs a \doxylink{classTorrentClient}{Torrent\+Client} with the specified torrent file. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classTorrentClient_a53b2ae5c1d4db7c0f05f0995628d6974}{start}} ()
-\begin{DoxyCompactList}\small\item\em Starts the torrent downloading process. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Starts the torrent client. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classTorrentClient_a2fcaf6bf0a1977053ed39097f91a9f63}{stop}} ()
-\begin{DoxyCompactList}\small\item\em Stops all torrent downloading and uploading activities. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Stops the torrent client. \end{DoxyCompactList}\item 
+\Hypertarget{classTorrentClient_a50283d6b2584ebf3ac9280878e109869}\label{classTorrentClient_a50283d6b2584ebf3ac9280878e109869} 
+\mbox{\hyperlink{structTorrentInfo}{Torrent\+Info}} {\bfseries download\+\_\+info} () const
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-Manages torrent downloading and uploading, coordinating between different components. 
-
-This class integrates the \doxylink{classFileManager}{File\+Manager}, \doxylink{classPieceManager}{Piece\+Manager}, \doxylink{classTorrentParser}{Torrent\+Parser}, \doxylink{classTrackerClient}{Tracker\+Client}, and Peer\+Connections to manage the overall process of handling a torrent, from parsing the file to managing downloads and uploads. 
+Manages the overall process of downloading and uploading a torrent. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \Hypertarget{classTorrentClient_acde94afbe225e1d7182aaceba9b452b3}\label{classTorrentClient_acde94afbe225e1d7182aaceba9b452b3} 
@@ -34,11 +35,11 @@ This class integrates the \doxylink{classFileManager}{File\+Manager}, \doxylink{
 
 
 
-Constructs a \doxylink{classTorrentClient}{Torrent\+Client} with a specified torrent file. 
+Constructs a \doxylink{classTorrentClient}{Torrent\+Client} with the specified torrent file. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em torrent\+File} & The path to the torrent file to be managed. \\
+{\em torrent\+File} & The path to the .torrent file. \\
 \hline
 \end{DoxyParams}
 
@@ -52,9 +53,9 @@ Constructs a \doxylink{classTorrentClient}{Torrent\+Client} with a specified tor
 
 
 
-Starts the torrent downloading process. 
+Starts the torrent client. 
 
-Sets up torrent parsing, initializes file and piece management, connects to peers, and starts the asynchronous I/O context. \Hypertarget{classTorrentClient_a2fcaf6bf0a1977053ed39097f91a9f63}\label{classTorrentClient_a2fcaf6bf0a1977053ed39097f91a9f63} 
+Initiates the downloading and uploading process. \Hypertarget{classTorrentClient_a2fcaf6bf0a1977053ed39097f91a9f63}\label{classTorrentClient_a2fcaf6bf0a1977053ed39097f91a9f63} 
 \index{TorrentClient@{TorrentClient}!stop@{stop}}
 \index{stop@{stop}!TorrentClient@{TorrentClient}}
 \doxysubsubsection{\texorpdfstring{stop()}{stop()}}
@@ -62,11 +63,11 @@ Sets up torrent parsing, initializes file and piece management, connects to peer
 
 
 
-Stops all torrent downloading and uploading activities. 
+Stops the torrent client. 
 
-Cleans up and gracefully shuts down all peer connections and tracker sessions. 
+Gracefully shuts down all connections and stops the torrent process. 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/home/yonah/\+School/\+PRO/yatc/src/\+Torrent\+Client/Torrent\+Client.\+h\item 
-/home/yonah/\+School/\+PRO/yatc/src/\+Torrent\+Client/Torrent\+Client.\+cc\end{DoxyCompactItemize}
+/home/yonah/\+School/\+PRO/yatc/src/core/\+Torrent\+Client/Torrent\+Client.\+h\item 
+/home/yonah/\+School/\+PRO/yatc/src/core/\+Torrent\+Client/Torrent\+Client.\+cc\end{DoxyCompactItemize}

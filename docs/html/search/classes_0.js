@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['blockinfo_0',['BlockInfo',['../structBlockInfo.html',1,'']]]
+  ['connectionstate_0',['ConnectionState',['../structConnectionState.html',1,'']]]
 ];

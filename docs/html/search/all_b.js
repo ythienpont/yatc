@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['offset_0',['offset',['../structBlockInfo.html#a0e03c6fcfe2b4dd65fc4115f1faf517b',1,'BlockInfo']]],
-  ['operator_3c_1',['operator&lt;',['../structBlockInfo.html#a593fd35fa895fed0cf2144bd4ffa8162',1,'BlockInfo']]]
+  ['operator_3d_0',['operator=',['../classLogger.html#a8c0ca770cdc91ca9fc3015286568e1ea',1,'Logger']]],
+  ['overloaded_1',['overloaded',['../structoverloaded.html',1,'']]]
 ];

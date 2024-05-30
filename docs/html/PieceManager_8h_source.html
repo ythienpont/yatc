@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>yatc: /home/yonah/School/PRO/yatc/src/PieceManager/PieceManager.h Source File</title>
+<title>yatc: /home/yonah/School/PRO/yatc/src/core/PieceManager/PieceManager.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -104,37 +104,47 @@ $(function(){initNavTree('PieceManager_8h_source.html',''); initResizable(); });
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define PIECEMANAGER_H</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;Torrent/Torrent.h&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;unordered_set&gt;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="foldopen" id="foldopen00014" data-start="{" data-end="};">
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classPieceManager.html">   14</a></span><span class="keyword">class </span><a class="code hl_class" href="classPieceManager.html">PieceManager</a> {</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>  <a class="code hl_function" href="classPieceManager.html#ac05f7a04b088b5e879d93e7d5ebfb17f">PieceManager</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> totalPieces);</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classPieceManager.html#a8f0af3c1d66310b93223cbdf70067f00">hasPiece</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> pieceIndex) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classPieceManager.html#a771cafd418df95a9503a45d5e3e94dd9">savePiece</a>(<span class="keyword">const</span> <span class="keywordtype">size_t</span> pieceIndex);</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  std::unordered_set&lt;size_t&gt; <a class="code hl_function" href="classPieceManager.html#af37fbec495d7c9d288b3be205f282d68">missingPieces</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  std::vector&lt;bool&gt; downloadedPieces_;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>};</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;unordered_set&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="foldopen" id="foldopen00016" data-start="{" data-end="};">
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classPieceManager.html">   16</a></span><span class="keyword">class </span><a class="code hl_class" href="classPieceManager.html">PieceManager</a> {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>  <a class="code hl_function" href="classPieceManager.html#a0ba527870dc528a69914a76f8f5c21b3">PieceManager</a>(<span class="keyword">const</span> uint64_t total_size, <span class="keyword">const</span> uint32_t piece_length);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classPieceManager.html#ad16602ac8b56e7f3b72515ee99fcdbc6">has_piece</a>(<span class="keyword">const</span> uint32_t piece_index) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classPieceManager.html#a6eeb2a12f9b12bd09bf06f1756f0000c">save_piece</a>(<span class="keyword">const</span> uint32_t piece_index);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  std::unordered_set&lt;uint32_t&gt; <a class="code hl_function" href="classPieceManager.html#aaf06ea6a0d957c790e657e14431c3995">missing_pieces</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  uint32_t <a class="code hl_function" href="classPieceManager.html#ae703f2f0783a098b1a79cce28e75c7f1">piece_size</a>(<span class="keyword">const</span> uint32_t piece_index);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>  <span class="keyword">mutable</span> std::mutex</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>      mutex_; </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  std::vector&lt;bool&gt; downloaded_pieces_; </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  uint64_t total_size;                  </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  uint32_t piece_length;                </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  uint32_t total_pieces; </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>};</div>
 </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#endif </span><span class="comment">// PIECEMANAGER_H</span></div>
-<div class="ttc" id="aclassPieceManager_html"><div class="ttname"><a href="classPieceManager.html">PieceManager</a></div><div class="ttdoc">Manages the status of pieces in a torrent download.</div><div class="ttdef"><b>Definition</b> PieceManager.h:14</div></div>
-<div class="ttc" id="aclassPieceManager_html_a771cafd418df95a9503a45d5e3e94dd9"><div class="ttname"><a href="classPieceManager.html#a771cafd418df95a9503a45d5e3e94dd9">PieceManager::savePiece</a></div><div class="ttdeci">void savePiece(const size_t pieceIndex)</div><div class="ttdoc">Marks a piece as downloaded.</div><div class="ttdef"><b>Definition</b> PieceManager.cc:23</div></div>
-<div class="ttc" id="aclassPieceManager_html_a8f0af3c1d66310b93223cbdf70067f00"><div class="ttname"><a href="classPieceManager.html#a8f0af3c1d66310b93223cbdf70067f00">PieceManager::hasPiece</a></div><div class="ttdeci">bool hasPiece(const size_t pieceIndex) const</div><div class="ttdoc">Checks if a piece has already been downloaded.</div><div class="ttdef"><b>Definition</b> PieceManager.cc:9</div></div>
-<div class="ttc" id="aclassPieceManager_html_ac05f7a04b088b5e879d93e7d5ebfb17f"><div class="ttname"><a href="classPieceManager.html#ac05f7a04b088b5e879d93e7d5ebfb17f">PieceManager::PieceManager</a></div><div class="ttdeci">PieceManager(const size_t totalPieces)</div><div class="ttdoc">Constructs a new Piece Manager object.</div><div class="ttdef"><b>Definition</b> PieceManager.cc:5</div></div>
-<div class="ttc" id="aclassPieceManager_html_af37fbec495d7c9d288b3be205f282d68"><div class="ttname"><a href="classPieceManager.html#af37fbec495d7c9d288b3be205f282d68">PieceManager::missingPieces</a></div><div class="ttdeci">std::unordered_set&lt; size_t &gt; missingPieces() const</div><div class="ttdoc">Retrieves a set of indices representing all pieces that are still missing.</div><div class="ttdef"><b>Definition</b> PieceManager.cc:13</div></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#endif </span><span class="comment">// PIECEMANAGER_H</span></div>
+<div class="ttc" id="aclassPieceManager_html"><div class="ttname"><a href="classPieceManager.html">PieceManager</a></div><div class="ttdoc">Manages the pieces of a torrent download.</div><div class="ttdef"><b>Definition</b> PieceManager.h:16</div></div>
+<div class="ttc" id="aclassPieceManager_html_a0ba527870dc528a69914a76f8f5c21b3"><div class="ttname"><a href="classPieceManager.html#a0ba527870dc528a69914a76f8f5c21b3">PieceManager::PieceManager</a></div><div class="ttdeci">PieceManager(const uint64_t total_size, const uint32_t piece_length)</div><div class="ttdoc">Constructs a PieceManager with the total size and piece length of the torrent.</div><div class="ttdef"><b>Definition</b> PieceManager.cc:4</div></div>
+<div class="ttc" id="aclassPieceManager_html_a6eeb2a12f9b12bd09bf06f1756f0000c"><div class="ttname"><a href="classPieceManager.html#a6eeb2a12f9b12bd09bf06f1756f0000c">PieceManager::save_piece</a></div><div class="ttdeci">void save_piece(const uint32_t piece_index)</div><div class="ttdoc">Marks a piece as downloaded.</div><div class="ttdef"><b>Definition</b> PieceManager.cc:29</div></div>
+<div class="ttc" id="aclassPieceManager_html_aaf06ea6a0d957c790e657e14431c3995"><div class="ttname"><a href="classPieceManager.html#aaf06ea6a0d957c790e657e14431c3995">PieceManager::missing_pieces</a></div><div class="ttdeci">std::unordered_set&lt; uint32_t &gt; missing_pieces() const</div><div class="ttdoc">Retrieves a set of all missing pieces.</div><div class="ttdef"><b>Definition</b> PieceManager.cc:17</div></div>
+<div class="ttc" id="aclassPieceManager_html_ad16602ac8b56e7f3b72515ee99fcdbc6"><div class="ttname"><a href="classPieceManager.html#ad16602ac8b56e7f3b72515ee99fcdbc6">PieceManager::has_piece</a></div><div class="ttdeci">bool has_piece(const uint32_t piece_index) const</div><div class="ttdoc">Checks if a piece has been downloaded.</div><div class="ttdef"><b>Definition</b> PieceManager.cc:11</div></div>
+<div class="ttc" id="aclassPieceManager_html_ae703f2f0783a098b1a79cce28e75c7f1"><div class="ttname"><a href="classPieceManager.html#ae703f2f0783a098b1a79cce28e75c7f1">PieceManager::piece_size</a></div><div class="ttdeci">uint32_t piece_size(const uint32_t piece_index)</div><div class="ttdoc">Gets the size of a specific piece.</div><div class="ttdef"><b>Definition</b> PieceManager.cc:40</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_1dd0522d71a7ae0fd4bff03c317cb95c.html">PieceManager</a></li><li class="navelem"><b>PieceManager.h</b></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_aebb8dcc11953d78e620bbef0b9e2183.html">core</a></li><li class="navelem"><a class="el" href="dir_3875c182223585c3ff2c3610d5243368.html">PieceManager</a></li><li class="navelem"><b>PieceManager.h</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
   </ul>
 </div>
