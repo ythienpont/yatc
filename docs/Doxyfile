@@ -1,5 +1,5 @@
 PROJECT_NAME = yatc
-INPUT = ../src
+INPUT = ../src/core/
 RECURSIVE = YES
 
 GENERATE_HTML          = YES

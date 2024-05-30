@@ -1,5 +1,5 @@
 \doxysection{Torrent.\+h}
-\hypertarget{Torrent_8h_source}{}\label{Torrent_8h_source}\index{/home/yonah/School/PRO/yatc/src/Torrent/Torrent.h@{/home/yonah/School/PRO/yatc/src/Torrent/Torrent.h}}
+\hypertarget{Torrent_8h_source}{}\label{Torrent_8h_source}\index{/home/yonah/School/PRO/yatc/src/core/Torrent/Torrent.h@{/home/yonah/School/PRO/yatc/src/core/Torrent/Torrent.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ TORRENT\_H}}
@@ -13,10 +13,10 @@
 \DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <vector>}}
 \DoxyCodeLine{00010\ }
 \DoxyCodeLine{00018\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structFileInfo}{FileInfo}}\ \{}
-\DoxyCodeLine{00019\ \ \ std::string\ \mbox{\hyperlink{structFileInfo_a05985fe68486adce8be8eba39cfc56f2}{path}};\ \ \ }
-\DoxyCodeLine{00020\ \ \ uint64\_t\ \mbox{\hyperlink{structFileInfo_a2619c695ca6873993fd08c1c275e62cc}{length}};\ \ \ \ }
-\DoxyCodeLine{00021\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structFileInfo_ac2fc015ab3776cb5eb0b8ceb2af61a2f}{startOffset}};\ }
-\DoxyCodeLine{00022\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structFileInfo_ad3a844a28c7d55987ab9515e6b286e62}{endOffset}};\ \ \ }
+\DoxyCodeLine{00019\ \ \ std::string\ \mbox{\hyperlink{structFileInfo_a05985fe68486adce8be8eba39cfc56f2}{path}};\ \ \ \ \ \ }
+\DoxyCodeLine{00020\ \ \ uint64\_t\ \mbox{\hyperlink{structFileInfo_a2619c695ca6873993fd08c1c275e62cc}{length}};\ \ \ \ \ \ \ }
+\DoxyCodeLine{00021\ \ \ uint64\_t\ \mbox{\hyperlink{structFileInfo_aadc2d6493623fc69f805c3fd77beb797}{start\_offset}};\ }
+\DoxyCodeLine{00022\ \ \ uint64\_t\ \mbox{\hyperlink{structFileInfo_ab7cd666c8b863537a1f5c1788742132e}{end\_offset}};\ \ \ }
 \DoxyCodeLine{00023\ \};}
 \DoxyCodeLine{00024\ }
 \DoxyCodeLine{00029\ \textcolor{keyword}{using\ }InfoHash\ =\ std::array<std::byte,\ 20>;}
@@ -25,23 +25,27 @@
 \DoxyCodeLine{00040\ \ \ std::string\ \mbox{\hyperlink{structTorrent_af0f3f1ae144a53edfd6f526abe35911a}{name}};\ }
 \DoxyCodeLine{00041\ \ \ bencode::dict}
 \DoxyCodeLine{00042\ \ \ \ \ \ \ \mbox{\hyperlink{structTorrent_a8e08c67d6e798a512b2f5b7957db6ced}{info}};\ }
-\DoxyCodeLine{00043\ \ \ std::string\ \mbox{\hyperlink{structTorrent_abdb6ca07580fe7ae185a942632505a38}{trackerUrl}};\ }
-\DoxyCodeLine{00044\ \ \ InfoHash\ \mbox{\hyperlink{structTorrent_a5c1396654ee528eb538f0a3f1619dc9d}{infoHash}}\ =}
+\DoxyCodeLine{00043\ \ \ std::string\ \mbox{\hyperlink{structTorrent_a1a33b8aeba9373116cddc924d785b73a}{tracker\_url}};\ }
+\DoxyCodeLine{00044\ \ \ InfoHash\ \mbox{\hyperlink{structTorrent_a3dd7f0d8f55595185c531f1660afdfa4}{info\_hash}}\ =}
 \DoxyCodeLine{00045\ \ \ \ \ \ \ \{\};\ }
-\DoxyCodeLine{00046\ \ \ uint64\_t\ \mbox{\hyperlink{structTorrent_a418b0dd3446bae75469036f850571d06}{pieceLength}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00046\ \ \ uint32\_t\ \mbox{\hyperlink{structTorrent_a96886373bc45a6fd279639f69c842467}{piece\_length}};\ \ \ \ \ \ \ }
 \DoxyCodeLine{00047\ \ \ std::vector<FileInfo>\ \mbox{\hyperlink{structTorrent_a5694512ed188fac85e49abff70863b98}{files}};\ }
 \DoxyCodeLine{00048\ \ \ std::vector<InfoHash>}
 \DoxyCodeLine{00049\ \ \ \ \ \ \ \mbox{\hyperlink{structTorrent_a26f5e90be8d81de0eae1881fcb7a80a0}{pieces}};\ }
 \DoxyCodeLine{00050\ }
-\DoxyCodeLine{00056\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structTorrent_aca3f4598dd5da5976461f22241e40bc5}{isSingleFile}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00056\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structTorrent_a1264dcaceb0390cc2a36bfba2511c203}{is\_single\_file}}()\ \textcolor{keyword}{const};}
 \DoxyCodeLine{00057\ }
-\DoxyCodeLine{00063\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structTorrent_a6e777a11bc507654a50f59cd8c20e1d0}{totalPieces}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00063\ \ \ uint32\_t\ \mbox{\hyperlink{structTorrent_afecf6d8dba2e64e97c459d558c2940ad}{total\_pieces}}()\ \textcolor{keyword}{const};}
 \DoxyCodeLine{00064\ }
-\DoxyCodeLine{00068\ \ \ \mbox{\hyperlink{structTorrent_aa5e628f1594f03b7e8781e18659b0953}{Torrent}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00069\ }
-\DoxyCodeLine{00073\ \ \ \mbox{\hyperlink{structTorrent_a7440a89067567ee1fe220d3193b76c78}{\string~Torrent}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00074\ \};}
-\DoxyCodeLine{00075\ }
-\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TORRENT\_H}}
+\DoxyCodeLine{00070\ \ \ uint64\_t\ \mbox{\hyperlink{structTorrent_ad5888f8c5629f0b33f05ade38cc4167a}{size}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00075\ \ \ \mbox{\hyperlink{structTorrent_aa5e628f1594f03b7e8781e18659b0953}{Torrent}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00080\ \ \ \mbox{\hyperlink{structTorrent_a7440a89067567ee1fe220d3193b76c78}{\string~Torrent}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00087\ \ \ std::string\ \mbox{\hyperlink{structTorrent_a07621aba7f545fe084b807929cc2803b}{diagnostic\_info}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00088\ \};}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TORRENT\_H}}
 
 \end{DoxyCode}

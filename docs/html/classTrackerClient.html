@@ -121,12 +121,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aeb3e6dfa5c20ed79e7ae76f7518cd678" id="r_aeb3e6dfa5c20ed79e7ae76f7518cd678"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structTrackerResponse.html">TrackerResponse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb3e6dfa5c20ed79e7ae76f7518cd678">announce</a> (<a class="el" href="#ade1ff4a6d31118ccea31f00bf8f89339">Event</a> event=<a class="el" href="#ade1ff4a6d31118ccea31f00bf8f89339ace2c8aed9c2fa0cfbed56cbda4d8bf07">Event::Empty</a>)</td></tr>
 <tr class="memdesc:aeb3e6dfa5c20ed79e7ae76f7518cd678"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends an announce request to the tracker to update the current status of the torrent session.  <br /></td></tr>
 <tr class="separator:aeb3e6dfa5c20ed79e7ae76f7518cd678"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fb2e21164a4302313de9a99ffcc6b72" id="r_a4fb2e21164a4302313de9a99ffcc6b72"><td class="memItemLeft" align="right" valign="top">Peer::Id&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4fb2e21164a4302313de9a99ffcc6b72">getPeerId</a> () const</td></tr>
-<tr class="memdesc:a4fb2e21164a4302313de9a99ffcc6b72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the peer ID used by this client.  <br /></td></tr>
-<tr class="separator:a4fb2e21164a4302313de9a99ffcc6b72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa52a55a5b7bea7c04753120cc92d1ea2" id="r_aa52a55a5b7bea7c04753120cc92d1ea2"><td class="memItemLeft" align="right" valign="top">InfoHash&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa52a55a5b7bea7c04753120cc92d1ea2">getInfoHash</a> () const</td></tr>
-<tr class="memdesc:aa52a55a5b7bea7c04753120cc92d1ea2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the info hash of the torrent.  <br /></td></tr>
-<tr class="separator:aa52a55a5b7bea7c04753120cc92d1ea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa515002ee838077d2330e62fc03405c" id="r_afa515002ee838077d2330e62fc03405c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structPeer.html#a2507a4f82b96df926fc3c259b24a8e6f">Peer::Id</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa515002ee838077d2330e62fc03405c">peer_id</a> () const</td></tr>
+<tr class="memdesc:afa515002ee838077d2330e62fc03405c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the peer ID used by this client.  <br /></td></tr>
+<tr class="separator:afa515002ee838077d2330e62fc03405c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70450363990f96a94cb410adfd40d347" id="r_a70450363990f96a94cb410adfd40d347"><td class="memItemLeft" align="right" valign="top">InfoHash&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70450363990f96a94cb410adfd40d347">info_hash</a> () const</td></tr>
+<tr class="memdesc:a70450363990f96a94cb410adfd40d347"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the info hash of the torrent.  <br /></td></tr>
+<tr class="separator:a70450363990f96a94cb410adfd40d347"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41e1eadd9e5c579d2f6f26d48651cadf" id="r_a41e1eadd9e5c579d2f6f26d48651cadf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41e1eadd9e5c579d2f6f26d48651cadf">TrackerClient</a> (const <a class="el" href="structTorrent.html">Torrent</a> &amp;torrent, const uint16_t port=6881)</td></tr>
 <tr class="memdesc:a41e1eadd9e5c579d2f6f26d48651cadf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new Tracker Client object.  <br /></td></tr>
 <tr class="separator:a41e1eadd9e5c579d2f6f26d48651cadf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,7 +139,7 @@ Public Member Functions</h2></td></tr>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:af4458ac82dc3f61619bbc8049182c685" id="r_af4458ac82dc3f61619bbc8049182c685"><td class="memItemLeft" align="right" valign="top"><a id="af4458ac82dc3f61619bbc8049182c685" name="af4458ac82dc3f61619bbc8049182c685"></a>
 static const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>PREFIX</b> = &quot;-YATC-&quot;</td></tr>
-<tr class="memdesc:af4458ac82dc3f61619bbc8049182c685"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structPeer.html">Peer</a> ID prefix used when creating a new peer ID. <br /></td></tr>
+<tr class="memdesc:af4458ac82dc3f61619bbc8049182c685"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structPeer.html" title="Represents a peer in the BitTorrent network.">Peer</a> ID prefix used when creating a new peer ID. <br /></td></tr>
 <tr class="separator:af4458ac82dc3f61619bbc8049182c685"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -238,8 +238,8 @@ static const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>P
 
 </div>
 </div>
-<a id="aa52a55a5b7bea7c04753120cc92d1ea2" name="aa52a55a5b7bea7c04753120cc92d1ea2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa52a55a5b7bea7c04753120cc92d1ea2">&#9670;&#160;</a></span>getInfoHash()</h2>
+<a id="a70450363990f96a94cb410adfd40d347" name="a70450363990f96a94cb410adfd40d347"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70450363990f96a94cb410adfd40d347">&#9670;&#160;</a></span>info_hash()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -248,7 +248,7 @@ static const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>P
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">InfoHash TrackerClient::getInfoHash </td>
+          <td class="memname">InfoHash TrackerClient::info_hash </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
           <td> const</td>
@@ -266,8 +266,8 @@ static const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>P
 
 </div>
 </div>
-<a id="a4fb2e21164a4302313de9a99ffcc6b72" name="a4fb2e21164a4302313de9a99ffcc6b72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4fb2e21164a4302313de9a99ffcc6b72">&#9670;&#160;</a></span>getPeerId()</h2>
+<a id="afa515002ee838077d2330e62fc03405c" name="afa515002ee838077d2330e62fc03405c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa515002ee838077d2330e62fc03405c">&#9670;&#160;</a></span>peer_id()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -276,7 +276,7 @@ static const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>P
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Peer::Id TrackerClient::getPeerId </td>
+          <td class="memname"><a class="el" href="structPeer.html#a2507a4f82b96df926fc3c259b24a8e6f">Peer::Id</a> TrackerClient::peer_id </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
           <td> const</td>
@@ -290,13 +290,13 @@ static const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>P
 </div><div class="memdoc">
 
 <p>Retrieves the peer ID used by this client. </p>
-<dl class="section return"><dt>Returns</dt><dd>Peer::Id The peer ID. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structPeer.html#a2507a4f82b96df926fc3c259b24a8e6f" title="Type alias for a peer ID, represented as a 20-byte array.">Peer::Id</a> The peer ID. </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/yonah/School/PRO/yatc/src/TrackerClient/<a class="el" href="TrackerClient_8h_source.html">TrackerClient.h</a></li>
-<li>/home/yonah/School/PRO/yatc/src/TrackerClient/<b>TrackerClient.cc</b></li>
+<li>/home/yonah/School/PRO/yatc/src/core/TrackerClient/<a class="el" href="TrackerClient_8h_source.html">TrackerClient.h</a></li>
+<li>/home/yonah/School/PRO/yatc/src/core/TrackerClient/<b>TrackerClient.cc</b></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

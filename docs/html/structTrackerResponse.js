@@ -1,7 +1,6 @@
 var structTrackerResponse =
 [
-    [ "toString", "structTrackerResponse.html#a470577760716a5096df7bba4c3287b9e", null ],
-    [ "failureReason", "structTrackerResponse.html#ac9ee67a43b670c559d40d3c9a52175f8", null ],
+    [ "failure_reason", "structTrackerResponse.html#a6a6a2959cd1a614b6249b2366a74ccad", null ],
     [ "interval", "structTrackerResponse.html#a0f1c512927deabe62ec8149619e0ed03", null ],
     [ "peers", "structTrackerResponse.html#a753f64eee38f4e9bc6e11583b5810707", null ]
 ];

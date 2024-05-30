@@ -99,7 +99,7 @@ $(function(){initNavTree('classTorrentClient.html',''); initResizable(); });
 </div><!--header-->
 <div class="contents">
 
-<p>Manages torrent downloading and uploading, coordinating between different components.  
+<p>Manages the overall process of downloading and uploading a torrent.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="TorrentClient_8h_source.html">TorrentClient.h</a>&gt;</code></p>
@@ -107,18 +107,20 @@ $(function(){initNavTree('classTorrentClient.html',''); initResizable(); });
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:acde94afbe225e1d7182aaceba9b452b3" id="r_acde94afbe225e1d7182aaceba9b452b3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acde94afbe225e1d7182aaceba9b452b3">TorrentClient</a> (const std::string &amp;torrentFile)</td></tr>
-<tr class="memdesc:acde94afbe225e1d7182aaceba9b452b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classTorrentClient.html" title="Manages torrent downloading and uploading, coordinating between different components.">TorrentClient</a> with a specified torrent file.  <br /></td></tr>
+<tr class="memdesc:acde94afbe225e1d7182aaceba9b452b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classTorrentClient.html" title="Manages the overall process of downloading and uploading a torrent.">TorrentClient</a> with the specified torrent file.  <br /></td></tr>
 <tr class="separator:acde94afbe225e1d7182aaceba9b452b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53b2ae5c1d4db7c0f05f0995628d6974" id="r_a53b2ae5c1d4db7c0f05f0995628d6974"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53b2ae5c1d4db7c0f05f0995628d6974">start</a> ()</td></tr>
-<tr class="memdesc:a53b2ae5c1d4db7c0f05f0995628d6974"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the torrent downloading process.  <br /></td></tr>
+<tr class="memdesc:a53b2ae5c1d4db7c0f05f0995628d6974"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the torrent client.  <br /></td></tr>
 <tr class="separator:a53b2ae5c1d4db7c0f05f0995628d6974"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fcaf6bf0a1977053ed39097f91a9f63" id="r_a2fcaf6bf0a1977053ed39097f91a9f63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2fcaf6bf0a1977053ed39097f91a9f63">stop</a> ()</td></tr>
-<tr class="memdesc:a2fcaf6bf0a1977053ed39097f91a9f63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops all torrent downloading and uploading activities.  <br /></td></tr>
+<tr class="memdesc:a2fcaf6bf0a1977053ed39097f91a9f63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the torrent client.  <br /></td></tr>
 <tr class="separator:a2fcaf6bf0a1977053ed39097f91a9f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50283d6b2584ebf3ac9280878e109869" id="r_a50283d6b2584ebf3ac9280878e109869"><td class="memItemLeft" align="right" valign="top"><a id="a50283d6b2584ebf3ac9280878e109869" name="a50283d6b2584ebf3ac9280878e109869"></a>
+<a class="el" href="structTorrentInfo.html">TorrentInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><b>download_info</b> () const</td></tr>
+<tr class="separator:a50283d6b2584ebf3ac9280878e109869"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Manages torrent downloading and uploading, coordinating between different components. </p>
-<p>This class integrates the <a class="el" href="classFileManager.html" title="Abstract class providing an interface for file read/write operations in a torrent system.">FileManager</a>, <a class="el" href="classPieceManager.html" title="Manages the status of pieces in a torrent download.">PieceManager</a>, <a class="el" href="classTorrentParser.html" title="Provides functionality to parse torrent files.">TorrentParser</a>, <a class="el" href="classTrackerClient.html" title="Handles communication with the tracker for a torrent session.">TrackerClient</a>, and PeerConnections to manage the overall process of handling a torrent, from parsing the file to managing downloads and uploads. </p>
+<div class="textblock"><p>Manages the overall process of downloading and uploading a torrent. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="acde94afbe225e1d7182aaceba9b452b3" name="acde94afbe225e1d7182aaceba9b452b3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acde94afbe225e1d7182aaceba9b452b3">&#9670;&#160;</a></span>TorrentClient()</h2>
@@ -135,10 +137,10 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Constructs a <a class="el" href="classTorrentClient.html" title="Manages torrent downloading and uploading, coordinating between different components.">TorrentClient</a> with a specified torrent file. </p>
+<p>Constructs a <a class="el" href="classTorrentClient.html" title="Manages the overall process of downloading and uploading a torrent.">TorrentClient</a> with the specified torrent file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">torrentFile</td><td>The path to the torrent file to be managed. </td></tr>
+    <tr><td class="paramname">torrentFile</td><td>The path to the .torrent file. </td></tr>
   </table>
   </dd>
 </dl>
@@ -161,8 +163,8 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Starts the torrent downloading process. </p>
-<p>Sets up torrent parsing, initializes file and piece management, connects to peers, and starts the asynchronous I/O context. </p>
+<p>Starts the torrent client. </p>
+<p>Initiates the downloading and uploading process. </p>
 
 </div>
 </div>
@@ -181,14 +183,14 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Stops all torrent downloading and uploading activities. </p>
-<p>Cleans up and gracefully shuts down all peer connections and tracker sessions. </p>
+<p>Stops the torrent client. </p>
+<p>Gracefully shuts down all connections and stops the torrent process. </p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/yonah/School/PRO/yatc/src/TorrentClient/<a class="el" href="TorrentClient_8h_source.html">TorrentClient.h</a></li>
-<li>/home/yonah/School/PRO/yatc/src/TorrentClient/<b>TorrentClient.cc</b></li>
+<li>/home/yonah/School/PRO/yatc/src/core/TorrentClient/<a class="el" href="TorrentClient_8h_source.html">TorrentClient.h</a></li>
+<li>/home/yonah/School/PRO/yatc/src/core/TorrentClient/<b>TorrentClient.cc</b></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -93,7 +93,6 @@ $(function(){initNavTree('structTrackerResponse.html',''); initResizable(); });
 
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structTrackerResponse-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">TrackerResponse Struct Reference</div></div>
@@ -105,18 +104,12 @@ $(function(){initNavTree('structTrackerResponse.html',''); initResizable(); });
 
 <p><code>#include &lt;<a class="el" href="TrackerClient_8h_source.html">TrackerClient.h</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a470577760716a5096df7bba4c3287b9e" id="r_a470577760716a5096df7bba4c3287b9e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a470577760716a5096df7bba4c3287b9e">toString</a> () const</td></tr>
-<tr class="memdesc:a470577760716a5096df7bba4c3287b9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts tracker response details to a string.  <br /></td></tr>
-<tr class="separator:a470577760716a5096df7bba4c3287b9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ac9ee67a43b670c559d40d3c9a52175f8" id="r_ac9ee67a43b670c559d40d3c9a52175f8"><td class="memItemLeft" align="right" valign="top"><a id="ac9ee67a43b670c559d40d3c9a52175f8" name="ac9ee67a43b670c559d40d3c9a52175f8"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>failureReason</b></td></tr>
-<tr class="memdesc:ac9ee67a43b670c559d40d3c9a52175f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Description of failure if the request failed; empty otherwise. <br /></td></tr>
-<tr class="separator:ac9ee67a43b670c559d40d3c9a52175f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a6a2959cd1a614b6249b2366a74ccad" id="r_a6a6a2959cd1a614b6249b2366a74ccad"><td class="memItemLeft" align="right" valign="top"><a id="a6a6a2959cd1a614b6249b2366a74ccad" name="a6a6a2959cd1a614b6249b2366a74ccad"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>failure_reason</b></td></tr>
+<tr class="memdesc:a6a6a2959cd1a614b6249b2366a74ccad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Description of failure if the request failed; empty otherwise. <br /></td></tr>
+<tr class="separator:a6a6a2959cd1a614b6249b2366a74ccad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f1c512927deabe62ec8149619e0ed03" id="r_a0f1c512927deabe62ec8149619e0ed03"><td class="memItemLeft" align="right" valign="top"><a id="a0f1c512927deabe62ec8149619e0ed03" name="a0f1c512927deabe62ec8149619e0ed03"></a>
 uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>interval</b></td></tr>
 <tr class="memdesc:a0f1c512927deabe62ec8149619e0ed03"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of seconds the client should wait before making a rerequest. <br /></td></tr>
@@ -129,31 +122,8 @@ std::vector&lt; <a class="el" href="structPeer.html">Peer</a> &gt;&#160;</td><td
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a response from the tracker. </p>
 <p>This structure holds the details of the tracker's response including any failure reasons, the advised wait interval between requests, and the list of peers. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a470577760716a5096df7bba4c3287b9e" name="a470577760716a5096df7bba4c3287b9e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a470577760716a5096df7bba4c3287b9e">&#9670;&#160;</a></span>toString()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string TrackerResponse::toString </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Converts tracker response details to a string. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo</a></b></dt><dd>This method is marked for deletion. </dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>std::string A string representation of the tracker response. </dd></dl>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
-<li>/home/yonah/School/PRO/yatc/src/TrackerClient/<a class="el" href="TrackerClient_8h_source.html">TrackerClient.h</a></li>
-<li>/home/yonah/School/PRO/yatc/src/TrackerClient/<b>TrackerClient.cc</b></li>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<li>/home/yonah/School/PRO/yatc/src/core/TrackerClient/<a class="el" href="TrackerClient_8h_source.html">TrackerClient.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

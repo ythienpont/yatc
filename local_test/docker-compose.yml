@@ -1,0 +1,21 @@
+services:
+  opentracker:
+    image: lednerb/opentracker-docker
+    container_name: opentracker
+    ports:
+      - "6969:6969/udp"
+      - "6969:6969"
+    restart: unless-stopped
+
+  seeder:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile.peer
+    container_name: seeder
+    ports:
+      - "6881:6881"
+    volumes:
+      - ./files:/files
+      - ./torrents:/torrents
+    depends_on:
+      - opentracker

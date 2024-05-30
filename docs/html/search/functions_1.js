@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['blockinfo_0',['BlockInfo',['../structBlockInfo.html#a91a055d42051670a6a9a239f46a3aa15',1,'BlockInfo']]]
+  ['diagnostic_5finfo_0',['diagnostic_info',['../structTorrent.html#a07621aba7f545fe084b807929cc2803b',1,'Torrent']]]
 ];

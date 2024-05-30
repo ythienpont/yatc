@@ -94,32 +94,112 @@ $(function(){initNavTree('structPeer.html',''); initResizable(); });
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structPeer-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Peer Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Represents a peer in the BitTorrent network.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="Peer_8h_source.html">Peer.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:a2507a4f82b96df926fc3c259b24a8e6f" id="r_a2507a4f82b96df926fc3c259b24a8e6f"><td class="memItemLeft" align="right" valign="top"><a id="a2507a4f82b96df926fc3c259b24a8e6f" name="a2507a4f82b96df926fc3c259b24a8e6f"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Id</b> = std::array&lt;std::byte, 20&gt;</td></tr>
+<tr class="memdesc:a2507a4f82b96df926fc3c259b24a8e6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type alias for a peer ID, represented as a 20-byte array. <br /></td></tr>
 <tr class="separator:a2507a4f82b96df926fc3c259b24a8e6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a67d384d76487e9fe9eae65286343b7bb" id="r_a67d384d76487e9fe9eae65286343b7bb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67d384d76487e9fe9eae65286343b7bb">is_id_set</a> () const</td></tr>
+<tr class="memdesc:a67d384d76487e9fe9eae65286343b7bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the peer ID is set.  <br /></td></tr>
+<tr class="separator:a67d384d76487e9fe9eae65286343b7bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a7fdd52b3573c358e726501af2a959968" id="r_a7fdd52b3573c358e726501af2a959968"><td class="memItemLeft" align="right" valign="top"><a id="a7fdd52b3573c358e726501af2a959968" name="a7fdd52b3573c358e726501af2a959968"></a>
-Id&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
-<tr class="separator:a7fdd52b3573c358e726501af2a959968"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2378d6ea4dda14b95ec8be83f7917de8" id="r_a2378d6ea4dda14b95ec8be83f7917de8"><td class="memItemLeft" align="right" valign="top"><a id="a2378d6ea4dda14b95ec8be83f7917de8" name="a2378d6ea4dda14b95ec8be83f7917de8"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>ip</b></td></tr>
+<tr class="memitem:a4675e5b92dcb989be7c7af566c5af2a7" id="r_a4675e5b92dcb989be7c7af566c5af2a7"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="#a2507a4f82b96df926fc3c259b24a8e6f">Id</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4675e5b92dcb989be7c7af566c5af2a7">id</a></td></tr>
+<tr class="memdesc:a4675e5b92dcb989be7c7af566c5af2a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ID of the peer.  <br /></td></tr>
+<tr class="separator:a4675e5b92dcb989be7c7af566c5af2a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2378d6ea4dda14b95ec8be83f7917de8" id="r_a2378d6ea4dda14b95ec8be83f7917de8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2378d6ea4dda14b95ec8be83f7917de8">ip</a></td></tr>
+<tr class="memdesc:a2378d6ea4dda14b95ec8be83f7917de8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The IP address of the peer.  <br /></td></tr>
 <tr class="separator:a2378d6ea4dda14b95ec8be83f7917de8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc762054b5f9eb8b7f1173d85fd85ec4" id="r_adc762054b5f9eb8b7f1173d85fd85ec4"><td class="memItemLeft" align="right" valign="top"><a id="adc762054b5f9eb8b7f1173d85fd85ec4" name="adc762054b5f9eb8b7f1173d85fd85ec4"></a>
 uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>port</b></td></tr>
+<tr class="memdesc:adc762054b5f9eb8b7f1173d85fd85ec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The port number at which the torrent service is running. <br /></td></tr>
 <tr class="separator:adc762054b5f9eb8b7f1173d85fd85ec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Represents a peer in the BitTorrent network. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a67d384d76487e9fe9eae65286343b7bb" name="a67d384d76487e9fe9eae65286343b7bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67d384d76487e9fe9eae65286343b7bb">&#9670;&#160;</a></span>is_id_set()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Peer::is_id_set </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks if the peer ID is set. </p>
+<dl class="section return"><dt>Returns</dt><dd>true if the peer ID is set, false otherwise. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a4675e5b92dcb989be7c7af566c5af2a7" name="a4675e5b92dcb989be7c7af566c5af2a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4675e5b92dcb989be7c7af566c5af2a7">&#9670;&#160;</a></span>id</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;<a class="el" href="#a2507a4f82b96df926fc3c259b24a8e6f">Id</a>&gt; Peer::id</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The ID of the peer. </p>
+<p>This is an optional field. If the peer ID is known, it will be set. </p>
+
+</div>
+</div>
+<a id="a2378d6ea4dda14b95ec8be83f7917de8" name="a2378d6ea4dda14b95ec8be83f7917de8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2378d6ea4dda14b95ec8be83f7917de8">&#9670;&#160;</a></span>ip</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Peer::ip</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The IP address of the peer. </p>
+<p>This is a string representation of the IP address (e.g., "192.168.1.1"). </p>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/yonah/School/PRO/yatc/src/PeerConnection/<a class="el" href="PeerConnection_8h_source.html">PeerConnection.h</a></li>
+<li>/home/yonah/School/PRO/yatc/src/core/Peer/<a class="el" href="Peer_8h_source.html">Peer.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

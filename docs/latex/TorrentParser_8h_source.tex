@@ -1,5 +1,5 @@
 \doxysection{Torrent\+Parser.\+h}
-\hypertarget{TorrentParser_8h_source}{}\label{TorrentParser_8h_source}\index{/home/yonah/School/PRO/yatc/src/TorrentParser/TorrentParser.h@{/home/yonah/School/PRO/yatc/src/TorrentParser/TorrentParser.h}}
+\hypertarget{TorrentParser_8h_source}{}\label{TorrentParser_8h_source}\index{/home/yonah/School/PRO/yatc/src/core/TorrentParser/TorrentParser.h@{/home/yonah/School/PRO/yatc/src/core/TorrentParser/TorrentParser.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ TORRENTPARSER\_H}}
@@ -12,28 +12,29 @@
 \DoxyCodeLine{00008\ }
 \DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classTorrentParser}{TorrentParser}}\ \{}
 \DoxyCodeLine{00017\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00024\ \ \ std::string\ readTorrentFile(\textcolor{keyword}{const}\ std::string\ \&filename)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00024\ \ \ std::string\ read\_torrent\_file(\textcolor{keyword}{const}\ std::string\ \&filename)\ \textcolor{keyword}{const};}
 \DoxyCodeLine{00025\ }
-\DoxyCodeLine{00032\ \ \ bencode::dict\ decodeContent(\textcolor{keyword}{const}\ std::string\ \&content)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00032\ \ \ bencode::dict\ decode\_content(\textcolor{keyword}{const}\ std::string\ \&content)\ \textcolor{keyword}{const};}
 \DoxyCodeLine{00033\ }
-\DoxyCodeLine{00040\ \ \ std::string\ extractTrackerUrl(\textcolor{keyword}{const}\ bencode::dict\ \&dict)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00040\ \ \ std::string\ extract\_tracker\_url(\textcolor{keyword}{const}\ bencode::dict\ \&dict)\ \textcolor{keyword}{const};}
 \DoxyCodeLine{00041\ }
-\DoxyCodeLine{00050\ \ \ bencode::dict\ extractInfoDict(\textcolor{keyword}{const}\ bencode::dict\ \&dict)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00050\ \ \ bencode::dict\ extract\_info\_dict(\textcolor{keyword}{const}\ bencode::dict\ \&dict)\ \textcolor{keyword}{const};}
 \DoxyCodeLine{00051\ }
-\DoxyCodeLine{00060\ \ \ InfoHash\ computeInfoHash(\textcolor{keyword}{const}\ bencode::dict\ \&infoDict)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00060\ \ \ InfoHash\ compute\_info\_hash(\textcolor{keyword}{const}\ bencode::dict\ \&info\_dict)\ \textcolor{keyword}{const};}
 \DoxyCodeLine{00061\ }
-\DoxyCodeLine{00070\ \ \ \textcolor{keywordtype}{void}\ extractFileInfo(\mbox{\hyperlink{structTorrent}{Torrent}}\ \&torrent,\ \textcolor{keyword}{const}\ bencode::dict\ \&infoDict)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00071\ }
-\DoxyCodeLine{00079\ \ \ \textcolor{keywordtype}{void}\ extractPieces(\mbox{\hyperlink{structTorrent}{Torrent}}\ \&torrent,\ \textcolor{keyword}{const}\ bencode::dict\ \&infoDict)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00080\ }
-\DoxyCodeLine{00081\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00085\ \ \ \mbox{\hyperlink{classTorrentParser_aa9c458581711907fa8d9879c60f32eb2}{TorrentParser}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00086\ }
-\DoxyCodeLine{00090\ \ \ \mbox{\hyperlink{classTorrentParser_a8c4d12586643f78771109b2fd6793d29}{\string~TorrentParser}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00091\ }
-\DoxyCodeLine{00099\ \ \ \mbox{\hyperlink{structTorrent}{Torrent}}\ \mbox{\hyperlink{classTorrentParser_a371e6394b4a8b1e84da6505ae3326d20}{parseTorrentFile}}(\textcolor{keyword}{const}\ std::string\ \&filename)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00100\ \};}
-\DoxyCodeLine{00101\ }
-\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TORRENTPARSER\_H}}
+\DoxyCodeLine{00070\ \ \ \textcolor{keywordtype}{void}\ extract\_file\_info(\mbox{\hyperlink{structTorrent}{Torrent}}\ \&torrent,}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ bencode::dict\ \&info\_dict)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00080\ \ \ \textcolor{keywordtype}{void}\ extract\_pieces(\mbox{\hyperlink{structTorrent}{Torrent}}\ \&torrent,\ \textcolor{keyword}{const}\ bencode::dict\ \&info\_dict)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00086\ \ \ \mbox{\hyperlink{classTorrentParser_aa9c458581711907fa8d9879c60f32eb2}{TorrentParser}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00091\ \ \ \mbox{\hyperlink{classTorrentParser_a8c4d12586643f78771109b2fd6793d29}{\string~TorrentParser}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00100\ \ \ \mbox{\hyperlink{structTorrent}{Torrent}}\ \mbox{\hyperlink{classTorrentParser_a659547a47c9710157de9f5584c245d96}{parse\_torrent\_file}}(\textcolor{keyword}{const}\ std::string\ \&filename)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00101\ \};}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TORRENTPARSER\_H}}
 
 \end{DoxyCode}

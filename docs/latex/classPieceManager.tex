@@ -2,7 +2,7 @@
 \hypertarget{classPieceManager}{}\label{classPieceManager}\index{PieceManager@{PieceManager}}
 
 
-Manages the status of pieces in a torrent download.  
+Manages the pieces of a torrent download.  
 
 
 
@@ -12,78 +12,98 @@ Manages the status of pieces in a torrent download.
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classPieceManager_ac05f7a04b088b5e879d93e7d5ebfb17f}{Piece\+Manager}} (const size\+\_\+t total\+Pieces)
-\begin{DoxyCompactList}\small\item\em Constructs a new Piece Manager object. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{classPieceManager_a8f0af3c1d66310b93223cbdf70067f00}{has\+Piece}} (const size\+\_\+t piece\+Index) const
-\begin{DoxyCompactList}\small\item\em Checks if a piece has already been downloaded. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classPieceManager_a771cafd418df95a9503a45d5e3e94dd9}{save\+Piece}} (const size\+\_\+t piece\+Index)
+\mbox{\hyperlink{classPieceManager_a0ba527870dc528a69914a76f8f5c21b3}{Piece\+Manager}} (const uint64\+\_\+t total\+\_\+size, const uint32\+\_\+t piece\+\_\+length)
+\begin{DoxyCompactList}\small\item\em Constructs a \doxylink{classPieceManager}{Piece\+Manager} with the total size and piece length of the torrent. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPieceManager_ad16602ac8b56e7f3b72515ee99fcdbc6}{has\+\_\+piece}} (const uint32\+\_\+t piece\+\_\+index) const
+\begin{DoxyCompactList}\small\item\em Checks if a piece has been downloaded. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPieceManager_a6eeb2a12f9b12bd09bf06f1756f0000c}{save\+\_\+piece}} (const uint32\+\_\+t piece\+\_\+index)
 \begin{DoxyCompactList}\small\item\em Marks a piece as downloaded. \end{DoxyCompactList}\item 
-std\+::unordered\+\_\+set$<$ size\+\_\+t $>$ \mbox{\hyperlink{classPieceManager_af37fbec495d7c9d288b3be205f282d68}{missing\+Pieces}} () const
-\begin{DoxyCompactList}\small\item\em Retrieves a set of indices representing all pieces that are still missing. \end{DoxyCompactList}\end{DoxyCompactItemize}
+std\+::unordered\+\_\+set$<$ uint32\+\_\+t $>$ \mbox{\hyperlink{classPieceManager_aaf06ea6a0d957c790e657e14431c3995}{missing\+\_\+pieces}} () const
+\begin{DoxyCompactList}\small\item\em Retrieves a set of all missing pieces. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{classPieceManager_ae703f2f0783a098b1a79cce28e75c7f1}{piece\+\_\+size}} (const uint32\+\_\+t piece\+\_\+index)
+\begin{DoxyCompactList}\small\item\em Gets the size of a specific piece. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-Manages the status of pieces in a torrent download. 
+Manages the pieces of a torrent download. 
 
-Tracks which pieces have been successfully downloaded and which are still missing. 
+This class keeps track of which pieces have been downloaded and which are still missing. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\Hypertarget{classPieceManager_ac05f7a04b088b5e879d93e7d5ebfb17f}\label{classPieceManager_ac05f7a04b088b5e879d93e7d5ebfb17f} 
+\Hypertarget{classPieceManager_a0ba527870dc528a69914a76f8f5c21b3}\label{classPieceManager_a0ba527870dc528a69914a76f8f5c21b3} 
 \index{PieceManager@{PieceManager}!PieceManager@{PieceManager}}
 \index{PieceManager@{PieceManager}!PieceManager@{PieceManager}}
 \doxysubsubsection{\texorpdfstring{PieceManager()}{PieceManager()}}
-{\footnotesize\ttfamily Piece\+Manager\+::\+Piece\+Manager (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{total\+Pieces }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Piece\+Manager\+::\+Piece\+Manager (\begin{DoxyParamCaption}\item[{const uint64\+\_\+t}]{total\+\_\+size,  }\item[{const uint32\+\_\+t}]{piece\+\_\+length }\end{DoxyParamCaption})}
 
 
 
-Constructs a new Piece Manager object. 
+Constructs a \doxylink{classPieceManager}{Piece\+Manager} with the total size and piece length of the torrent. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em total\+Pieces} & Total number of pieces in the torrent. \\
+{\em total\+\_\+size} & The total size of the torrent in bytes. \\
+\hline
+{\em piece\+\_\+length} & The length of each piece in bytes. \\
 \hline
 \end{DoxyParams}
 
 
 \doxysubsection{Member Function Documentation}
-\Hypertarget{classPieceManager_a8f0af3c1d66310b93223cbdf70067f00}\label{classPieceManager_a8f0af3c1d66310b93223cbdf70067f00} 
-\index{PieceManager@{PieceManager}!hasPiece@{hasPiece}}
-\index{hasPiece@{hasPiece}!PieceManager@{PieceManager}}
-\doxysubsubsection{\texorpdfstring{hasPiece()}{hasPiece()}}
-{\footnotesize\ttfamily bool Piece\+Manager\+::has\+Piece (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{piece\+Index }\end{DoxyParamCaption}) const}
+\Hypertarget{classPieceManager_ad16602ac8b56e7f3b72515ee99fcdbc6}\label{classPieceManager_ad16602ac8b56e7f3b72515ee99fcdbc6} 
+\index{PieceManager@{PieceManager}!has\_piece@{has\_piece}}
+\index{has\_piece@{has\_piece}!PieceManager@{PieceManager}}
+\doxysubsubsection{\texorpdfstring{has\_piece()}{has\_piece()}}
+{\footnotesize\ttfamily bool Piece\+Manager\+::has\+\_\+piece (\begin{DoxyParamCaption}\item[{const uint32\+\_\+t}]{piece\+\_\+index }\end{DoxyParamCaption}) const}
 
 
 
-Checks if a piece has already been downloaded. 
+Checks if a piece has been downloaded. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em piece\+Index} & Index of the piece to check. \\
+{\em piece\+\_\+index} & The index of the piece to check. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-true If the piece is downloaded. 
-
-false If the piece is not downloaded. 
+true if the piece has been downloaded, false otherwise. 
 \end{DoxyReturn}
-\Hypertarget{classPieceManager_af37fbec495d7c9d288b3be205f282d68}\label{classPieceManager_af37fbec495d7c9d288b3be205f282d68} 
-\index{PieceManager@{PieceManager}!missingPieces@{missingPieces}}
-\index{missingPieces@{missingPieces}!PieceManager@{PieceManager}}
-\doxysubsubsection{\texorpdfstring{missingPieces()}{missingPieces()}}
-{\footnotesize\ttfamily std\+::unordered\+\_\+set$<$ size\+\_\+t $>$ Piece\+Manager\+::missing\+Pieces (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+\Hypertarget{classPieceManager_aaf06ea6a0d957c790e657e14431c3995}\label{classPieceManager_aaf06ea6a0d957c790e657e14431c3995} 
+\index{PieceManager@{PieceManager}!missing\_pieces@{missing\_pieces}}
+\index{missing\_pieces@{missing\_pieces}!PieceManager@{PieceManager}}
+\doxysubsubsection{\texorpdfstring{missing\_pieces()}{missing\_pieces()}}
+{\footnotesize\ttfamily std\+::unordered\+\_\+set$<$ uint32\+\_\+t $>$ Piece\+Manager\+::missing\+\_\+pieces (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 
 
-Retrieves a set of indices representing all pieces that are still missing. 
+Retrieves a set of all missing pieces. 
 
 \begin{DoxyReturn}{Returns}
-std\+::unordered\+\_\+set$<$size\+\_\+t$>$ Set of missing piece indices. 
+A set containing the indices of all missing pieces. 
 \end{DoxyReturn}
-\Hypertarget{classPieceManager_a771cafd418df95a9503a45d5e3e94dd9}\label{classPieceManager_a771cafd418df95a9503a45d5e3e94dd9} 
-\index{PieceManager@{PieceManager}!savePiece@{savePiece}}
-\index{savePiece@{savePiece}!PieceManager@{PieceManager}}
-\doxysubsubsection{\texorpdfstring{savePiece()}{savePiece()}}
-{\footnotesize\ttfamily void Piece\+Manager\+::save\+Piece (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{piece\+Index }\end{DoxyParamCaption})}
+\Hypertarget{classPieceManager_ae703f2f0783a098b1a79cce28e75c7f1}\label{classPieceManager_ae703f2f0783a098b1a79cce28e75c7f1} 
+\index{PieceManager@{PieceManager}!piece\_size@{piece\_size}}
+\index{piece\_size@{piece\_size}!PieceManager@{PieceManager}}
+\doxysubsubsection{\texorpdfstring{piece\_size()}{piece\_size()}}
+{\footnotesize\ttfamily uint32\+\_\+t Piece\+Manager\+::piece\+\_\+size (\begin{DoxyParamCaption}\item[{const uint32\+\_\+t}]{piece\+\_\+index }\end{DoxyParamCaption})}
+
+
+
+Gets the size of a specific piece. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em piece\+\_\+index} & The index of the piece. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The size of the piece in bytes. 
+\end{DoxyReturn}
+\Hypertarget{classPieceManager_a6eeb2a12f9b12bd09bf06f1756f0000c}\label{classPieceManager_a6eeb2a12f9b12bd09bf06f1756f0000c} 
+\index{PieceManager@{PieceManager}!save\_piece@{save\_piece}}
+\index{save\_piece@{save\_piece}!PieceManager@{PieceManager}}
+\doxysubsubsection{\texorpdfstring{save\_piece()}{save\_piece()}}
+{\footnotesize\ttfamily void Piece\+Manager\+::save\+\_\+piece (\begin{DoxyParamCaption}\item[{const uint32\+\_\+t}]{piece\+\_\+index }\end{DoxyParamCaption})}
 
 
 
@@ -91,12 +111,12 @@ Marks a piece as downloaded.
 
 
 \begin{DoxyParams}{Parameters}
-{\em piece\+Index} & Index of the piece to mark as downloaded. \\
+{\em piece\+\_\+index} & The index of the piece to mark as downloaded. \\
 \hline
 \end{DoxyParams}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/home/yonah/\+School/\+PRO/yatc/src/\+Piece\+Manager/Piece\+Manager.\+h\item 
-/home/yonah/\+School/\+PRO/yatc/src/\+Piece\+Manager/Piece\+Manager.\+cc\end{DoxyCompactItemize}
+/home/yonah/\+School/\+PRO/yatc/src/core/\+Piece\+Manager/Piece\+Manager.\+h\item 
+/home/yonah/\+School/\+PRO/yatc/src/core/\+Piece\+Manager/Piece\+Manager.\+cc\end{DoxyCompactItemize}

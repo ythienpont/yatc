@@ -1,7 +1,7 @@
 var structFileInfo =
 [
-    [ "endOffset", "structFileInfo.html#ad3a844a28c7d55987ab9515e6b286e62", null ],
+    [ "end_offset", "structFileInfo.html#ab7cd666c8b863537a1f5c1788742132e", null ],
     [ "length", "structFileInfo.html#a2619c695ca6873993fd08c1c275e62cc", null ],
     [ "path", "structFileInfo.html#a05985fe68486adce8be8eba39cfc56f2", null ],
-    [ "startOffset", "structFileInfo.html#ac2fc015ab3776cb5eb0b8ceb2af61a2f", null ]
+    [ "start_offset", "structFileInfo.html#aadc2d6493623fc69f805c3fd77beb797", null ]
 ];

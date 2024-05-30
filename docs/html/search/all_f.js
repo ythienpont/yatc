@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['todo_20list_0',['Todo List',['../todo.html',1,'']]],
-  ['torrent_1',['Torrent',['../structTorrent.html',1,'Torrent'],['../structTorrent.html#aa5e628f1594f03b7e8781e18659b0953',1,'Torrent::Torrent()']]],
-  ['torrentclient_2',['TorrentClient',['../classTorrentClient.html',1,'TorrentClient'],['../classTorrentClient.html#acde94afbe225e1d7182aaceba9b452b3',1,'TorrentClient::TorrentClient()']]],
+  ['torrent_0',['Torrent',['../structTorrent.html',1,'Torrent'],['../structTorrent.html#aa5e628f1594f03b7e8781e18659b0953',1,'Torrent::Torrent()']]],
+  ['torrentclient_1',['TorrentClient',['../classTorrentClient.html',1,'TorrentClient'],['../classTorrentClient.html#acde94afbe225e1d7182aaceba9b452b3',1,'TorrentClient::TorrentClient()']]],
+  ['torrentinfo_2',['TorrentInfo',['../structTorrentInfo.html',1,'']]],
   ['torrentparser_3',['TorrentParser',['../classTorrentParser.html',1,'TorrentParser'],['../classTorrentParser.html#aa9c458581711907fa8d9879c60f32eb2',1,'TorrentParser::TorrentParser()']]],
-  ['tostring_4',['toString',['../structTrackerResponse.html#a470577760716a5096df7bba4c3287b9e',1,'TrackerResponse']]],
-  ['totalfilesize_5',['totalFileSize',['../classFileManager.html#ac855664d52f17fde6840328bfeaf68a0',1,'FileManager']]],
-  ['totalpieces_6',['totalPieces',['../classFileManager.html#a5aa6108095072645631617bba133947a',1,'FileManager::totalPieces()'],['../structTorrent.html#a6e777a11bc507654a50f59cd8c20e1d0',1,'Torrent::totalPieces()']]],
+  ['total_5fblocks_4',['total_blocks',['../classPieceDownloadState.html#a130ececf8bcffcc90d82fd7f5e8a00a9',1,'PieceDownloadState']]],
+  ['total_5fpieces_5',['total_pieces',['../classFileManager.html#acfa58583ac17e5ee4843d93aa72edc4e',1,'FileManager::total_pieces()'],['../structTorrent.html#afecf6d8dba2e64e97c459d558c2940ad',1,'Torrent::total_pieces() const']]],
+  ['tracker_5furl_6',['tracker_url',['../structTorrent.html#a1a33b8aeba9373116cddc924d785b73a',1,'Torrent']]],
   ['trackerclient_7',['TrackerClient',['../classTrackerClient.html',1,'TrackerClient'],['../classTrackerClient.html#a41e1eadd9e5c579d2f6f26d48651cadf',1,'TrackerClient::TrackerClient()']]],
   ['trackerresponse_8',['TrackerResponse',['../structTrackerResponse.html',1,'']]],
-  ['trackerurl_9',['trackerUrl',['../structTorrent.html#abdb6ca07580fe7ae185a942632505a38',1,'Torrent']]]
+  ['type_9',['type',['../structMessage.html#a6fc78df47d3755e088e7c658db565fc5',1,'Message']]]
 ];

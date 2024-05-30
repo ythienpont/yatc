@@ -101,7 +101,7 @@ $(function(){initNavTree('classFileManager.html',''); initResizable(); });
 </div><!--header-->
 <div class="contents">
 
-<p>Abstract class providing an interface for file read/write operations in a torrent system.  
+<p>Abstract base class for managing torrent files.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="FileManager_8h_source.html">FileManager.h</a>&gt;</code></p>
@@ -113,7 +113,7 @@ $(function(){initNavTree('classFileManager.html',''); initResizable(); });
  <div class="center">
   <img src="classFileManager.png" usemap="#FileManager_map" alt=""/>
   <map id="FileManager_map" name="FileManager_map">
-<area href="classLinuxFileManager.html" title="FileManager implementation for Linux systems." alt="LinuxFileManager" shape="rect" coords="0,56,114,80"/>
+<area href="classLinuxFileManager.html" title="Manages torrent files on a Linux system." alt="LinuxFileManager" shape="rect" coords="0,56,114,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -121,61 +121,48 @@ $(function(){initNavTree('classFileManager.html',''); initResizable(); });
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a36b7a8bcda7d424f9cb24e9062cf7b19" id="r_a36b7a8bcda7d424f9cb24e9062cf7b19"><td class="memItemLeft" align="right" valign="top"><a id="a36b7a8bcda7d424f9cb24e9062cf7b19" name="a36b7a8bcda7d424f9cb24e9062cf7b19"></a>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~FileManager</b> ()=default</td></tr>
-<tr class="memdesc:a36b7a8bcda7d424f9cb24e9062cf7b19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor to allow for cleanup in derived classes. <br /></td></tr>
+<tr class="memdesc:a36b7a8bcda7d424f9cb24e9062cf7b19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor. <br /></td></tr>
 <tr class="separator:a36b7a8bcda7d424f9cb24e9062cf7b19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07e533081a76aaee9c8f7478799419d9" id="r_a07e533081a76aaee9c8f7478799419d9"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07e533081a76aaee9c8f7478799419d9">writeBlock</a> (const size_t pieceIndex, const <a class="el" href="structBlockInfo.html">BlockInfo</a> &amp;block, const std::vector&lt; char &gt; &amp;data)=0</td></tr>
-<tr class="memdesc:a07e533081a76aaee9c8f7478799419d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a block of data to the appropriate file and position.  <br /></td></tr>
-<tr class="separator:a07e533081a76aaee9c8f7478799419d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32d557fbe0cdb278e54009110035729e" id="r_a32d557fbe0cdb278e54009110035729e"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32d557fbe0cdb278e54009110035729e">readBlock</a> (const size_t pieceIndex, const <a class="el" href="structBlockInfo.html">BlockInfo</a> &amp;block) const =0</td></tr>
-<tr class="memdesc:a32d557fbe0cdb278e54009110035729e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a block of data from the appropriate file and position.  <br /></td></tr>
-<tr class="separator:a32d557fbe0cdb278e54009110035729e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a883687a9a43b20bbbd82032d7e36569b" id="r_a883687a9a43b20bbbd82032d7e36569b"><td class="memItemLeft" align="right" valign="top"><a id="a883687a9a43b20bbbd82032d7e36569b" name="a883687a9a43b20bbbd82032d7e36569b"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>preAllocateSpace</b> ()=0</td></tr>
-<tr class="memdesc:a883687a9a43b20bbbd82032d7e36569b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pre-allocates disk space to optimize file writing operations. <br /></td></tr>
-<tr class="separator:a883687a9a43b20bbbd82032d7e36569b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac855664d52f17fde6840328bfeaf68a0" id="r_ac855664d52f17fde6840328bfeaf68a0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac855664d52f17fde6840328bfeaf68a0">totalFileSize</a> () const</td></tr>
-<tr class="memdesc:ac855664d52f17fde6840328bfeaf68a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the total size of all files managed by the <a class="el" href="classFileManager.html" title="Abstract class providing an interface for file read/write operations in a torrent system.">FileManager</a>.  <br /></td></tr>
-<tr class="separator:ac855664d52f17fde6840328bfeaf68a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3727ea3adb2ca09c3e4c9d52baca700a" id="r_a3727ea3adb2ca09c3e4c9d52baca700a"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3727ea3adb2ca09c3e4c9d52baca700a">read_block</a> (uint32_t piece_index, uint32_t offset, uint32_t length) const =0</td></tr>
+<tr class="memdesc:a3727ea3adb2ca09c3e4c9d52baca700a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a block of data from a piece.  <br /></td></tr>
+<tr class="separator:a3727ea3adb2ca09c3e4c9d52baca700a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab32972cd0fa12764ba13d77eafae5fd4" id="r_ab32972cd0fa12764ba13d77eafae5fd4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab32972cd0fa12764ba13d77eafae5fd4">write_piece</a> (uint32_t piece_index, std::vector&lt; std::byte &gt; &amp;data)=0</td></tr>
+<tr class="memdesc:ab32972cd0fa12764ba13d77eafae5fd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a piece of data.  <br /></td></tr>
+<tr class="separator:ab32972cd0fa12764ba13d77eafae5fd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:ac49c84adbe233ef45846762ea394a45b" id="r_ac49c84adbe233ef45846762ea394a45b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac49c84adbe233ef45846762ea394a45b">FileManager</a> (const std::vector&lt; <a class="el" href="structFileInfo.html">FileInfo</a> &gt; &amp;files, const size_t pieceLength)</td></tr>
-<tr class="memdesc:ac49c84adbe233ef45846762ea394a45b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor initializing the <a class="el" href="classFileManager.html" title="Abstract class providing an interface for file read/write operations in a torrent system.">FileManager</a> with a list of files and piece length.  <br /></td></tr>
-<tr class="separator:ac49c84adbe233ef45846762ea394a45b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f31891bedaef9d327354c36e50b4d50" id="r_a6f31891bedaef9d327354c36e50b4d50"><td class="memItemLeft" align="right" valign="top">std::pair&lt; size_t, size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f31891bedaef9d327354c36e50b4d50">getBlockBounds</a> (const size_t pieceIndex, const <a class="el" href="structBlockInfo.html">BlockInfo</a> &amp;block) const</td></tr>
-<tr class="memdesc:a6f31891bedaef9d327354c36e50b4d50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the global start and end offsets for a given block within a piece.  <br /></td></tr>
-<tr class="separator:a6f31891bedaef9d327354c36e50b4d50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ff924902b0ae7cf3901303da5f4def7" id="r_a2ff924902b0ae7cf3901303da5f4def7"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ff924902b0ae7cf3901303da5f4def7">calculateDataOffset</a> (const <a class="el" href="structBlockInfo.html">BlockInfo</a> &amp;block) const</td></tr>
-<tr class="memdesc:a2ff924902b0ae7cf3901303da5f4def7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the offset of data within a block.  <br /></td></tr>
-<tr class="separator:a2ff924902b0ae7cf3901303da5f4def7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b289f7639665e8de08542148f539d1c" id="r_a7b289f7639665e8de08542148f539d1c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b289f7639665e8de08542148f539d1c">writePiece</a> (const size_t pieceIndex)=0</td></tr>
-<tr class="memdesc:a7b289f7639665e8de08542148f539d1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a full piece to the appropriate location.  <br /></td></tr>
-<tr class="separator:a7b289f7639665e8de08542148f539d1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5aa6108095072645631617bba133947a" id="r_a5aa6108095072645631617bba133947a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5aa6108095072645631617bba133947a">totalPieces</a> () const</td></tr>
-<tr class="memdesc:a5aa6108095072645631617bba133947a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total number of pieces based on the file sizes and piece length.  <br /></td></tr>
-<tr class="separator:a5aa6108095072645631617bba133947a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61e1a25ca0e058577b654c95b4ef3d12" id="r_a61e1a25ca0e058577b654c95b4ef3d12"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a61e1a25ca0e058577b654c95b4ef3d12">pre_allocate_space</a> ()=0</td></tr>
+<tr class="memdesc:a61e1a25ca0e058577b654c95b4ef3d12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pre-allocates space for the files.  <br /></td></tr>
+<tr class="separator:a61e1a25ca0e058577b654c95b4ef3d12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79fdec8e703e3535779c1a1a055d9709" id="r_a79fdec8e703e3535779c1a1a055d9709"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79fdec8e703e3535779c1a1a055d9709">FileManager</a> (const std::vector&lt; <a class="el" href="structFileInfo.html">FileInfo</a> &gt; &amp;files, uint32_t piece_length, std::vector&lt; InfoHash &gt; info_hashes)</td></tr>
+<tr class="memdesc:a79fdec8e703e3535779c1a1a055d9709"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classFileManager.html" title="Abstract base class for managing torrent files.">FileManager</a>.  <br /></td></tr>
+<tr class="separator:a79fdec8e703e3535779c1a1a055d9709"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfa58583ac17e5ee4843d93aa72edc4e" id="r_acfa58583ac17e5ee4843d93aa72edc4e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acfa58583ac17e5ee4843d93aa72edc4e">total_pieces</a> () const</td></tr>
+<tr class="memdesc:acfa58583ac17e5ee4843d93aa72edc4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the total number of pieces.  <br /></td></tr>
+<tr class="separator:acfa58583ac17e5ee4843d93aa72edc4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:ac864e73b7b86f341d5a2eea75861e6ec" id="r_ac864e73b7b86f341d5a2eea75861e6ec"><td class="memItemLeft" align="right" valign="top"><a id="ac864e73b7b86f341d5a2eea75861e6ec" name="ac864e73b7b86f341d5a2eea75861e6ec"></a>
 std::vector&lt; <a class="el" href="structFileInfo.html">FileInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>files_</b></td></tr>
-<tr class="memdesc:ac864e73b7b86f341d5a2eea75861e6ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of files associated with the torrent. <br /></td></tr>
+<tr class="memdesc:ac864e73b7b86f341d5a2eea75861e6ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">The list of files in the torrent. <br /></td></tr>
 <tr class="separator:ac864e73b7b86f341d5a2eea75861e6ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06208c627b46cb9e0b45d67c4f95f675" id="r_a06208c627b46cb9e0b45d67c4f95f675"><td class="memItemLeft" align="right" valign="top"><a id="a06208c627b46cb9e0b45d67c4f95f675" name="a06208c627b46cb9e0b45d67c4f95f675"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>pieceLength_</b></td></tr>
-<tr class="memdesc:a06208c627b46cb9e0b45d67c4f95f675"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length of each piece in bytes. <br /></td></tr>
-<tr class="separator:a06208c627b46cb9e0b45d67c4f95f675"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a560f141d08b6f921f2949833e81136bc" id="r_a560f141d08b6f921f2949833e81136bc"><td class="memItemLeft" align="right" valign="top"><a id="a560f141d08b6f921f2949833e81136bc" name="a560f141d08b6f921f2949833e81136bc"></a>
-std::vector&lt; std::unique_ptr&lt; <a class="el" href="classPieceBuffer.html">PieceBuffer</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>pieceBuffers_</b></td></tr>
-<tr class="memdesc:a560f141d08b6f921f2949833e81136bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffers for managing piece data. <br /></td></tr>
-<tr class="separator:a560f141d08b6f921f2949833e81136bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b191cfcca27387b72fa5356b7954c7a" id="r_a3b191cfcca27387b72fa5356b7954c7a"><td class="memItemLeft" align="right" valign="top"><a id="a3b191cfcca27387b72fa5356b7954c7a" name="a3b191cfcca27387b72fa5356b7954c7a"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>piece_length_</b></td></tr>
+<tr class="memdesc:a3b191cfcca27387b72fa5356b7954c7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The length of each piece in bytes. <br /></td></tr>
+<tr class="separator:a3b191cfcca27387b72fa5356b7954c7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b30ebffbab917f9379f3e3c2de1c532" id="r_a2b30ebffbab917f9379f3e3c2de1c532"><td class="memItemLeft" align="right" valign="top"><a id="a2b30ebffbab917f9379f3e3c2de1c532" name="a2b30ebffbab917f9379f3e3c2de1c532"></a>
+std::mutex&#160;</td><td class="memItemRight" valign="bottom"><b>file_mutex_</b></td></tr>
+<tr class="memdesc:a2b30ebffbab917f9379f3e3c2de1c532"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutex for thread-safe access to file operations. <br /></td></tr>
+<tr class="separator:a2b30ebffbab917f9379f3e3c2de1c532"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Abstract class providing an interface for file read/write operations in a torrent system. </p>
-<p>Defines the basic functionality for reading and writing pieces and blocks of data associated with torrent files. This class should be subclassed for specific operating systems or file systems to handle file operations appropriately. </p>
+<div class="textblock"><p>Abstract base class for managing torrent files. </p>
+<p>This class provides the interface for reading and writing pieces of a torrent. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ac49c84adbe233ef45846762ea394a45b" name="ac49c84adbe233ef45846762ea394a45b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac49c84adbe233ef45846762ea394a45b">&#9670;&#160;</a></span>FileManager()</h2>
+<a id="a79fdec8e703e3535779c1a1a055d9709" name="a79fdec8e703e3535779c1a1a055d9709"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79fdec8e703e3535779c1a1a055d9709">&#9670;&#160;</a></span>FileManager()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -191,7 +178,12 @@ std::vector&lt; std::unique_ptr&lt; <a class="el" href="classPieceBuffer.html">P
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>pieceLength</em></span>&#160;)</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>piece_length</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; InfoHash &gt;</td>          <td class="paramname"><span class="paramname"><em>info_hashes</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -201,11 +193,12 @@ std::vector&lt; std::unique_ptr&lt; <a class="el" href="classPieceBuffer.html">P
 </table>
 </div><div class="memdoc">
 
-<p>Constructor initializing the <a class="el" href="classFileManager.html" title="Abstract class providing an interface for file read/write operations in a torrent system.">FileManager</a> with a list of files and piece length. </p>
+<p>Constructs a <a class="el" href="classFileManager.html" title="Abstract base class for managing torrent files.">FileManager</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">files</td><td>Vector of <a class="el" href="structFileInfo.html" title="Holds metadata about a single file within a torrent.">FileInfo</a> structures detailing the files. </td></tr>
-    <tr><td class="paramname">pieceLength</td><td>Length of each piece in bytes. </td></tr>
+    <tr><td class="paramname">files</td><td>The list of files in the torrent. </td></tr>
+    <tr><td class="paramname">piece_length</td><td>The length of each piece in bytes. </td></tr>
+    <tr><td class="paramname">info_hashes</td><td>The info hashes of the torrent. </td></tr>
   </table>
   </dd>
 </dl>
@@ -213,8 +206,8 @@ std::vector&lt; std::unique_ptr&lt; <a class="el" href="classPieceBuffer.html">P
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a2ff924902b0ae7cf3901303da5f4def7" name="a2ff924902b0ae7cf3901303da5f4def7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ff924902b0ae7cf3901303da5f4def7">&#9670;&#160;</a></span>calculateDataOffset()</h2>
+<a id="a61e1a25ca0e058577b654c95b4ef3d12" name="a61e1a25ca0e058577b654c95b4ef3d12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61e1a25ca0e058577b654c95b4ef3d12">&#9670;&#160;</a></span>pre_allocate_space()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -223,218 +216,9 @@ std::vector&lt; std::unique_ptr&lt; <a class="el" href="classPieceBuffer.html">P
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t FileManager::calculateDataOffset </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structBlockInfo.html">BlockInfo</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>block</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Calculates the offset of data within a block. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">block</td><td>Details about the block. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Offset of the data within the block. </dd></dl>
-
-</div>
-</div>
-<a id="a6f31891bedaef9d327354c36e50b4d50" name="a6f31891bedaef9d327354c36e50b4d50"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f31891bedaef9d327354c36e50b4d50">&#9670;&#160;</a></span>getBlockBounds()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::pair&lt; size_t, size_t &gt; FileManager::getBlockBounds </td>
-          <td>(</td>
-          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>pieceIndex</em>, </span></td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="structBlockInfo.html">BlockInfo</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>block</em></span>&#160;) const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Calculates the global start and end offsets for a given block within a piece. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pieceIndex</td><td>Index of the piece. </td></tr>
-    <tr><td class="paramname">block</td><td><a class="el" href="structBlockInfo.html" title="Stores information about a block within a torrent piece.">BlockInfo</a> structure describing the block. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Pair of size_t values indicating the start and end offsets. </dd></dl>
-
-</div>
-</div>
-<a id="a32d557fbe0cdb278e54009110035729e" name="a32d557fbe0cdb278e54009110035729e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32d557fbe0cdb278e54009110035729e">&#9670;&#160;</a></span>readBlock()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::vector&lt; char &gt; FileManager::readBlock </td>
-          <td>(</td>
-          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>pieceIndex</em>, </span></td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="structBlockInfo.html">BlockInfo</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>block</em></span>&#160;) const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Reads a block of data from the appropriate file and position. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pieceIndex</td><td>Index of the piece from which to read. </td></tr>
-    <tr><td class="paramname">block</td><td>Details about the block to read (offset and size). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Vector containing the read data. </dd></dl>
-
-<p>Implemented in <a class="el" href="classLinuxFileManager.html#a8ba3b593fa8ff198c9e1d14f44e279e5">LinuxFileManager</a>.</p>
-
-</div>
-</div>
-<a id="ac855664d52f17fde6840328bfeaf68a0" name="ac855664d52f17fde6840328bfeaf68a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac855664d52f17fde6840328bfeaf68a0">&#9670;&#160;</a></span>totalFileSize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t FileManager::totalFileSize </td>
+          <td class="memname">virtual void FileManager::pre_allocate_space </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Calculates the total size of all files managed by the <a class="el" href="classFileManager.html" title="Abstract class providing an interface for file read/write operations in a torrent system.">FileManager</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>Size of all files in bytes. </dd></dl>
-
-</div>
-</div>
-<a id="a5aa6108095072645631617bba133947a" name="a5aa6108095072645631617bba133947a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5aa6108095072645631617bba133947a">&#9670;&#160;</a></span>totalPieces()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t FileManager::totalPieces </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the total number of pieces based on the file sizes and piece length. </p>
-<dl class="section return"><dt>Returns</dt><dd>Total number of pieces. </dd></dl>
-
-</div>
-</div>
-<a id="a07e533081a76aaee9c8f7478799419d9" name="a07e533081a76aaee9c8f7478799419d9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07e533081a76aaee9c8f7478799419d9">&#9670;&#160;</a></span>writeBlock()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool FileManager::writeBlock </td>
-          <td>(</td>
-          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>pieceIndex</em>, </span></td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="structBlockInfo.html">BlockInfo</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>block</em>, </span></td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; char &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Writes a block of data to the appropriate file and position. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pieceIndex</td><td>Index of the piece to which the block belongs. </td></tr>
-    <tr><td class="paramname">block</td><td>Details about the block (offset and size). </td></tr>
-    <tr><td class="paramname">data</td><td>Data to be written. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if the write operation was successful, false otherwise. </dd></dl>
-
-<p>Implemented in <a class="el" href="classLinuxFileManager.html#a3bc01a8aa5c29d1af1fe17ba7b0f047d">LinuxFileManager</a>.</p>
-
-</div>
-</div>
-<a id="a7b289f7639665e8de08542148f539d1c" name="a7b289f7639665e8de08542148f539d1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b289f7639665e8de08542148f539d1c">&#9670;&#160;</a></span>writePiece()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool FileManager::writePiece </td>
-          <td>(</td>
-          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>pieceIndex</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -445,20 +229,131 @@ std::vector&lt; std::unique_ptr&lt; <a class="el" href="classPieceBuffer.html">P
 </table>
 </div><div class="memdoc">
 
-<p>Writes a full piece to the appropriate location. </p>
+<p>Pre-allocates space for the files. </p>
+
+<p>Implemented in <a class="el" href="classLinuxFileManager.html#a04cfd2c38c4f815c32763b5728f80645">LinuxFileManager</a>.</p>
+
+</div>
+</div>
+<a id="a3727ea3adb2ca09c3e4c9d52baca700a" name="a3727ea3adb2ca09c3e4c9d52baca700a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3727ea3adb2ca09c3e4c9d52baca700a">&#9670;&#160;</a></span>read_block()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::vector&lt; std::byte &gt; FileManager::read_block </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>piece_index</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>offset</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>length</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reads a block of data from a piece. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pieceIndex</td><td>Index of the piece to write. </td></tr>
+    <tr><td class="paramname">piece_index</td><td>The index of the piece to read from. </td></tr>
+    <tr><td class="paramname">offset</td><td>The offset within the piece to start reading. </td></tr>
+    <tr><td class="paramname">length</td><td>The number of bytes to read. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if successful, false otherwise. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of bytes containing the data read. </dd></dl>
+
+<p>Implemented in <a class="el" href="classLinuxFileManager.html#acfe1fa02f6b9f79363563faa08fd0686">LinuxFileManager</a>.</p>
+
+</div>
+</div>
+<a id="acfa58583ac17e5ee4843d93aa72edc4e" name="acfa58583ac17e5ee4843d93aa72edc4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfa58583ac17e5ee4843d93aa72edc4e">&#9670;&#160;</a></span>total_pieces()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t FileManager::total_pieces </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the total number of pieces. </p>
+<dl class="section return"><dt>Returns</dt><dd>The total number of pieces. </dd></dl>
+
+</div>
+</div>
+<a id="ab32972cd0fa12764ba13d77eafae5fd4" name="ab32972cd0fa12764ba13d77eafae5fd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab32972cd0fa12764ba13d77eafae5fd4">&#9670;&#160;</a></span>write_piece()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool FileManager::write_piece </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>piece_index</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::byte &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Writes a piece of data. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">piece_index</td><td>The index of the piece to write. </td></tr>
+    <tr><td class="paramname">data</td><td>The data to write. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the piece was written successfully, false otherwise. </dd></dl>
+
+<p>Implemented in <a class="el" href="classLinuxFileManager.html#a993c91b1f5e8d4470bc90facbeb2691a">LinuxFileManager</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/yonah/School/PRO/yatc/src/FileManager/<a class="el" href="FileManager_8h_source.html">FileManager.h</a></li>
-<li>/home/yonah/School/PRO/yatc/src/FileManager/<b>FileManager.cc</b></li>
+<li>/home/yonah/School/PRO/yatc/src/core/FileManager/<a class="el" href="FileManager_8h_source.html">FileManager.h</a></li>
+<li>/home/yonah/School/PRO/yatc/src/core/FileManager/<b>FileManager.cc</b></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -1,35 +1,81 @@
 \doxysection{Peer\+Connection Class Reference}
 \hypertarget{classPeerConnection}{}\label{classPeerConnection}\index{PeerConnection@{PeerConnection}}
+
+
+Manages the connection to a peer in the Bit\+Torrent network.  
+
+
+
+
+{\ttfamily \#include $<$Peer\+Connection.\+h$>$}
+
+Inheritance diagram for Peer\+Connection\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classPeerConnection}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{classPeerConnection_a63811d72dc6ed9bbbfd4e3b98db2febc}\label{classPeerConnection_a63811d72dc6ed9bbbfd4e3b98db2febc} 
-{\bfseries Peer\+Connection} (boost\+::asio\+::io\+\_\+context \&io\+Context, const \mbox{\hyperlink{structPeer}{Peer}} peer, const std\+::array$<$ std\+::byte, 20 $>$ my\+Peer\+Id, const std\+::array$<$ std\+::byte, 20 $>$ info\+Hash)
-\item 
-\Hypertarget{classPeerConnection_a3d0b633a291d817f17f1ccfecf2a034d}\label{classPeerConnection_a3d0b633a291d817f17f1ccfecf2a034d} 
-void {\bfseries handshake} ()
-\item 
-\Hypertarget{classPeerConnection_a8c8290f68931d61eb26777009a96749c}\label{classPeerConnection_a8c8290f68931d61eb26777009a96749c} 
-void {\bfseries send\+Interest} ()
-\item 
-\Hypertarget{classPeerConnection_afc8e61bc5088e9853818567a2661f6c0}\label{classPeerConnection_afc8e61bc5088e9853818567a2661f6c0} 
-void {\bfseries send\+Request} (int piece\+Index)
-\item 
-\Hypertarget{classPeerConnection_ac4d43b782fbb1d2f2642e9c70132f478}\label{classPeerConnection_ac4d43b782fbb1d2f2642e9c70132f478} 
-void {\bfseries receive\+Piece} (int piece\+Index, const std\+::vector$<$ uint8\+\_\+t $>$ \&piece\+Data)
-\item 
-\Hypertarget{classPeerConnection_a3dbb21ee8ca6749cbf2fe89e5c9b211a}\label{classPeerConnection_a3dbb21ee8ca6749cbf2fe89e5c9b211a} 
-void {\bfseries disconnect} ()
-\item 
-\Hypertarget{classPeerConnection_a2acc15e295f4759d5f7dc7e1655bcb36}\label{classPeerConnection_a2acc15e295f4759d5f7dc7e1655bcb36} 
-bool {\bfseries is\+Connected} () const
-\item 
-\Hypertarget{classPeerConnection_a42e2b753472edef8198c186f21b6089e}\label{classPeerConnection_a42e2b753472edef8198c186f21b6089e} 
-void {\bfseries set\+Active} (const bool active)
-\end{DoxyCompactItemize}
+\mbox{\hyperlink{classPeerConnection_a9594702c856de8947b15bcb1f55d0f7f}{Peer\+Connection}} (boost\+::asio\+::io\+\_\+context \&io\+\_\+context, const Info\+Hash \&info\+\_\+hash, const \mbox{\hyperlink{structPeer_a2507a4f82b96df926fc3c259b24a8e6f}{Peer\+::\+Id}} \&peer\+\_\+id, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classPieceManager}{Piece\+Manager}} $>$ piece\+\_\+manager, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classLinuxFileManager}{Linux\+File\+Manager}} $>$ file\+\_\+manager)
+\begin{DoxyCompactList}\small\item\em Constructs a \doxylink{classPeerConnection}{Peer\+Connection}. \end{DoxyCompactList}\item 
+tcp\+::socket \& \mbox{\hyperlink{classPeerConnection_a5b8e7d8eab3d7015c4a7671897e831ae}{socket}} ()
+\begin{DoxyCompactList}\small\item\em Gets the socket associated with the peer connection. \end{DoxyCompactList}\item 
+\Hypertarget{classPeerConnection_a14089e9d800627939e8376d0f3c001d2}\label{classPeerConnection_a14089e9d800627939e8376d0f3c001d2} 
+void {\bfseries start} ()
+\begin{DoxyCompactList}\small\item\em Starts the peer connection. \end{DoxyCompactList}\item 
+\Hypertarget{classPeerConnection_a0ca897cd9e4879f3b816ddd58b31733c}\label{classPeerConnection_a0ca897cd9e4879f3b816ddd58b31733c} 
+void {\bfseries stop} ()
+\begin{DoxyCompactList}\small\item\em Stops the peer connection. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Manages the connection to a peer in the Bit\+Torrent network. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classPeerConnection_a9594702c856de8947b15bcb1f55d0f7f}\label{classPeerConnection_a9594702c856de8947b15bcb1f55d0f7f} 
+\index{PeerConnection@{PeerConnection}!PeerConnection@{PeerConnection}}
+\index{PeerConnection@{PeerConnection}!PeerConnection@{PeerConnection}}
+\doxysubsubsection{\texorpdfstring{PeerConnection()}{PeerConnection()}}
+{\footnotesize\ttfamily Peer\+Connection\+::\+Peer\+Connection (\begin{DoxyParamCaption}\item[{boost\+::asio\+::io\+\_\+context \&}]{io\+\_\+context,  }\item[{const Info\+Hash \&}]{info\+\_\+hash,  }\item[{const \mbox{\hyperlink{structPeer_a2507a4f82b96df926fc3c259b24a8e6f}{Peer\+::\+Id}} \&}]{peer\+\_\+id,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classPieceManager}{Piece\+Manager}} $>$}]{piece\+\_\+manager,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classLinuxFileManager}{Linux\+File\+Manager}} $>$}]{file\+\_\+manager }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs a \doxylink{classPeerConnection}{Peer\+Connection}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em io\+\_\+context} & Boost.\+Asio IO context. \\
+\hline
+{\em info\+\_\+hash} & Info hash of the torrent. \\
+\hline
+{\em peer\+\_\+id} & ID of the peer. \\
+\hline
+{\em piece\+\_\+manager} & Shared pointer to the \doxylink{classPieceManager}{Piece\+Manager}. \\
+\hline
+{\em file\+\_\+manager} & Shared pointer to the \doxylink{classFileManager}{File\+Manager}. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classPeerConnection_a5b8e7d8eab3d7015c4a7671897e831ae}\label{classPeerConnection_a5b8e7d8eab3d7015c4a7671897e831ae} 
+\index{PeerConnection@{PeerConnection}!socket@{socket}}
+\index{socket@{socket}!PeerConnection@{PeerConnection}}
+\doxysubsubsection{\texorpdfstring{socket()}{socket()}}
+{\footnotesize\ttfamily tcp\+::socket \& Peer\+Connection\+::socket (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Gets the socket associated with the peer connection. 
+
+\begin{DoxyReturn}{Returns}
+Reference to the TCP socket. 
+\end{DoxyReturn}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/home/yonah/\+School/\+PRO/yatc/src/\+Peer\+Connection/Peer\+Connection.\+h\item 
-/home/yonah/\+School/\+PRO/yatc/src/\+Peer\+Connection/Peer\+Connection.\+cc\end{DoxyCompactItemize}
+/home/yonah/\+School/\+PRO/yatc/src/core/\+Peer\+Connection/Peer\+Connection.\+h\item 
+/home/yonah/\+School/\+PRO/yatc/src/core/\+Peer\+Connection/Peer\+Connection.\+cc\end{DoxyCompactItemize}

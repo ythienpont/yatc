@@ -9,6 +9,6 @@ var classTrackerClient =
     [ "TrackerClient", "classTrackerClient.html#a41e1eadd9e5c579d2f6f26d48651cadf", null ],
     [ "~TrackerClient", "classTrackerClient.html#a81899d50e48eec127b32b957fb295589", null ],
     [ "announce", "classTrackerClient.html#aeb3e6dfa5c20ed79e7ae76f7518cd678", null ],
-    [ "getInfoHash", "classTrackerClient.html#aa52a55a5b7bea7c04753120cc92d1ea2", null ],
-    [ "getPeerId", "classTrackerClient.html#a4fb2e21164a4302313de9a99ffcc6b72", null ]
+    [ "info_hash", "classTrackerClient.html#a70450363990f96a94cb410adfd40d347", null ],
+    [ "peer_id", "classTrackerClient.html#afa515002ee838077d2330e62fc03405c", null ]
 ];

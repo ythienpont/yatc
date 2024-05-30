@@ -1,25 +1,79 @@
 \doxysection{Peer Struct Reference}
 \hypertarget{structPeer}{}\label{structPeer}\index{Peer@{Peer}}
+
+
+Represents a peer in the Bit\+Torrent network.  
+
+
+
+
+{\ttfamily \#include $<$Peer.\+h$>$}
+
 \doxysubsubsection*{Public Types}
 \begin{DoxyCompactItemize}
 \item 
 \Hypertarget{structPeer_a2507a4f82b96df926fc3c259b24a8e6f}\label{structPeer_a2507a4f82b96df926fc3c259b24a8e6f} 
 using {\bfseries Id} = std\+::array$<$std\+::byte, 20$>$
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Type alias for a peer ID, represented as a 20-\/byte array. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{structPeer_a67d384d76487e9fe9eae65286343b7bb}{is\+\_\+id\+\_\+set}} () const
+\begin{DoxyCompactList}\small\item\em Checks if the peer ID is set. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{structPeer_a7fdd52b3573c358e726501af2a959968}\label{structPeer_a7fdd52b3573c358e726501af2a959968} 
-Id {\bfseries id}
-\item 
-\Hypertarget{structPeer_a2378d6ea4dda14b95ec8be83f7917de8}\label{structPeer_a2378d6ea4dda14b95ec8be83f7917de8} 
-std\+::string {\bfseries ip}
-\item 
+std\+::optional$<$ \mbox{\hyperlink{structPeer_a2507a4f82b96df926fc3c259b24a8e6f}{Id}} $>$ \mbox{\hyperlink{structPeer_a4675e5b92dcb989be7c7af566c5af2a7}{id}}
+\begin{DoxyCompactList}\small\item\em The ID of the peer. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{structPeer_a2378d6ea4dda14b95ec8be83f7917de8}{ip}}
+\begin{DoxyCompactList}\small\item\em The IP address of the peer. \end{DoxyCompactList}\item 
 \Hypertarget{structPeer_adc762054b5f9eb8b7f1173d85fd85ec4}\label{structPeer_adc762054b5f9eb8b7f1173d85fd85ec4} 
 uint16\+\_\+t {\bfseries port}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em The port number at which the torrent service is running. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+Represents a peer in the Bit\+Torrent network. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structPeer_a67d384d76487e9fe9eae65286343b7bb}\label{structPeer_a67d384d76487e9fe9eae65286343b7bb} 
+\index{Peer@{Peer}!is\_id\_set@{is\_id\_set}}
+\index{is\_id\_set@{is\_id\_set}!Peer@{Peer}}
+\doxysubsubsection{\texorpdfstring{is\_id\_set()}{is\_id\_set()}}
+{\footnotesize\ttfamily bool Peer\+::is\+\_\+id\+\_\+set (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Checks if the peer ID is set. 
+
+\begin{DoxyReturn}{Returns}
+true if the peer ID is set, false otherwise. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structPeer_a4675e5b92dcb989be7c7af566c5af2a7}\label{structPeer_a4675e5b92dcb989be7c7af566c5af2a7} 
+\index{Peer@{Peer}!id@{id}}
+\index{id@{id}!Peer@{Peer}}
+\doxysubsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily std\+::optional$<$\mbox{\hyperlink{structPeer_a2507a4f82b96df926fc3c259b24a8e6f}{Id}}$>$ Peer\+::id}
+
+
+
+The ID of the peer. 
+
+This is an optional field. If the peer ID is known, it will be set. \Hypertarget{structPeer_a2378d6ea4dda14b95ec8be83f7917de8}\label{structPeer_a2378d6ea4dda14b95ec8be83f7917de8} 
+\index{Peer@{Peer}!ip@{ip}}
+\index{ip@{ip}!Peer@{Peer}}
+\doxysubsubsection{\texorpdfstring{ip}{ip}}
+{\footnotesize\ttfamily std\+::string Peer\+::ip}
+
+
+
+The IP address of the peer. 
+
+This is a string representation of the IP address (e.\+g., "{}192.\+168.\+1.\+1"{}). 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/home/yonah/\+School/\+PRO/yatc/src/\+Peer\+Connection/Peer\+Connection.\+h\end{DoxyCompactItemize}
+/home/yonah/\+School/\+PRO/yatc/src/core/\+Peer/Peer.\+h\end{DoxyCompactItemize}

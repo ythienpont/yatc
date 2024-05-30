@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['savepiece_0',['savePiece',['../classPieceManager.html#a771cafd418df95a9503a45d5e3e94dd9',1,'PieceManager']]],
-  ['start_1',['start',['../classTorrentClient.html#a53b2ae5c1d4db7c0f05f0995628d6974',1,'TorrentClient']]],
-  ['stop_2',['stop',['../classTorrentClient.html#a2fcaf6bf0a1977053ed39097f91a9f63',1,'TorrentClient']]]
+  ['write_5fpiece_0',['write_piece',['../classFileManager.html#ab32972cd0fa12764ba13d77eafae5fd4',1,'FileManager::write_piece()'],['../classLinuxFileManager.html#a993c91b1f5e8d4470bc90facbeb2691a',1,'LinuxFileManager::write_piece()']]]
 ];
