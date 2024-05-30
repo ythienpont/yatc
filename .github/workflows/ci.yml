@@ -15,7 +15,9 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y g++ libcurl4-openssl-dev libssl-dev libgtest-dev cmake libboost-all-dev libgtk-4-dev
+      run: |
+          sudo apt-get update && sudo apt-get install -y g++ libcurl4-openssl-dev libssl-dev libgtest-dev cmake libboost-all-dev libgtk-4-dev
+          g++ --version
 
     - name: Compile GTest
       run: |
