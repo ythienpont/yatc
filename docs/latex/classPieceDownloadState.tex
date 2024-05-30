@@ -1,0 +1,67 @@
+\doxysection{Piece\+Download\+State Class Reference}
+\hypertarget{classPieceDownloadState}{}\label{classPieceDownloadState}\index{PieceDownloadState@{PieceDownloadState}}
+
+
+Manages the state of a piece being downloaded.  
+
+
+
+
+{\ttfamily \#include $<$Peer\+Connection.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classPieceDownloadState_a3d48789b536576da5f3dedf8ceefc797}\label{classPieceDownloadState_a3d48789b536576da5f3dedf8ceefc797} 
+{\bfseries Piece\+Download\+State} ()
+\begin{DoxyCompactList}\small\item\em Default constructor for \doxylink{classPieceDownloadState}{Piece\+Download\+State}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classPieceDownloadState_ac003a41034e5bf15814d1f3d3c5ca786}{Piece\+Download\+State}} (uint32\+\_\+t \mbox{\hyperlink{classPieceDownloadState_a0da5b7ae64db3e051af83b435cf906d9}{piece\+\_\+index}}, uint32\+\_\+t \mbox{\hyperlink{classPieceDownloadState_a130ececf8bcffcc90d82fd7f5e8a00a9}{total\+\_\+blocks}}, uint32\+\_\+t piece\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Constructs a \doxylink{classPieceDownloadState}{Piece\+Download\+State} with specified parameters. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classPieceDownloadState_a0da5b7ae64db3e051af83b435cf906d9}\label{classPieceDownloadState_a0da5b7ae64db3e051af83b435cf906d9} 
+uint32\+\_\+t {\bfseries piece\+\_\+index}
+\begin{DoxyCompactList}\small\item\em Index of the piece. \end{DoxyCompactList}\item 
+\Hypertarget{classPieceDownloadState_a130ececf8bcffcc90d82fd7f5e8a00a9}\label{classPieceDownloadState_a130ececf8bcffcc90d82fd7f5e8a00a9} 
+uint32\+\_\+t {\bfseries total\+\_\+blocks}
+\begin{DoxyCompactList}\small\item\em Total number of blocks in the piece. \end{DoxyCompactList}\item 
+\Hypertarget{classPieceDownloadState_aa99a944adc884bc674848a572e7cb5b6}\label{classPieceDownloadState_aa99a944adc884bc674848a572e7cb5b6} 
+std\+::vector$<$ bool $>$ {\bfseries blocks\+\_\+received}
+\begin{DoxyCompactList}\small\item\em Tracks which blocks have been received. \end{DoxyCompactList}\item 
+\Hypertarget{classPieceDownloadState_af14444cbace23b808e13ce17db33ca9b}\label{classPieceDownloadState_af14444cbace23b808e13ce17db33ca9b} 
+std\+::vector$<$ std\+::byte $>$ {\bfseries piece\+\_\+data\+\_\+buffer}
+\begin{DoxyCompactList}\small\item\em Buffer to store the entire piece data. \end{DoxyCompactList}\item 
+\Hypertarget{classPieceDownloadState_ac8d73347496c97fc2fc0d27075286a7b}\label{classPieceDownloadState_ac8d73347496c97fc2fc0d27075286a7b} 
+uint32\+\_\+t {\bfseries next\+\_\+block\+\_\+to\+\_\+request}
+\begin{DoxyCompactList}\small\item\em Index of the next block to request. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Manages the state of a piece being downloaded. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classPieceDownloadState_ac003a41034e5bf15814d1f3d3c5ca786}\label{classPieceDownloadState_ac003a41034e5bf15814d1f3d3c5ca786} 
+\index{PieceDownloadState@{PieceDownloadState}!PieceDownloadState@{PieceDownloadState}}
+\index{PieceDownloadState@{PieceDownloadState}!PieceDownloadState@{PieceDownloadState}}
+\doxysubsubsection{\texorpdfstring{PieceDownloadState()}{PieceDownloadState()}}
+{\footnotesize\ttfamily Piece\+Download\+State\+::\+Piece\+Download\+State (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{piece\+\_\+index,  }\item[{uint32\+\_\+t}]{total\+\_\+blocks,  }\item[{uint32\+\_\+t}]{piece\+\_\+size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs a \doxylink{classPieceDownloadState}{Piece\+Download\+State} with specified parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em piece\+\_\+index} & Index of the piece. \\
+\hline
+{\em total\+\_\+blocks} & Total number of blocks in the piece. \\
+\hline
+{\em piece\+\_\+size} & Size of the piece in bytes. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/yonah/\+School/\+PRO/yatc/src/core/\+Peer\+Connection/Peer\+Connection.\+h\end{DoxyCompactItemize}

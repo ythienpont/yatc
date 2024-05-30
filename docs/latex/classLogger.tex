@@ -1,0 +1,128 @@
+\doxysection{Logger Class Reference}
+\hypertarget{classLogger}{}\label{classLogger}\index{Logger@{Logger}}
+
+
+Singleton \doxylink{classLogger}{Logger} class for handling logging operations.  
+
+
+
+
+{\ttfamily \#include $<$Logger.\+h$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classLogger_ad766a24576ea8b27ad9d5649cef46d8f}\label{classLogger_ad766a24576ea8b27ad9d5649cef46d8f} 
+enum \mbox{\hyperlink{classLogger_ad766a24576ea8b27ad9d5649cef46d8f}{Level}} \{ {\bfseries DEBUG}
+, {\bfseries INFO}
+, {\bfseries WARNING}
+, {\bfseries ERROR}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumerates log severity levels. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classLogger_add0f34d4c753c86af8074840a72366b3}{Logger}} (const \mbox{\hyperlink{classLogger}{Logger}} \&)=delete
+\item 
+\mbox{\hyperlink{classLogger}{Logger}} \& \mbox{\hyperlink{classLogger_a8c0ca770cdc91ca9fc3015286568e1ea}{operator=}} (const \mbox{\hyperlink{classLogger}{Logger}} \&)=delete
+\item 
+void \mbox{\hyperlink{classLogger_a2c05185ce9a2ca6d1f84874f1e7682c7}{log}} (const std\+::string \&message, \mbox{\hyperlink{classLogger_ad766a24576ea8b27ad9d5649cef46d8f}{Level}} level=DEBUG)
+\begin{DoxyCompactList}\small\item\em Logs a message at the specified log level. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLogger_ab138ded838fa6698b7e6f74f5fc57efc}{set\+Level}} (\mbox{\hyperlink{classLogger_ad766a24576ea8b27ad9d5649cef46d8f}{Level}} level)
+\begin{DoxyCompactList}\small\item\em Sets the minimum log level. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLogger_aa63a7735fced55e3a7780fb63fd4d041}{set\+Output}} (std\+::ostream \texorpdfstring{$\ast$}{*}os)
+\begin{DoxyCompactList}\small\item\em Sets the output stream for logging. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classLogger}{Logger}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classLogger_a79588b36a5ee1c4d4002807aaa9fa65a}{instance}} ()
+\begin{DoxyCompactList}\small\item\em Retrieves the singleton instance of \doxylink{classLogger}{Logger}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Singleton \doxylink{classLogger}{Logger} class for handling logging operations. 
+
+This class implements the singleton pattern to provide a unique logger instance throughout the application. It supports logging messages at various severity levels to a configurable output stream. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classLogger_add0f34d4c753c86af8074840a72366b3}\label{classLogger_add0f34d4c753c86af8074840a72366b3} 
+\index{Logger@{Logger}!Logger@{Logger}}
+\index{Logger@{Logger}!Logger@{Logger}}
+\doxysubsubsection{\texorpdfstring{Logger()}{Logger()}}
+{\footnotesize\ttfamily Logger\+::\+Logger (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classLogger}{Logger}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+Deletes the copy constructor to prevent copying. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classLogger_a79588b36a5ee1c4d4002807aaa9fa65a}\label{classLogger_a79588b36a5ee1c4d4002807aaa9fa65a} 
+\index{Logger@{Logger}!instance@{instance}}
+\index{instance@{instance}!Logger@{Logger}}
+\doxysubsubsection{\texorpdfstring{instance()}{instance()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classLogger}{Logger}} \texorpdfstring{$\ast$}{*} Logger\+::instance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Retrieves the singleton instance of \doxylink{classLogger}{Logger}. 
+
+\begin{DoxyReturn}{Returns}
+Returns the singleton instance of \doxylink{classLogger}{Logger}. 
+\end{DoxyReturn}
+\Hypertarget{classLogger_a2c05185ce9a2ca6d1f84874f1e7682c7}\label{classLogger_a2c05185ce9a2ca6d1f84874f1e7682c7} 
+\index{Logger@{Logger}!log@{log}}
+\index{log@{log}!Logger@{Logger}}
+\doxysubsubsection{\texorpdfstring{log()}{log()}}
+{\footnotesize\ttfamily void Logger\+::log (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{message,  }\item[{\mbox{\hyperlink{classLogger_ad766a24576ea8b27ad9d5649cef46d8f}{Level}}}]{level = {\ttfamily DEBUG} }\end{DoxyParamCaption})}
+
+
+
+Logs a message at the specified log level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & The message to be logged. \\
+\hline
+{\em level} & The severity level of the message. Defaults to DEBUG. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLogger_a8c0ca770cdc91ca9fc3015286568e1ea}\label{classLogger_a8c0ca770cdc91ca9fc3015286568e1ea} 
+\index{Logger@{Logger}!operator=@{operator=}}
+\index{operator=@{operator=}!Logger@{Logger}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classLogger}{Logger}} \& Logger\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classLogger}{Logger}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+Deletes the assignment operator to prevent copying. \Hypertarget{classLogger_ab138ded838fa6698b7e6f74f5fc57efc}\label{classLogger_ab138ded838fa6698b7e6f74f5fc57efc} 
+\index{Logger@{Logger}!setLevel@{setLevel}}
+\index{setLevel@{setLevel}!Logger@{Logger}}
+\doxysubsubsection{\texorpdfstring{setLevel()}{setLevel()}}
+{\footnotesize\ttfamily void Logger\+::set\+Level (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classLogger_ad766a24576ea8b27ad9d5649cef46d8f}{Level}}}]{level }\end{DoxyParamCaption})}
+
+
+
+Sets the minimum log level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em level} & The new log level. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLogger_aa63a7735fced55e3a7780fb63fd4d041}\label{classLogger_aa63a7735fced55e3a7780fb63fd4d041} 
+\index{Logger@{Logger}!setOutput@{setOutput}}
+\index{setOutput@{setOutput}!Logger@{Logger}}
+\doxysubsubsection{\texorpdfstring{setOutput()}{setOutput()}}
+{\footnotesize\ttfamily void Logger\+::set\+Output (\begin{DoxyParamCaption}\item[{std\+::ostream \texorpdfstring{$\ast$}{*}}]{os }\end{DoxyParamCaption})}
+
+
+
+Sets the output stream for logging. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em os} & Pointer to the output stream. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/yonah/\+School/\+PRO/yatc/src/core/\+Logger/Logger.\+h\item 
+/home/yonah/\+School/\+PRO/yatc/src/core/\+Logger/Logger.\+cc\end{DoxyCompactItemize}

@@ -1,0 +1,102 @@
+\doxysection{Message.\+h}
+\hypertarget{Message_8h_source}{}\label{Message_8h_source}\index{/home/yonah/School/PRO/yatc/src/core/Message/Message.h@{/home/yonah/School/PRO/yatc/src/core/Message/Message.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ MESSAGE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ MESSAGE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}Utils/utils.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <variant>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}...\ Ts>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structoverloaded}{overloaded}}\ :\ Ts...\ \{}
+\DoxyCodeLine{00017\ \ \ \textcolor{keyword}{using\ }Ts::operator()...;}
+\DoxyCodeLine{00018\ \};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ Explicit\ deduction\ guide\ (not\ needed\ in\ C++20)}}
+\DoxyCodeLine{00021\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}...\ Ts>\ \mbox{\hyperlink{structoverloaded}{overloaded}}(Ts...)\ -\/>\ \mbox{\hyperlink{structoverloaded}{overloaded}}<Ts...>;}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{enum\ class}\ MessageType\ :\ uint8\_t\ \{}
+\DoxyCodeLine{00027\ \ \ Choke\ =\ 0,}
+\DoxyCodeLine{00028\ \ \ Unchoke\ =\ 1,}
+\DoxyCodeLine{00029\ \ \ Interested\ =\ 2,}
+\DoxyCodeLine{00030\ \ \ NotInterested\ =\ 3,}
+\DoxyCodeLine{00031\ \ \ Have\ =\ 4,}
+\DoxyCodeLine{00032\ \ \ Bitfield\ =\ 5,}
+\DoxyCodeLine{00033\ \ \ Request\ =\ 6,}
+\DoxyCodeLine{00034\ \ \ Piece\ =\ 7,}
+\DoxyCodeLine{00035\ \ \ Cancel\ =\ 8,}
+\DoxyCodeLine{00036\ \};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00041\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structPieceData}{PieceData}}\ \{}
+\DoxyCodeLine{00042\ \ \ uint32\_t\ \mbox{\hyperlink{structPieceData_ace7f112e7c1c47fa517eff41529c437b}{index}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00043\ \ \ uint32\_t\ \mbox{\hyperlink{structPieceData_aa811c3d64df6ff272b5a155027268402}{begin}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00044\ \ \ std::vector<std::byte>\ \mbox{\hyperlink{structPieceData_ad7a3b3db26eed66ddd6a07633c024b3f}{block}};\ }
+\DoxyCodeLine{00045\ \};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{using\ }Payload\ =\ std::variant<}
+\DoxyCodeLine{00051\ \ \ \ \ std::monostate,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00052\ \ \ \ \ uint32\_t,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00053\ \ \ \ \ std::vector<std::byte>,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00054\ \ \ \ \ std::tuple<uint32\_t,\ uint32\_t,\ uint32\_t>,\ }
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{structPieceData}{PieceData}}>;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structMessage}{Message}}\ \{}
+\DoxyCodeLine{00061\ \ \ MessageType\ \mbox{\hyperlink{structMessage_a6fc78df47d3755e088e7c658db565fc5}{type}};\ }
+\DoxyCodeLine{00062\ \ \ Payload\ \mbox{\hyperlink{structMessage_a4c49e8768942b3894f68f31012fe971a}{payload}};\ \ }
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00070\ \ \ \mbox{\hyperlink{structMessage_a3f6d0ddb5ab1eea38f53d252f4bb96bd}{Message}}(MessageType\ \mbox{\hyperlink{structMessage_a6fc78df47d3755e088e7c658db565fc5}{type}},\ Payload\ \mbox{\hyperlink{structMessage_a4c49e8768942b3894f68f31012fe971a}{payload}})}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ :\ \mbox{\hyperlink{structMessage_a6fc78df47d3755e088e7c658db565fc5}{type}}(\mbox{\hyperlink{structMessage_a6fc78df47d3755e088e7c658db565fc5}{type}}),\ \mbox{\hyperlink{structMessage_a4c49e8768942b3894f68f31012fe971a}{payload}}(std::move(\mbox{\hyperlink{structMessage_a4c49e8768942b3894f68f31012fe971a}{payload}}))\ \{\}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00081\ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{structMessage}{Message}}\ \mbox{\hyperlink{structMessage_a5a7e2e8254f226e515c4411f0cdd2e38}{parseMessage}}(\textcolor{keyword}{const}\ std::vector<std::byte>\ \&data)\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordflow}{if}\ (data.size()\ <\ 5)}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}Invalid\ message\ data\ received."{}});}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ MessageType\ \mbox{\hyperlink{structMessage_a6fc78df47d3755e088e7c658db565fc5}{type}}\ =\ \textcolor{keyword}{static\_cast<}MessageType\textcolor{keyword}{>}(\textcolor{keyword}{static\_cast<}uint8\_t\textcolor{keyword}{>}(data[4]));}
+\DoxyCodeLine{00086\ \ \ \ \ std::vector<std::byte>\ payloadBytes(data.begin()\ +\ 5,\ data.end());}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordflow}{switch}\ (\mbox{\hyperlink{structMessage_a6fc78df47d3755e088e7c658db565fc5}{type}})\ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordflow}{case}\ MessageType::Choke:}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordflow}{case}\ MessageType::Unchoke:}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordflow}{case}\ MessageType::Interested:}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordflow}{case}\ MessageType::NotInterested:}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\mbox{\hyperlink{structMessage_a6fc78df47d3755e088e7c658db565fc5}{type}},\ std::monostate\{\}\};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordflow}{case}\ MessageType::Have:}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payloadBytes.size()\ <\ \textcolor{keyword}{sizeof}(uint32\_t))}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}Invalid\ payload\ size\ for\ Have\ message."{}});}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\mbox{\hyperlink{structMessage_a6fc78df47d3755e088e7c658db565fc5}{type}},\ bytes\_to\_uint32(payloadBytes)\};}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordflow}{case}\ MessageType::Bitfield:}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\mbox{\hyperlink{structMessage_a6fc78df47d3755e088e7c658db565fc5}{type}},\ payloadBytes\};}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordflow}{case}\ MessageType::Request:}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordflow}{case}\ MessageType::Cancel:}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payloadBytes.size()\ <\ 3\ *\ \textcolor{keyword}{sizeof}(uint32\_t))}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}Invalid\ payload\ size\ for\ Request/Cancel\ message."{}});}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\mbox{\hyperlink{structMessage_a6fc78df47d3755e088e7c658db565fc5}{type}},\ std::make\_tuple(bytes\_to\_uint32(payloadBytes,\ 0),}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_to\_uint32(payloadBytes,\ 4),}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_to\_uint32(payloadBytes,\ 8))\};}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordflow}{case}\ MessageType::Piece:}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payloadBytes.size()\ <\ 2\ *\ \textcolor{keyword}{sizeof}(uint32\_t))}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}Invalid\ payload\ size\ for\ Piece\ message."{}});}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ uint32\_t\ index\ =\ bytes\_to\_uint32(payloadBytes,\ 0);}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ uint32\_t\ begin\ =\ bytes\_to\_uint32(payloadBytes,\ 4);}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ std::vector<std::byte>\ block(payloadBytes.begin()\ +\ 8,\ payloadBytes.end());}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\mbox{\hyperlink{structMessage_a6fc78df47d3755e088e7c658db565fc5}{type}},\ \mbox{\hyperlink{structPieceData}{PieceData}}\{index,\ begin,\ std::move(block)\}\};}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}Unknown\ message\ type."{}});}
+\DoxyCodeLine{00123\ \ \ \ \ \}}
+\DoxyCodeLine{00124\ \ \ \}}
+\DoxyCodeLine{00125\ \};}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ MESSAGE\_H}}
+
+\end{DoxyCode}

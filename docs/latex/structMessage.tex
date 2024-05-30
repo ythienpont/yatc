@@ -1,0 +1,84 @@
+\doxysection{Message Struct Reference}
+\hypertarget{structMessage}{}\label{structMessage}\index{Message@{Message}}
+
+
+Struct representing a Bit\+Torrent message.  
+
+
+
+
+{\ttfamily \#include $<$Message.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structMessage_a3f6d0ddb5ab1eea38f53d252f4bb96bd}{Message}} (Message\+Type \mbox{\hyperlink{structMessage_a6fc78df47d3755e088e7c658db565fc5}{type}}, Payload \mbox{\hyperlink{structMessage_a4c49e8768942b3894f68f31012fe971a}{payload}})
+\begin{DoxyCompactList}\small\item\em Constructs a \doxylink{structMessage}{Message} with the specified type and payload. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{structMessage}{Message}} \mbox{\hyperlink{structMessage_a5a7e2e8254f226e515c4411f0cdd2e38}{parse\+Message}} (const std\+::vector$<$ std\+::byte $>$ \&data)
+\begin{DoxyCompactList}\small\item\em Parses a vector of bytes into a \doxylink{structMessage}{Message}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structMessage_a6fc78df47d3755e088e7c658db565fc5}\label{structMessage_a6fc78df47d3755e088e7c658db565fc5} 
+Message\+Type {\bfseries type}
+\begin{DoxyCompactList}\small\item\em The type of the message. \end{DoxyCompactList}\item 
+\Hypertarget{structMessage_a4c49e8768942b3894f68f31012fe971a}\label{structMessage_a4c49e8768942b3894f68f31012fe971a} 
+Payload {\bfseries payload}
+\begin{DoxyCompactList}\small\item\em The payload of the message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Struct representing a Bit\+Torrent message. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structMessage_a3f6d0ddb5ab1eea38f53d252f4bb96bd}\label{structMessage_a3f6d0ddb5ab1eea38f53d252f4bb96bd} 
+\index{Message@{Message}!Message@{Message}}
+\index{Message@{Message}!Message@{Message}}
+\doxysubsubsection{\texorpdfstring{Message()}{Message()}}
+{\footnotesize\ttfamily Message\+::\+Message (\begin{DoxyParamCaption}\item[{Message\+Type}]{type,  }\item[{Payload}]{payload }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs a \doxylink{structMessage}{Message} with the specified type and payload. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & The type of the message. \\
+\hline
+{\em payload} & The payload of the message. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structMessage_a5a7e2e8254f226e515c4411f0cdd2e38}\label{structMessage_a5a7e2e8254f226e515c4411f0cdd2e38} 
+\index{Message@{Message}!parseMessage@{parseMessage}}
+\index{parseMessage@{parseMessage}!Message@{Message}}
+\doxysubsubsection{\texorpdfstring{parseMessage()}{parseMessage()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{structMessage}{Message}} Message\+::parse\+Message (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::byte $>$ \&}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Parses a vector of bytes into a \doxylink{structMessage}{Message}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The byte vector containing the message data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The parsed \doxylink{structMessage}{Message}.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & if the message data is invalid. \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/yonah/\+School/\+PRO/yatc/src/core/\+Message/Message.\+h\end{DoxyCompactItemize}

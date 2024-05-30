@@ -1,5 +1,4 @@
 #include "TorrentClient.h"
-#include "Logger/Logger.h"
 #include <iostream>
 #include <memory>
 

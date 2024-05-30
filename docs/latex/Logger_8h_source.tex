@@ -1,0 +1,51 @@
+\doxysection{Logger.\+h}
+\hypertarget{Logger_8h_source}{}\label{Logger_8h_source}\index{/home/yonah/School/PRO/yatc/src/core/Logger/Logger.h@{/home/yonah/School/PRO/yatc/src/core/Logger/Logger.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ LOGGER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ LOGGER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLogger}{Logger}}\ \{}
+\DoxyCodeLine{00018\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{classLogger_ad766a24576ea8b27ad9d5649cef46d8f}{Level}}\ \{\ DEBUG,\ INFO,\ WARNING,\ ERROR\ \};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00025\ \ \ \mbox{\hyperlink{classLogger_add0f34d4c753c86af8074840a72366b3}{Logger}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classLogger}{Logger}}\ \&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00030\ \ \ \mbox{\hyperlink{classLogger}{Logger}}\ \&\mbox{\hyperlink{classLogger_a8c0ca770cdc91ca9fc3015286568e1ea}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classLogger}{Logger}}\ \&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00036\ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classLogger}{Logger}}\ *\mbox{\hyperlink{classLogger_a79588b36a5ee1c4d4002807aaa9fa65a}{instance}}()\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ std::lock\_guard<std::mutex>\ lock(mutex\_);}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordflow}{if}\ (!instance\_)\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ instance\_\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classLogger}{Logger}}();}
+\DoxyCodeLine{00040\ \ \ \ \ \}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordflow}{return}\ instance\_;}
+\DoxyCodeLine{00042\ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00049\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLogger_a2c05185ce9a2ca6d1f84874f1e7682c7}{log}}(\textcolor{keyword}{const}\ std::string\ \&message,\ \mbox{\hyperlink{classLogger_ad766a24576ea8b27ad9d5649cef46d8f}{Level}}\ level\ =\ DEBUG);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00055\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLogger_ab138ded838fa6698b7e6f74f5fc57efc}{setLevel}}(\mbox{\hyperlink{classLogger_ad766a24576ea8b27ad9d5649cef46d8f}{Level}}\ level);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00061\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLogger_aa63a7735fced55e3a7780fb63fd4d041}{setOutput}}(std::ostream\ *os);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00067\ \ \ \mbox{\hyperlink{classLogger}{Logger}}()\ :\ output\_(\&null\_stream\_),\ logLevel\_(DEBUG)\ \{\}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00074\ \ \ std::string\ toString(\mbox{\hyperlink{classLogger_ad766a24576ea8b27ad9d5649cef46d8f}{Level}}\ level)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00075\ \ \ std::string\ getCurrentTime()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classLogger}{Logger}}\ *instance\_;\ }
+\DoxyCodeLine{00078\ \ \ \textcolor{keyword}{static}\ std::mutex\ mutex\_;\ }
+\DoxyCodeLine{00079\ \ \ std::mutex\ mu\_;\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00080\ \ \ std::ostream\ *output\_;\ \ \ \ }
+\DoxyCodeLine{00081\ \ \ \mbox{\hyperlink{classLogger_ad766a24576ea8b27ad9d5649cef46d8f}{Level}}\ logLevel\_;\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00082\ \ \ \textcolor{keyword}{static}\ std::ostringstream\ null\_stream\_;}
+\DoxyCodeLine{00083\ \};}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ !LOGGER\_H}}
+
+\end{DoxyCode}
