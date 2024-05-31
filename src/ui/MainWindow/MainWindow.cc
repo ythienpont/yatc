@@ -5,6 +5,8 @@
 #include <sstream>
 #include <thread>
 
+#define G_APPLICATION_DEFAULT_FLAGS 0
+
 MainWindow::MainWindow()
     : app_(nullptr), window_(nullptr), update_timer_id_(0),
       torrent_client_(nullptr) {}
