@@ -1,8 +1,6 @@
 # Yet Another Torrent Client (YATC)
 
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)
-![Dependencies](https://img.shields.io/badge/dependencies-curl%20|%20openssl-blue.svg)
 
 Yet Another Torrent Client (YATC) is a lightweight, efficient torrent client designed for simplicity and speed, with support for extensions.
 ## Features
@@ -19,8 +17,10 @@ Yet Another Torrent Client (YATC) is a lightweight, efficient torrent client des
 
 Before installing YATC, make sure you have the following dependencies installed on your system:
 
-- `curl`
+- `libcurl`
 - `openssl`
+- `gtk4`
+- `Boost.Asio`
 
 ### Building
 To install YATC, clone the repository and use `make` to build the project:
@@ -36,10 +36,8 @@ make
 To start using YATC, simply run the compiled binary from the terminal:
 
 ```bash
-./yatc [options] <torrent-file>
+./yatc
 ```
-
-Replace [options] with your preferred command-line options and `<torrent-file>` with the path to a .torrent file.
 
 ## Documentation
 For a detailed overview of each function, you can open the Doxygen documentation at `docs/html/index.html` in your browser.
