@@ -17,28 +17,28 @@ TEST_OBJECTS=$(patsubst $(TESTDIR)/%.cc,$(BUILDDIR)/%.o,$(TEST_SOURCES))
 all: $(EXEC)
 
 $(EXEC): $(OBJECTS)
-				$(CXX) -o $@ $^ $(LDFLAGS)
+	$(CXX) -o $@ $^ $(LDFLAGS)
 
 $(BUILDDIR)/%.o: $(SOURCEDIR_CORE)/%.cc
-				@mkdir -p $(@D)
-				$(CXX) $(PROJECT_CXXFLAGS) -c $< -o $@
+	@mkdir -p $(@D)
+	$(CXX) $(PROJECT_CXXFLAGS) -c $< -o $@
 
 $(BUILDDIR)/%.o: $(SOURCEDIR_UI)/%.cc
-				@mkdir -p $(@D)
-				$(CXX) $(PROJECT_CXXFLAGS) -c $< -o $@
+	@mkdir -p $(@D)
+	$(CXX) $(PROJECT_CXXFLAGS) -c $< -o $@
 
 $(BUILDDIR)/%.o: $(TESTDIR)/%.cc
-				@mkdir -p $(@D)
-				$(CXX) $(PROJECT_CXXFLAGS) -c $< -o $@
+	@mkdir -p $(@D)
+	$(CXX) $(PROJECT_CXXFLAGS) -c $< -o $@
 
 test: $(TEST_OBJECTS) $(filter-out $(BUILDDIR)/main.o, $(OBJECTS))
-				$(CXX) -o $(BUILDDIR)/test_exec $^ $(GTEST_LDFLAGS)
-				./$(BUILDDIR)/test_exec
+	$(CXX) -o $(BUILDDIR)/test_exec $^ $(GTEST_LDFLAGS)
+	./$(BUILDDIR)/test_exec
 
 debug: PROJECT_CXXFLAGS += $(DEBUG_CXXFLAGS)
 debug: all
 
 clean:
-				rm -rf $(BUILDDIR) $(EXEC)
+	rm -rf $(BUILDDIR) $(EXEC)
 
-.PHONY: all clean test
+.PHONY: all clean test debug
